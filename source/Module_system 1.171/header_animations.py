@@ -1,3 +1,6 @@
+#---------------WSE START-----------------
+acf_lock_rotation              = 0x00000800 # lock agent rotation
+#---------------WSE END-------------------
 arf_blend_in_0               = 0x00000001
 arf_blend_in_1               = 0x00000002
 arf_blend_in_2               = 0x00000003
