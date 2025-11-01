@@ -5,6 +5,9 @@ from header_operations import *
 from header_triggers import *
 from header_sounds import *
 from module_constants import *
+#------------GTD-START----------------
+from header_items import *
+#------------GTD-END------------------
 import string
 
 ####################################################################################################################
@@ -642,76 +645,107 @@ scene_props = [
   ("tunnel_salt",0,"tunnel_salt","bo_tunnel_salt", []),
   ("salt_a",0,"salt_a","bo_salt_a", []),
 
-  ("door_destructible",sokf_moveable|sokf_show_hit_point_bar|sokf_destructible|spr_use_time(2),"tutorial_door_a","bo_tutorial_door_a", [
-    check_item_use_trigger,
+  #("door_destructible",sokf_moveable|sokf_show_hit_point_bar|sokf_destructible|spr_use_time(2),"tutorial_door_a","bo_tutorial_door_a", [
+  #  check_item_use_trigger,
+  #
+  # (ti_on_init_scene_prop,
+  #  [
+  #    (store_trigger_param_1, ":instance_no"),
+  #    (scene_prop_set_hit_points, ":instance_no", 2000),
+  #  ]),
+  #   
+  # (ti_on_scene_prop_destroy,
+  #  [
+  #    (play_sound, "snd_dummy_destroyed"),
+  #    
+  #    (assign, ":rotate_side", 86),
+  #    
+  #    (try_begin),
+  #      (this_or_next|multiplayer_is_server),
+	#	(neg|game_in_multiplayer_mode),
+  #
+  #      (store_trigger_param_1, ":instance_no"),      
+  #      (store_trigger_param_2, ":attacker_agent_no"),
+  #
+  #      (set_fixed_point_multiplier, 100),
+  #      (prop_instance_get_position, pos1, ":instance_no"),
+  #
+  #      (try_begin),
+  #        (ge, ":attacker_agent_no", 0),
+  #        (agent_get_position, pos2, ":attacker_agent_no"),
+  #        (try_begin),
+  #          (position_is_behind_position, pos2, pos1),
+  #          (val_mul, ":rotate_side", -1),
+  #        (try_end),
+  #      (try_end),
+  #    
+  #      (init_position, pos3),
+  #
+  #      (try_begin),
+  #        (ge, ":rotate_side", 0),
+  #        (position_move_y, pos3, -100),
+  #      (else_try),
+  #        (position_move_y, pos3, 100),
+  #      (try_end),
+  #    
+  #      (position_move_x, pos3, -50),
+  #      (position_transform_position_to_parent, pos4, pos1, pos3),
+  #      (position_move_z, pos4, 100),
+  #      (position_get_distance_to_ground_level, ":height_to_terrain", pos4),
+  #      (val_sub, ":height_to_terrain", 100),
+  #      (assign, ":z_difference", ":height_to_terrain"),
+  #      (val_div, ":z_difference", 3),
+  #
+  #      (try_begin),
+  #        (ge, ":rotate_side", 0),
+  #        (val_add, ":rotate_side", ":z_difference"),
+  #      (else_try),
+  #        (val_sub, ":rotate_side", ":z_difference"),
+  #      (try_end),
+  #
+  #      (position_rotate_x, pos1, ":rotate_side"),
+  #      (prop_instance_animate_to_position, ":instance_no", pos1, 70), #animate to position 1 in 0.7 second
+  #    (try_end),
+  #  ]),       
+  #
+  #  (ti_on_scene_prop_hit,
+  #  [
+  #    (play_sound, "snd_dummy_hit"),
+  #    (particle_system_burst, "psys_dummy_smoke", pos1, 3),
+  #    (particle_system_burst, "psys_dummy_straw", pos1, 10),      
+  #  ]),
+  #]),
 
-   (ti_on_init_scene_prop,
+  #------------GTD-START----------------
+  # modded teleportation door, teleports when pressing F ingame to linked door 
+  # doors are linked using the variation number in the scene prop placement menu
+  # this variation number field is set in the map editor
+   ("door_destructible",spr_use_time(0),"tutorial_door_a","bo_tutorial_door_a", [
+   (ti_on_scene_prop_use,
     [
-      (store_trigger_param_1, ":instance_no"),
-      (scene_prop_set_hit_points, ":instance_no", 2000),
-    ]),
-     
-   (ti_on_scene_prop_destroy,
-    [
-      (play_sound, "snd_dummy_destroyed"),
-      
-      (assign, ":rotate_side", 86),
-      
-      (try_begin),
-        (this_or_next|multiplayer_is_server),
-		(neg|game_in_multiplayer_mode),
-
-        (store_trigger_param_1, ":instance_no"),      
-        (store_trigger_param_2, ":attacker_agent_no"),
-
-        (set_fixed_point_multiplier, 100),
-        (prop_instance_get_position, pos1, ":instance_no"),
-
-        (try_begin),
-          (ge, ":attacker_agent_no", 0),
-          (agent_get_position, pos2, ":attacker_agent_no"),
-          (try_begin),
-            (position_is_behind_position, pos2, pos1),
-            (val_mul, ":rotate_side", -1),
-          (try_end),
-        (try_end),
-      
-        (init_position, pos3),
-
-        (try_begin),
-          (ge, ":rotate_side", 0),
-          (position_move_y, pos3, -100),
-        (else_try),
-          (position_move_y, pos3, 100),
-        (try_end),
-      
-        (position_move_x, pos3, -50),
-        (position_transform_position_to_parent, pos4, pos1, pos3),
-        (position_move_z, pos4, 100),
-        (position_get_distance_to_ground_level, ":height_to_terrain", pos4),
-        (val_sub, ":height_to_terrain", 100),
-        (assign, ":z_difference", ":height_to_terrain"),
-        (val_div, ":z_difference", 3),
-
-        (try_begin),
-          (ge, ":rotate_side", 0),
-          (val_add, ":rotate_side", ":z_difference"),
-        (else_try),
-          (val_sub, ":rotate_side", ":z_difference"),
-        (try_end),
-
-        (position_rotate_x, pos1, ":rotate_side"),
-        (prop_instance_animate_to_position, ":instance_no", pos1, 70), #animate to position 1 in 0.7 second
-      (try_end),
-    ]),       
-
-    (ti_on_scene_prop_hit,
-    [
-      (play_sound, "snd_dummy_hit"),
-      (particle_system_burst, "psys_dummy_smoke", pos1, 3),
-      (particle_system_burst, "psys_dummy_straw", pos1, 10),      
+    (store_trigger_param_1, ":agent_id"),
+    (store_trigger_param_2, ":instance_id"),
+    (prop_instance_get_variation_id, ":door_link_number", ":instance_id"),
+    (scene_prop_get_num_instances, ":door_count", "spr_door_destructible"),
+    (try_for_range, ":other_instance_no", 0, ":door_count"),
+        (scene_prop_get_instance, ":other_instance_id", "spr_door_destructible" , ":other_instance_no"),
+        (neq, ":other_instance_id", ":instance_id"),
+        (prop_instance_get_variation_id, ":other_door_link_number", ":other_instance_id"),
+        (eq, ":other_door_link_number", ":door_link_number"),
+        (prop_instance_get_position, pos1, ":other_instance_id"),
+        # fine tuning of the teleport destination position -> move player out of door center 
+        (position_move_y, pos1, 50),
+        (position_move_x, pos1, -100), 
+        (agent_set_position, ":agent_id", pos1),
+        (assign, ":door_count", -1), # stop the loop because the linked door was found
+    (try_end),
+  
     ]),
   ]),
+  #------------GTD-END------------------
+
+
+
 
   ("tutorial_door_a",sokf_moveable,"tutorial_door_a","bo_tutorial_door_a", []),
 
@@ -1278,6 +1312,10 @@ scene_props = [
   ("chandelier_table",0,"chandelier_table","0", []),
   ("chandelier_tavern",0,"chandelier_tavern","0", []),
   ("chest_gothic",0,"chest_gothic","bochest_gothic", []),
+  #------------GTD-START----------------
+  # "chest_b" is used accessed by ammo-refill script, 
+  # place this version in using the map editor to place refill chests
+  #------------GTD-END------------------
   ("chest_b",0,"chest_b","bo_chest_b", []),
   ("chest_c",0,"chest_c","bo_chest_c", []),
   ("counter_tavern",0,"counter_tavern","bocounter_tavern", []),

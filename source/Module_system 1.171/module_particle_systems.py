@@ -467,8 +467,21 @@ particle_systems = [
      0,
     ),
     
-    ("pistol_smoke", psf_billboard_3d, "prtcl_dust_a",
-     90, 2.5, 0.6, -0.2, 60.0, 1.5,     #num_particles, life, damping, gravity_strength, turbulance_size, turbulance_strength
+    #("pistol_smoke", psf_billboard_3d, "prtcl_dust_a",
+    # 90, 2.5, 0.6, -0.2, 60.0, 1.5,     #num_particles, life, damping, gravity_strength, turbulance_size, turbulance_strength
+    # (0.0, 0.75), (1, 0),       #alpha keys
+    # (0.0, 0.7), (1, 0.4),      #red keys
+    # (0.0, 0.7),(1, 0.4),       #green keys
+    # (0.0, 0.7), (1, 0.4),      #blue keys
+    # (0, 1.5),   (0.5, 11.0),   #scale keys
+    # (0.1, 0.1, 0.1),           #emit box size
+    # (2, 2, 0),                 #emit velocity
+    # 0.1                        #emit dir randomness
+    #),
+
+    #------------GTD-START----------------
+    ("pistol_smoke", psf_billboard_3d, "prtcl_dust_a", #modded life from 2.5 to 1 -> poison cloud particle
+     90, 1.0, 0.6, -0.2, 60.0, 1.5,     #num_particles, life, damping, gravity_strength, turbulance_size, turbulance_strength
      (0.0, 0.75), (1, 0),       #alpha keys
      (0.0, 0.7), (1, 0.4),      #red keys
      (0.0, 0.7),(1, 0.4),       #green keys
@@ -478,6 +491,7 @@ particle_systems = [
      (2, 2, 0),                 #emit velocity
      0.1                        #emit dir randomness
     ),
+    #------------GTD-END------------------
     
 #    ("cooking_fire", psf_billboard_3d|psf_global_emit_dir|psf_always_emit, "prtcl_fire",
 #    50, 0.5, 0.2, -0.05, 30.0, 0.3,     #num_particles, life, damping, gravity_strength, turbulance_size, turbulance_strength

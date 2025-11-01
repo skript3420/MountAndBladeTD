@@ -408,4 +408,3 @@ itc_musket_melee = itc_parry_polearm|itcf_overswing_musket|itcf_thrust_musket|it
 ixmesh_inventory   = 0x1000000000000000
 ixmesh_flying_ammo = 0x2000000000000000
 ixmesh_carry       = 0x3000000000000000
-

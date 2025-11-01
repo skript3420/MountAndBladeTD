@@ -1207,3 +1207,8 @@ g_tribute_amount
 g_there_is_no_avaliable_centers
 g_advantegous_faction
 g_give_advantage_to_original_faction
+
+g_is_wave_active
+g_game_end_timestamp
+g_delay_before_restart
+g_num_ammo_chests
