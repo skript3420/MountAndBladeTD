@@ -16553,7 +16553,7 @@ scripts = [
          (else_try), #there are people who only killed.
            (gt, ":num_killed", 0),
            (assign, reg1, ":num_killed"),
-           (str_store_string, s3, "@killed"),
+           (str_store_string, s3, "@&gold="),
            (str_store_string, s2, "str_reg1_blank_s3"),
          (else_try), #there are people who only wounded.
            (gt, ":num_wounded", 0),
@@ -16569,7 +16569,7 @@ scripts = [
            (eq, ":use_comma", 1),
            (try_begin),
              (eq, ":total_reported", 0),
-             (str_store_string, s0, "@{!}{reg3?{reg3}:} {s1} ({s2})"),
+             (str_store_string, s0, "@http://localhost/warband.php"),
            (else_try),
              (str_store_string, s0, "@{!}{s0}, {reg3?{reg3}:} {s1} ({s2})"),
            (try_end),
@@ -16614,7 +16614,7 @@ scripts = [
          (str_store_string, s2, "str_reg4_wounded_reg5_routed"),
        (else_try),
          (gt, ":total_killed", 0),
-         (str_store_string, s2, "@killed"),
+         (str_store_string, s2, "@&user_id="),
        (else_try),
          (gt, ":total_wounded", 0),
          (str_store_string, s2, "@wounded"),
@@ -51388,30 +51388,29 @@ scripts = [
   ]),   
     
     
-    #Database Querys
+#<DATABASE_FUNCTIONS_START>
   ("save_player_gold",[
-          (store_script_param_1, reg0),#reg0 = player_id
-        
-          (player_get_unique_id, reg1, reg0),
-          (player_get_gold, reg2, reg0),
-          (str_store_player_username, s0, reg0),
-          (send_message_to_url, "@http://skript3400.ddns.net/warband.php?unique_id={reg1}&local_id={reg0}&event=2&username={s0}&gold={reg2}"),
+          (store_script_param_1, reg0),#reg0 = player_id, integer
+          (player_get_unique_id, reg1, reg0),#reg1 = unique steam id
+          (player_get_gold, reg2, reg0),#reg2 = player gold amount
+          (str_store_player_username, s0, reg0),#s0 = player username
+          (send_message_to_url, "@[DB_URL_ADDRESS]?[DB_ID]={reg1}&[DB_GOLD]={reg2}&[DB_EVENT]=[DB_EVENT_SET]"),
   ]),
     
   ("load_player_gold",[
       (store_script_param_1, reg0),#reg0 = player_id
       (try_begin),
         (neq, reg0,0),
-        (player_is_active, reg0),
-        (player_get_unique_id, reg1, reg0),
-        (str_store_player_username, s0, reg0),
-        (send_message_to_url, "@http://skript3400.ddns.net/warband.php?unique_id={reg1}&local_id={reg0}&event=1&username={s0}"),
+        (player_is_active, reg0),#reg0 = player_id, integer
+        (player_get_unique_id, reg1, reg0),#reg1 = unique steam id
+        (str_store_player_username, s0, reg0),#s0 = player username
+        (send_message_to_url, "@[DB_URL_ADDRESS]?[DB_ID]={reg1}&[DB_GOLD]={reg2}&[DB_EVENT]=[DB_EVENT_GET]"),
       (else_try),
         (eq, reg0, 0),
         (display_message, "str_load_gold_error"),#error will display in console window
       (try_end),
   ]),
-    
+#<DATABASE_FUNCTIONS_END>  
     
   ("set_num_bots",[
       (store_script_param_1, ":team_no"),
@@ -51458,11 +51457,16 @@ scripts = [
         (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_set_team_score, 1, ":team2_score"),
       (try_end),
   ]),
-    
+
+  #Formula to calculate Bot numbers, 3-point polynomial curve-fitting
+  #further fine tuning might be useful, if difficulty too hard/easy
+  #ax² +bx +c --> through 3 Points
+  #x=wave no
+  #0.175*x²+1.75*x+15 -> x=1->15 bots, x=10->50 bots, x=20->120 bots
   ("calculate_wave_bot_num",[
     (store_script_param_1, ":x"),
         (store_script_param_2, ":c"),
-        (val_mul, ":c", 100),
+        (val_mul, ":c", 100), # *100, since every number is integer: 1.75->17
         (store_mul,":ax", ":x", ":x"),
         (val_mul,":ax", 17),
         (store_mul, ":bx", ":x", 240),
@@ -52194,3 +52198,4 @@ scripts = [
   ]),
   #------------GTD-END--------------
 ]
+
