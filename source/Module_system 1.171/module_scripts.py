@@ -16569,7 +16569,7 @@ scripts = [
            (eq, ":use_comma", 1),
            (try_begin),
              (eq, ":total_reported", 0),
-             (str_store_string, s0, "@http://localhost/warband.php"),
+             (str_store_string, s0, "@{!}{reg3?{reg3}:} {s1} ({s2})"),
            (else_try),
              (str_store_string, s0, "@{!}{s0}, {reg3?{reg3}:} {s1} ({s2})"),
            (try_end),
@@ -51394,7 +51394,7 @@ scripts = [
           (player_get_unique_id, reg1, reg0),#reg1 = unique steam id
           (player_get_gold, reg2, reg0),#reg2 = player gold amount
           (str_store_player_username, s0, reg0),#s0 = player username
-          (send_message_to_url, "@[DB_URL_ADDRESS]?[DB_ID]={reg1}&[DB_GOLD]={reg2}&[DB_EVENT]=[DB_EVENT_SET]"),
+          (send_message_to_url, "@http://localhost/webpage.php?user_id={reg1}&gold={reg2}&event=2"),
   ]),
     
   ("load_player_gold",[
@@ -51404,12 +51404,13 @@ scripts = [
         (player_is_active, reg0),#reg0 = player_id, integer
         (player_get_unique_id, reg1, reg0),#reg1 = unique steam id
         (str_store_player_username, s0, reg0),#s0 = player username
-        (send_message_to_url, "@[DB_URL_ADDRESS]?[DB_ID]={reg1}&[DB_GOLD]={reg2}&[DB_EVENT]=[DB_EVENT_GET]"),
+        (send_message_to_url, "@http://localhost/webpage.php?user_id={reg1}&event=1"),
       (else_try),
         (eq, reg0, 0),
         (display_message, "str_load_gold_error"),#error will display in console window
       (try_end),
   ]),
+  
 #<DATABASE_FUNCTIONS_END>  
     
   ("set_num_bots",[
@@ -51460,9 +51461,9 @@ scripts = [
 
   #Formula to calculate Bot numbers, 3-point polynomial curve-fitting
   #further fine tuning might be useful, if difficulty too hard/easy
-  #ax² +bx +c --> through 3 Points
+  #ax?? +bx +c --> through 3 Points
   #x=wave no
-  #0.175*x²+1.75*x+15 -> x=1->15 bots, x=10->50 bots, x=20->120 bots
+  #0.175*x??+1.75*x+15 -> x=1->15 bots, x=10->50 bots, x=20->120 bots
   ("calculate_wave_bot_num",[
     (store_script_param_1, ":x"),
         (store_script_param_2, ":c"),

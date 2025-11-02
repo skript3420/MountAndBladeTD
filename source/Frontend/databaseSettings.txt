@@ -1,0 +1,31 @@
+# Enter Database Settings in here
+# Settings here are used to modify module_scripts and .php File
+# to correctly connect to Database
+# after setting changes, apply them by running 
+# Load_Settings.bat (Windows) or Load_Settings.sh (Linux)
+
+# The modified Native Warband Server can only communicate via HTTP-GET URL request/response
+# Module_scripts.py contains the scripts calling a specific URL
+# These scripts gold/(score) for each player from a database  
+# -> rejoining the server doesn't affect progress
+# the module_scripts.py File is expected to be in ../Module_system 1.171/
+
+### Database Section for module_scripts.py ###
+DB_URL_ADDRESS = http://localhost/webpage.php
+DB_ID = user_id
+DB_GOLD = gold
+
+### PHP Section for module_scripts.py ###
+DB_EVENT = event
+DB_EVENT_GET = 1
+DB_EVENT_SET = 2
+VAR_ID = {reg1}
+VAR_GOLD = {reg2}
+
+### Database Section for webpage.php ###
+DB_HOST = localhost
+DB_USER = root
+DB_PASS = your_password
+DB_NAME = warband_database
+DB_TABLE = players
+
