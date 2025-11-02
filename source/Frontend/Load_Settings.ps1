@@ -3,12 +3,12 @@
     This script performs the following actions:
     1. Checks if all required files are present.
     2. Reads the database settings (DB_ variables) and register settings (VAR_ variables)
-       from "databaseSettings.txt".
+        from "databaseSettings.txt".
     3. Creates a backup of "module_scripts.py".
     4. Modifies "module_scripts.py" by finding the #<DATABASE_FUNCTIONS_START/END>
-       markers and replacing the URLs inside the save_player_gold and
-       load_player_gold definitions using the loaded settings.
-    5. Creates "webpage.php" from "webpage_template.php".
+        markers and replacing the URLs inside the save_player_gold and
+        load_player_gold definitions using the loaded settings.
+    5. Creates "webpage.php" from "webpage_template.php" and saves it in the $BuildDir.
 #>
 
 # Stop the script on terminating errors
@@ -27,7 +27,10 @@ $ModuleDir          = "..\Module_system 1.171"
 $ModuleScriptIn     = "$ModuleDir\module_scripts.py"
 $ModuleScriptBackup = "$ModuleDir\module_scripts_old.py"
 $PhpTemplateIn      = "webpage_template.php"
-$PhpOut             = "webpage.php"
+
+$BuildDir           = "..\..\build"
+$PhpOut             = "$BuildDir\webpage.php"
+
 $SettingsFile       = "databaseSettings.txt"
 
 # === 2. PRE-FLIGHT CHECKS ===
@@ -45,6 +48,22 @@ if (-not (Test-Path -Path $PhpTemplateIn -PathType Leaf)) {
 
 Write-Host "All required files found."
 Write-Host ""
+
+# === 2.5. ENSURE BUILD DIRECTORY EXISTS ===
+Write-Host "Checking for build directory: $BuildDir..."
+if (-not (Test-Path -Path $BuildDir -PathType Container)) {
+    Write-Host "Build directory not found. Creating $BuildDir..."
+    try {
+        New-Item -Path $BuildDir -ItemType Directory -Force | Out-Null
+        Write-Host "Build directory created successfully."
+    } catch {
+        Exit-Script "ERROR: Could not create build directory $BuildDir. Aborting.`n$($_.Exception.Message)"
+    }
+} else {
+    Write-Host "Build directory found."
+}
+Write-Host ""
+
 
 # === 3. PARSE SETTINGS ===
 Write-Host "Loading settings from $SettingsFile..."
@@ -136,7 +155,7 @@ try {
 }
 Write-Host ""
 
-# === 6. CREATE PHP FILE ===
+# === 6. EDIT PHP FILE ===
 Write-Host "Replacing placeholders in $PhpTemplateIn and creating $PhpOut..."
 try {
     # Read the template as *one* single text block
