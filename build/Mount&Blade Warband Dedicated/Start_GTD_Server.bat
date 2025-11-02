@@ -1,0 +1,1 @@
+WSELoaderServer.exe -r GTD_Server_Settings.txt -m Native

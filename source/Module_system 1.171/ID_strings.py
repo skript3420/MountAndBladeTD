@@ -3397,7 +3397,6 @@ str_npc13_1 = 3395
 str_npc14_1 = 3396
 str_npc15_1 = 3397
 str_npc16_1 = 3398
-#------------GTD-BEGIN----------------
 str_server_message_test = 3399
 str_reg0_debug = 3400
 str_database_error = 3401
@@ -3410,5 +3409,5 @@ str_announce_harlaus_hp = 3407
 str_announce_round_over = 3408
 str_next_upgrade_status = 3409
 str_announce_website = 3410
-#------------GTD-END------------------
+
 

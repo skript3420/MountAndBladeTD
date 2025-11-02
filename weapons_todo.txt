@@ -1,0 +1,23 @@
+0 - 5: Stones
+5 - 20: throwing knives,
+20 - 45: darts
+45 - 75: throwing daggers
+75 - 110: war_darts
+110 - 175: javelin
+175 - 250: jarid
+250 - 500: hunting crossbow
+500 - 800: hunting bow
+800 - 1100: light crossbow
+1100 - 1600: short bow
+1600 - 2100: crossbow
+2100 - 3000: nomad bow
+3000 - 3900: heavy crossbow
+3900 - 5000: khergit_bow
+5000 - 6500: sniper crossbow
+6500 - 8000: long bow
+8000: 10500: strong bow
+10500- 14500 war bow pierce arrow
+14500- 18500 war bow knockdown
+18500- 25000 war bow poison
+25000- 35000 war ex small
+35000- 35000 war ex big

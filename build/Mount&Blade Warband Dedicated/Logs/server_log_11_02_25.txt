@@ -1,0 +1,9 @@
+00:03:18 - SERVER has joined the game with ID: 0 and has administrator rights. 
+ 00:09:31 - SERVER has joined the game with ID: 0 and has administrator rights. 
+ 00:10:46 - o_0 has joined the game with ID: 1543821 
+ 00:11:06 - o_0 started a poll to change bot counts to 7 and 7. 
+ 00:11:35 -  <img=ico_headshot> o_0 
+ 11:33:06 - SERVER has joined the game with ID: 0 and has administrator rights. 
+ 11:41:22 - SERVER has joined the game with ID: 0 and has administrator rights. 
+ 11:43:02 - SERVER has joined the game with ID: 0 and has administrator rights. 
+ 

@@ -1,0 +1,52 @@
+Infantry:
+	Tier1
+		trp_looter
+		trp_sarranid_recruit
+		trp_farmer
+		trp_belligerent_drunk
+		trp_fight_promoter
+		trp_rhodok_tribesman
+		trp_khergit_tribesman
+	Tier2
+		trp_bandit
+		trp_brigand
+		trp_townsman
+		trp_swadian_recruit
+		trp_forest_bandit
+		trp_nord_recruit
+		trp_vaegir_recruit
+	Tier3
+		trp_desert_bandit
+		trp_swadian_militia
+		trp_sarranid_skirmisher
+		trp_vaegir_skirmisher
+		trp_rhodok_trained_spearman
+		trp_nord_footman
+		trp_khergit_skirmisher
+		trp_vaegir_footman
+	Tier4
+		trp_nord_warrior
+		trp_khergit_horseman
+		trp_vaegir_veteran
+		trp_mercenary_swordsman
+	Tier5
+		trp_nord_champion
+		trp_vaegir_spearman_multiplayer_coop_tier_4
+		trp_rhodok_sergeant_multiplayer_coop_tier_4
+		trp_khergit_lancer_multiplayer_coop_tier_4
+Cavallry:
+	Tier1
+		trp_sarranid_mamluke_multiplayer_coop_tier_1
+		trp_vaegir_horseman_multiplayer_coop_tier_1
+	Tier2
+		trp_sarranid_mamluke_multiplayer_coop_tier_2
+		trp_khergit_lancer_multiplayer_coop_tier_2
+		
+	Tier3
+		trp_khergit_lancer
+		trp_sarranid_mamluke_multiplayer_coop_tier_3
+
+Special:
+	Suicide Riders
+		trp_hired_assassin
+	

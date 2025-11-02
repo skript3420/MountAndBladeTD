@@ -1906,3 +1906,94 @@ ACHIEVEMENT_QUEEN = 77,
 ACHIEVEMENT_EMPRESS = 78,
 ACHIEVEMENT_TALK_OF_THE_TOWN = 79,
 ACHIEVEMENT_LADY_OF_THE_LAKE = 80,
+
+
+#------------GTD-START----------------
+wave1_number_infantry = 1,
+wave1_number_spear = 1,
+
+wave2_number_infantry = 2,
+wave2_number_spear = 2,
+
+wave3_number_infantry = 3,
+wave3_number_spear = 3,
+
+wave4_number_infantry = 1,
+wave4_number_spear = 1,
+
+wave5_number_infantry = 1,
+wave5_number_spear = 1,
+
+wave6_number_infantry = 1,
+wave6_number_spear = 1,
+
+wave6_number_infantry = 20,
+wave6_number_spear = 20,
+
+wave7_number_infantry = 20,
+wave7_number_spear = 20,
+
+wave8_number_infantry = 1,
+wave8_number_spear = 1,
+
+wave9_number_infantry	=1,
+wave9_number_spear =1,
+
+wave10_number_infantry =1,
+wave10_number_spear =1,
+
+wave11_number_infantry =1,
+wave11_number_spear =1,
+
+wave12_number_infantry =1,
+wave12_number_spear =1,
+
+wave13_number_infantry =1,
+wave13_number_spear =1,
+
+wave14_number_infantry =1,
+wave14_number_spear =1,
+
+wave15_number_infantry =1,
+wave15_number_spear =1,
+
+wave16_number_infantry =1,
+wave16_number_spear =1,
+
+wave17_number_infantry =1,
+wave17_number_spear =1,
+
+wave18_number_infantry =1,
+wave18_number_spear =1,
+
+wave19_number_infantry =1,
+wave19_number_spear =1,
+
+wave20_number_infantry =1,
+wave20_number_spear =1,
+
+
+
+lvl1_limit = 5
+lvl2_limit = 20
+lvl3_limit = 45
+lvl4_limit = 75
+lvl5_limit = 110
+lvl6_limit = 175
+lvl7_limit = 250
+lvl8_limit = 500
+lvl9_limit = 800
+lvl10_limit = 1100
+lvl11_limit = 1600
+lvl12_limit = 2100
+lvl13_limit = 3000
+lvl14_limit = 3900
+lvl15_limit = 5000
+lvl16_limit = 6500
+lvl17_limit = 8000
+lvl18_limit = 10500
+lvl19_limit = 14500
+lvl20_limit = 18500
+lvl21_limit = 25000
+lvl22_limit = 35000
+#------------GTD-END------------------
