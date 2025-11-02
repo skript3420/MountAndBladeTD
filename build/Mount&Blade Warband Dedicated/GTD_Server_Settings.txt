@@ -24,7 +24,7 @@ set_melee_friendly_fire 1
 
 
 set_auto_team_balance_limit 7
-set_max_players 200 200
+set_max_players 250 250
 set_bot_count 1 0
 set_bot_count 2 0
 set_team_point_limit 21

@@ -1,4 +1,4 @@
-691
+694
 qstr_Next_Page Next_Page
 qstr_Game_Rules:^ Game_Rules:^
 qstr_0 0
@@ -100,6 +100,7 @@ qstr_{s5}_has_been_defeat {s5}_has_been_defeated!
 qstr_{!}DEBUG____Assigned {!}DEBUG_--_Assigned_lord_reputation_and_relations
 qstr_{s7}_opened_the_gate {s7}_opened_the_gate
 qstr_{s7}_closed_the_gate {s7}_closed_the_gate
+qstr_Could_not_connect_to Could_not_connect_to_the_database!
 qstr_+{reg1}_to_party_mor +{reg1}_to_party_morale
 qstr_Requires_{reg1}_inte Requires_{reg1}_intelligence_to_read
 qstr_Reading_Progress:_{r Reading_Progress:_{reg1}%
@@ -347,6 +348,8 @@ qstr_{!}destroy_prison_ca {!}destroy_prison_cart
 qstr_{!}spawning_prison_c {!}spawning_prison_cart_at_point_{reg0}
 qstr_{!}prison_cart_spawn {!}prison_cart_spawn_at_point_{reg0}
 qstr_{!}multiplayer_upgra {!}multiplayer_upgrade_player_equipment:_{reg0}
+qstr_http://skript3400.dd http://skript3400.ddns.net/warband.php?unique_id={reg1}&local_id={reg0}&event=2&username={s0}&gold={reg2}
+qstr_http://skript3400.ddn http://skript3400.ddns.net/warband.php?unique_id={reg1}&local_id={reg0}&event=1&username={s0}
 qstr_You_got_keys_of_dung You_got_keys_of_dungeon.
 qstr_You_must_stay_behind You_must_stay_behind_the_line_on_the_ground!_Point_is_not_counted.
 qstr_Tutorial Tutorial

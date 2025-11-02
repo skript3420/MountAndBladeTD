@@ -2215,5 +2215,4 @@ scn_enterprise_brewery enterprise_brewery 1 brewery_interior bo_brewery_interior
 scn_enterprise_oil_press enterprise_oil_press 1 oil_press_interior bo_oil_press_interior -40.000000 -40.000000 40.000000 40.000000 -100.000000 0 
   0 
   0 
- 0
-
+ 0 

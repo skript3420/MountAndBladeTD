@@ -1,0 +1,4 @@
+[12:55:46] WSE v4.8.4 by cmpxchg8b, K700, AgentSmith (Build date: Nov  7 2021 14:24:27)
+[12:55:46] WSE path: C:\Users\mackd\Desktop\MountAndBladeTD\build\Mount&Blade Warband Dedicated\
+[12:55:46] WSE netcode version: 9
+[12:55:46] Warband version: dedicated server
