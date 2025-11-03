@@ -41,18 +41,32 @@ if ($event == $event_get) {
         $result = $conn->query($sql);
     } catch (Exception $e) {
         die("$event_fail|0|0");
-        exit();
     }
     $result = $conn->query($sql);
     
-    $gold_value = "0";
+    $gold_value = "0"; // Default gold value
     
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $gold_value = $row[$gold_col];
         // Prevent SQL Injection
-        $gold_safe = $conn->real_escape_string($gold_value);
-        echo "$event_success|$user_id_safe|$gold_safe";
+        echo "$event_success|$user_id_safe|$gold_value";
+    }
+
+    else{
+        try{
+             $sql = "INSERT INTO $db_table ($id_col, $gold_col) VALUES ('$user_id_safe', '$gold_value')
+                ON DUPLICATE KEY UPDATE $gold_col = '$gold_value'";
+
+            if ($conn->query($sql) === TRUE) {
+                // Confirmation response: key=value
+                echo "$event_success|$user_id_safe|$gold_value";
+            } else {
+                die("$event_fail|0|0");
+            }
+        } catch (Exception $e) {
+            die("$event_fail|0|0");
+        }
     }
 
 } elseif ($event == $event_set) {
