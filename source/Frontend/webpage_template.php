@@ -7,11 +7,11 @@ $db_name = "[DB_NAME]";
 $db_table = "[DB_TABLE]";
 
 // ### VARIABLE SETTINGS (OVERWRITTEN BY Load_Settings.ps1) ###
-$event_var = "[DB_EVENT_VAR]";
-$event_get = "[DB_EVENT_GET_VAL]";
-$event_set = "[DB_EVENT_SET_VAL]";
-$id_col = "[DB_ID_COL]";
-$gold_col = "[DB_GOLD_COL]";
+$event_var = "[VAR_EVENT_PARAM_NAME]";
+$event_get = "[VAR_EVENT_GET]";
+$event_set = "[VAR_EVENT_SET]";
+$id_col = "[DB_ID_FIELD_NAME]";
+$gold_col = "[DB_GOLD_FIELD_NAME]";
 
 // Error handling: Ensure minimal GET parameters are present
 if (!isset($_GET[$event_var]) || !isset($_GET[$id_col])) {
