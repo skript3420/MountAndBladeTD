@@ -5502,55 +5502,38 @@ scripts = [
         (try_end),
       (try_end),
       ]),
-
-  #------------GTD-START----------------
-
-  
-  #modded money management
+      
+  #money management modded 
   ("money_management_after_agent_death",
    [
      (store_script_param, ":killer_agent_no", 1),
      (store_script_param, ":dead_agent_no", 2),
      (try_begin),
-       #is there a killer and victim, otherwise -1 is stored
-       (ge, ":killer_agent_no", 0), 
+       (ge, ":killer_agent_no", 0), #is there a killer and victim
        (ge, ":dead_agent_no", 0),
        (agent_is_human, ":dead_agent_no"), #if dead agent is not horse
        (agent_is_human, ":killer_agent_no"), #if killer agent is not horse
        (agent_get_team, ":killer_agent_team", ":killer_agent_no"),
        (agent_get_team, ":dead_agent_team", ":dead_agent_no"),
-       (neq, ":killer_agent_team", ":dead_agent_team"), #if agents are enemies
-       (agent_get_player_id, ":player_no", ":killer_agent_no"), # if agent is not bot player
-       (player_is_active, ":player_no"), #not spectator
+       (neq, ":killer_agent_team", ":dead_agent_team"), #if these agents are enemies
+       (agent_get_player_id, ":player_no", ":killer_agent_no"),
+       (player_is_active, ":player_no"),
        (player_get_gold, ":player_gold", ":player_no"),
-       (agent_get_troop_id, ":dead_agent_troop",":dead_agent_no"),
-       #if troop is special troop (khergit tribesman) give 2 gold
-       (try_begin),
-         (eq, ":dead_agent_troop", "trp_khergit_tribesman"),
-         (val_add, ":player_gold", 2),
-       (else_try),
-       #else give 1 gold per kill
-       (val_add, ":player_gold", 1),
-       (try_end),
-       (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
-	   #update database
-	   (call_script, "script_save_player_gold", ":player_no"),
+        (val_add, ":player_gold", 1),
+        (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
+		#update database
+		(call_script, "script_save_player_gold", ":player_no"),
        (try_end),
    ]),
-  #------------GTD-END------------------
 
-  #script_money_management_after_agent_death
+  #script_money_management_after_agent_death native
   # INPUT: arg1 = killer_agent_no, arg2 = dead_agent_no
   # OUTPUT: none
-  #------------GTD-START----------------
-  # Renamed original script to money_management_after_agent_death_native
-  #------------GTD-END------------------
   ("money_management_after_agent_death_native",
    [
      (store_script_param, ":killer_agent_no", 1),
      (store_script_param, ":dead_agent_no", 2),
 
-     (assign, ":dead_agent_player_id", -1),
 
      (try_begin),
        (multiplayer_is_server),
@@ -5561,8 +5544,7 @@ scripts = [
        (agent_get_team, ":killer_agent_team", ":killer_agent_no"),
        (agent_get_team, ":dead_agent_team", ":dead_agent_no"),
      
-       (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch),
-       (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_duel),
+ 
        (neq, ":killer_agent_team", ":dead_agent_team"), #if these agents are enemies
 
        (neq, ":dead_agent_no", ":killer_agent_no"), #if agents are different, do not remove it is needed because in deathmatch mod, self killing passes here because of this or next.
@@ -5604,7 +5586,6 @@ scripts = [
            (eq, ":agent_no", ":dead_agent_no"), #if this agent is dead agent then get share from total loot. (20% of total equipment value)                 
            (player_get_gold, ":player_gold", ":player_no"),
 
-           (assign, ":dead_agent_player_id", ":player_no"),
           
            #dead agent loot share (32%-48%-64%, norm : 48%)
            (store_mul, ":share_of_dead_agent", ":dead_agent_equipment_value", multi_dead_agent_loot_percentage_share),
@@ -5614,14 +5595,13 @@ scripts = [
            (try_begin),
              (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch), #(4/3x) share if current mod is deathmatch
              (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_duel), #(4/3x) share if current mod is duel
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_team_deathmatch), #(4/3x) share if current mod is team_deathmatch
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_capture_the_flag), #(4/3x) share if current mod is capture the flag
+             (eq, "$g_multiplayer_game_type", multiplayer_game_type_capture_the_flag), #(4/3x) share if current mod is capture the flag
              #INVASION MODE START
              (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop), #(4/3x) share if current mod is captain coop
              #INVASION MODE END
              (eq, "$g_multiplayer_game_type", multiplayer_game_type_headquarters), #(4/3x) share if current mod is headquarters
              (val_mul, ":share_of_dead_agent", 4),
-             (val_div, ":share_of_dead_agent", 3),
+             (val_div, ":share_of_dead_agent", 3), 
              (val_add, ":player_gold", ":share_of_dead_agent"), 
            (else_try),
              (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle), #(2/3x) share if current mod is battle 
@@ -5630,10 +5610,12 @@ scripts = [
              (val_div, ":share_of_dead_agent", 3),
              (val_add, ":player_gold", ":share_of_dead_agent"),
            (else_try),
-             (val_add, ":player_gold", ":share_of_dead_agent"), #(3/3x) share if current mod is siege
+             (val_add, ":player_gold", ":share_of_dead_agent"), #(3/3x) share if current mod is siege #modded OR TDM, tdm was condition above (4/3)
            (try_end),
            (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
-         (else_try),
+		   #modded update database
+			(call_script, "script_save_player_gold", ":player_no"),
+		 (else_try),
            (eq, ":agent_no", ":killer_agent_no"), #if this agent is killer agent then get share from total loot. (10% of total equipment value)
            (player_get_gold, ":player_gold", ":player_no"),           
 
@@ -5704,6 +5686,8 @@ scripts = [
            #INVASION MODE END
            
            (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
+		   #modded update database
+			(call_script, "script_save_player_gold", ":player_no"),
          #INVASION MODE START
          (else_try),
            (agent_get_player_id, ":player_no", ":killer_agent_no"),
@@ -5732,24 +5716,24 @@ scripts = [
      (try_end),
 
      #(below lines added new at 25.11.09 after Armagan decided new money system)
-     (try_begin),
-       (multiplayer_is_server),
-       (neq, "$g_multiplayer_game_type", multiplayer_game_type_battle),
-       (neq, "$g_multiplayer_game_type", multiplayer_game_type_destroy),
-
-       (ge, ":dead_agent_no", 0),
-       (agent_is_human, ":dead_agent_no"), #if dead agent is not horse
-       (agent_get_player_id, ":dead_agent_player_id", ":dead_agent_no"),
-       (ge, ":dead_agent_player_id", 0),
-     
-       (player_get_gold, ":player_gold", ":dead_agent_player_id"),
-       (try_begin),
-         (store_mul, ":minimum_gold", "$g_multiplayer_initial_gold_multiplier", 10),
-         (lt, ":player_gold", ":minimum_gold"),
-         (assign, ":player_gold", ":minimum_gold"),
-       (try_end),
-       (player_set_gold, ":dead_agent_player_id", ":player_gold"),
-     (try_end),
+     #(try_begin),
+     #  (multiplayer_is_server),
+     #  (neq, "$g_multiplayer_game_type", multiplayer_game_type_battle),
+     #  (neq, "$g_multiplayer_game_type", multiplayer_game_type_destroy),
+	 #
+     #  (ge, ":dead_agent_no", 0),
+     #  (agent_is_human, ":dead_agent_no"), #if dead agent is not horse
+     #  (agent_get_player_id, ":dead_agent_player_id", ":dead_agent_no"),
+     #  (ge, ":dead_agent_player_id", 0),
+     # 
+     #  (player_get_gold, ":player_gold", ":dead_agent_player_id"),
+     #  (try_begin),
+     #    (store_mul, ":minimum_gold", "$g_multiplayer_initial_gold_multiplier", 10),
+     #    (lt, ":player_gold", ":minimum_gold"),
+     #    (assign, ":player_gold", ":minimum_gold"),
+     #  (try_end),
+     #  (player_set_gold, ":dead_agent_player_id", ":player_gold"),
+     #(try_end),
      #new money system addition end          
      #INVASION MODE START
      (try_begin),
@@ -7436,6 +7420,7 @@ scripts = [
        (else_try),  
          (display_message, "@{s7} closed the gate"),
        (try_end),
+       
      (try_end),  
 
      (prop_instance_get_scene_prop_kind, ":scene_prop_id", ":instance_id"),
@@ -8257,7 +8242,7 @@ scripts = [
   #script_multiplayer_server_on_agent_killed_or_wounded_common
   # INPUT: arg1 = dead_agent_no, arg2 = killer_agent_no
   # OUTPUT: none
-  ("multiplayer_server_on_agent_killed_or_wounded_common",
+ ("multiplayer_server_on_agent_killed_or_wounded_common",
    [
      (store_script_param, ":dead_agent_no", 1),
      (store_script_param, ":killer_agent_no", 2),
@@ -9116,9 +9101,9 @@ scripts = [
       (store_mission_timer_a, "$g_round_finish_time"),
         
       (team_get_faction, ":faction_of_winner_team", 0),
-      (team_get_score, ":team_1_score", 0),
-      (val_add, ":team_1_score", 1),
-      (team_set_score, 0, ":team_1_score"),
+      (team_get_score, ":team1_score", 0),
+      (val_add, ":team1_score", 1),
+      (team_set_score, 0, ":team1_score"),
       (assign, "$g_winner_team", 0),
       (str_store_faction_name, s1, ":faction_of_winner_team"),
 
@@ -9137,9 +9122,9 @@ scripts = [
       (store_mission_timer_a, "$g_round_finish_time"),
   
       (team_get_faction, ":faction_of_winner_team", 1),
-      (team_get_score, ":team_2_score", 1),
-      (val_add, ":team_2_score", 1),
-      (team_set_score, 1, ":team_2_score"),
+      (team_get_score, ":team2_score", 1),
+      (val_add, ":team2_score", 1),
+      (team_set_score, 1, ":team2_score"),
       (assign, "$g_winner_team", 1),
       (str_store_faction_name, s1, ":faction_of_winner_team"),
 
@@ -9284,21 +9269,50 @@ scripts = [
   # INPUT: arg1 = num_integers, arg2 = num_strings
   # reg0, reg1, reg2, ... up to 128 registers contain the integer values
   # s0, s1, s2, ... up to 128 strings contain the string values
-  # ("game_receive_url_response",
-  #   [
-  #     #here is an example usage
-  #     (store_script_param, ":num_integers", 1),
-  #     (store_script_param, ":num_strings", 2),
-  #     (try_begin),
-  #       (gt, ":num_integers", 4),
-  #       (display_message, "@{reg0}, {reg1}, {reg2}, {reg3}, {reg4}"),
-  #     (try_end),
-  #     (try_begin),
-  #       (gt, ":num_strings", 4),
-  #       (display_message, "@{s0}, {s1}, {s2}, {s3}, {s4}"),
-  #     (try_end),
-  #    ]),      
-
+##  ("game_receive_url_response",
+##   [
+##     #here is an example usage
+##      (store_script_param, ":num_integers", 1),
+##      (store_script_param, ":num_strings", 2),
+##      (try_begin),
+##        (gt, ":num_integers", 4),
+##        (display_message, "@{reg0}, {reg1}, {reg2}, {reg3}, {reg4}"),
+##      (try_end),
+##      (try_begin),
+##        (gt, ":num_strings", 4),
+##        (display_message, "@{s0}, {s1}, {s2}, {s3}, {s4}"),
+##      (try_end),
+##      ]),
+	  
+	("game_receive_url_response", 
+    [
+    (store_script_param, ":num_integers", 1),
+    (store_script_param, ":num_strings", 2),
+    (try_begin),
+      #check msg format
+      (neq, ":num_integers", 3),
+      (neq, ":num_strings", 0), 
+    (else_try), 
+      #process msg
+      (assign, ":event", reg0), #<VAR_EVENT_REG>
+      (try_begin),
+        (eq, ":event", -1), #<FAIL_EVENT_NO>
+      (else_try),
+        (eq, ":event", 1), #<SUCCESS_EVENT_NO>
+        (assign, ":unique_id", reg1), #<VAR_ID_REG>
+        (assign, ":gold", reg2), #<VAR_GOLD_REG>
+        #assign gold
+        (try_for_players, ":player_no", 1),
+          (player_is_active, ":player_no"),
+          (player_get_unique_id, ":player_unique_id", ":player_no"),
+          (eq, ":player_unique_id", ":unique_id"),
+          (player_set_gold, ":player_no", ":gold"),
+        (try_end),
+      (else_try),
+      (try_end),
+    (try_end),
+  ]),
+      
   ("game_get_cheat_mode",
   [
     (assign, reg0, "$cheat_mode"),
@@ -9370,19 +9384,19 @@ scripts = [
           #validity check
           (player_get_team_no, ":player_team", ":player_no"),
           (neq, ":player_team", ":value"),
-
           #condition checks are done
           (try_begin),
             #check if available
             (call_script, "script_cf_multiplayer_team_is_available", ":player_no", ":value"),
             #reset troop_id to -1
             (player_set_troop_id, ":player_no", -1),
-            #(player_set_team_no, ":player_no", ":value"),
-            #------------GTD-START----------------
-            #make team 0 unavailable, players may only choose team 1
-            (neq, ":value", 0),
-            #------------GTD-END------------------
-            (try_begin),
+            #modded(player_set_team_no, ":player_no", ":value"),
+			##players are always team  (team 2 is spectator)
+            
+			(neq, ":value", 0),
+			(player_set_team_no, ":player_no", ":value"),
+			
+			(try_begin),
               (neq, ":value", multi_team_spectator),
               (neq, ":value", multi_team_unassigned),
       
@@ -9390,6 +9404,7 @@ scripts = [
               (player_set_slot, ":player_no", slot_player_last_team_select_time, ":player_last_team_select_time"),
       
               (multiplayer_send_message_to_player, ":player_no", multiplayer_event_return_confirmation),
+			  
             (try_end),
           (else_try),
             #reject request
@@ -9407,88 +9422,86 @@ scripts = [
           (is_between, ":value", multiplayer_troops_begin, multiplayer_troops_end),
           (player_get_team_no, ":player_team", ":player_no"),
           (is_between, ":player_team", 0, multi_team_spectator),
+		  #modded troop faction validity doesn't need to be checked
           #(team_get_faction, ":team_faction", ":player_team"),
           #(store_troop_faction, ":new_troop_faction", ":value"),
           #(eq, ":new_troop_faction", ":team_faction"),
-          #(player_set_troop_id, ":player_no", ":value"),
-          #------------GTD-START----------------
-          # lines above not needed, troop doesn't need to match faction
-          # below is the overwritten troop selection rule, based on player gold
-          (player_get_gold, ":player_gold", ":player_no"),
-		      (try_begin),
-			      (is_between, ":player_gold", 0,lvl1_limit),
-			      (player_set_troop_id, ":player_no", "trp_rhodok_spearman"),
-		      (else_try),
-			      (is_between, ":player_gold", lvl1_limit,lvl2_limit),
-			      (player_set_troop_id, ":player_no", "trp_rhodok_spearman"),
-		      (else_try),
-			      (is_between, ":player_gold", lvl2_limit,lvl3_limit),
-			      (player_set_troop_id, ":player_no", "trp_rhodok_trained_spearman"),
-		      (else_try),
-			      (is_between, ":player_gold", lvl3_limit,lvl4_limit),
-			      (player_set_troop_id, ":player_no", "trp_rhodok_veteran_spearman"),
-		      (else_try),
-			      (is_between, ":player_gold", lvl4_limit,lvl5_limit),
-			      (player_set_troop_id, ":player_no", "trp_nord_warrior"),
-		      (else_try),
-			      (is_between, ":player_gold", lvl5_limit,lvl6_limit),
-			      (player_set_troop_id, ":player_no", "trp_nord_veteran"),
-		      (else_try),
-            (is_between, ":player_gold", lvl6_limit,lvl7_limit),
-			      (player_set_troop_id, ":player_no", "trp_rhodok_sergeant"),
-		      (else_try),
-            (is_between, ":player_gold", lvl7_limit,lvl8_limit),
-			      (player_set_troop_id, ":player_no", "trp_swadian_skirmisher"),
-		      (else_try),
-             (is_between, ":player_gold", lvl8_limit,lvl9_limit),
-			      (player_set_troop_id, ":player_no", "trp_nord_huntsman"),
-		      (else_try),
-            (is_between, ":player_gold", lvl9_limit,lvl10_limit),
-			      (player_set_troop_id, ":player_no", "trp_rhodok_trained_crossbowman"),
-		      (else_try),
-            (is_between, ":player_gold", lvl10_limit,lvl11_limit),
-			      (player_set_troop_id, ":player_no", "trp_sarranid_archer"),
-		      (else_try),
-            (is_between, ":player_gold", lvl11_limit,lvl11_limit),
-			      (player_set_troop_id, ":player_no", "trp_swadian_sharpshooter"),
-		      (else_try),
-            (is_between, ":player_gold", lvl11_limit,lvl12_limit),
-			      (player_set_troop_id, ":player_no", "trp_nord_veteran_archer"),
-		      (else_try),
-            (is_between, ":player_gold", lvl12_limit,lvl13_limit),
-			      (player_set_troop_id, ":player_no", "trp_rhodok_sharpshooter"),
-		      (else_try),
-            (is_between, ":player_gold", lvl13_limit,lvl14_limit),
-			      (player_set_troop_id, ":player_no", "trp_khergit_veteran_horse_archer"),
-		      (else_try),
-            (is_between, ":player_gold", lvl14_limit,lvl15_limit),
-			      (player_set_troop_id, ":player_no", "trp_rhodok_sharpshooter"),
-		      (else_try),
-            (is_between, ":player_gold", lvl15_limit,lvl16_limit),
-			      (player_set_troop_id, ":player_no", "trp_sarranid_master_archer"),
-		      (else_try),
-            (is_between, ":player_gold", lvl16_limit,lvl17_limit),
-			      (player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		      (else_try),
-            (is_between, ":player_gold", lvl17_limit,lvl18_limit),
-			      (player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		      (else_try),
-            (is_between, ":player_gold", lvl18_limit,lvl19_limit),
-			      (player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		      (else_try),
-            (is_between, ":player_gold", lvl19_limit,lvl20_limit),
-			      (player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		      (else_try),
-            (is_between, ":player_gold", lvl20_limit,lvl21_limit),
-			      (player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		      (else_try),         
-			      (ge, ":player_gold", lvl21_limit),
-			      (player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		      (else_try), #default error troop
-			      (player_set_troop_id, ":player_no", 0),
-		      (try_end),
-          #------------GTD-END------------------
-          
+		  
+		   #modded select troop based on gold:
+		  (player_get_gold, ":player_gold", ":player_no"),
+		  (try_begin),
+			(is_between, ":player_gold", 0,5),
+			(player_set_troop_id, ":player_no", "trp_rhodok_spearman"),
+		  (else_try),
+			(is_between, ":player_gold", 5,20),
+			(player_set_troop_id, ":player_no", "trp_rhodok_spearman"),
+		  (else_try),
+			(is_between, ":player_gold", 20,45),
+			(player_set_troop_id, ":player_no", "trp_rhodok_trained_spearman"),
+		  (else_try),
+			(is_between, ":player_gold", 45,75),
+			(player_set_troop_id, ":player_no", "trp_rhodok_veteran_spearman"),
+		  (else_try),
+			(is_between, ":player_gold", 75,110),
+			(player_set_troop_id, ":player_no", "trp_nord_warrior"),
+		  (else_try),
+			(is_between, ":player_gold", 110,175),
+			(player_set_troop_id, ":player_no", "trp_nord_veteran"),
+		  (else_try),
+          	(is_between, ":player_gold", 175,250),
+			(player_set_troop_id, ":player_no", "trp_rhodok_sergeant"),
+		  (else_try),
+          	(is_between, ":player_gold", 250,500),
+			(player_set_troop_id, ":player_no", "trp_swadian_skirmisher"),
+		  (else_try),
+          (is_between, ":player_gold", 500,800),
+			(player_set_troop_id, ":player_no", "trp_nord_huntsman"),
+		  (else_try),
+          (is_between, ":player_gold", 800,1100),
+			(player_set_troop_id, ":player_no", "trp_rhodok_trained_crossbowman"),
+		  (else_try),
+          (is_between, ":player_gold", 1100,1600),
+			(player_set_troop_id, ":player_no", "trp_sarranid_archer"),
+		  (else_try),
+          (is_between, ":player_gold", 1600,2100),
+			(player_set_troop_id, ":player_no", "trp_swadian_sharpshooter"),
+		  (else_try),
+          (is_between, ":player_gold", 2100,3000),
+			(player_set_troop_id, ":player_no", "trp_nord_veteran_archer"),
+		  (else_try),
+          (is_between, ":player_gold", 3000,3900),
+			(player_set_troop_id, ":player_no", "trp_rhodok_sharpshooter"),
+		  (else_try),
+          (is_between, ":player_gold", 3900,5000),
+			(player_set_troop_id, ":player_no", "trp_khergit_veteran_horse_archer"),
+		  (else_try),
+          (is_between, ":player_gold", 5000,6500),
+			(player_set_troop_id, ":player_no", "trp_rhodok_sharpshooter"),
+		  (else_try),
+          (is_between, ":player_gold", 6500,8000),
+			(player_set_troop_id, ":player_no", "trp_sarranid_master_archer"),
+		  (else_try),
+          (is_between, ":player_gold", 8000,10500),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try),
+          (is_between, ":player_gold", 10500,14500),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try),
+          (is_between, ":player_gold", 14500,18500),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try),
+          (is_between, ":player_gold", 18500,25000),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try),
+          (is_between, ":player_gold", 25000,35000),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try),         
+			(ge, ":player_gold", 35000),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try), #default error troop
+			(player_set_troop_id, ":player_no", 0),
+		  (try_end),
+		  
           
           (call_script, "script_multiplayer_clear_player_selected_items", ":player_no"),
         (try_end),
@@ -13028,12 +13041,9 @@ scripts = [
       (assign, reg0, ":result_leader"),
       ]),
 
-  # script_multiplayer_find_bot_troop_and_group_for_spawn
+  # script_multiplayer_find_bot_troop_and_group_for_spawn_native
   # Input: arg1 = team_no
   # Output: reg0 = troop_id, reg1 = group_id
-  #------------GTD-START--------------
-  # Renamed original function to multiplayer_find_bot_troop_and_group_for_spawn_native 
-  #------------GTD-END----------------
   ("multiplayer_find_bot_troop_and_group_for_spawn_native",
     [
       (store_script_param, ":team_no", 1),
@@ -13048,7 +13058,7 @@ scripts = [
 
       (try_for_range, ":troop_no", multiplayer_ai_troops_begin, multiplayer_ai_troops_end),
         (store_troop_faction, ":troop_faction", ":troop_no"),
-        (eq, ":troop_faction", ":team_faction_no"),
+       (eq, ":troop_faction", ":team_faction_no"),
         (store_add, ":wanted_slot", slot_player_bot_type_1_wanted, ":available_troops_in_faction"),
         (val_add, ":available_troops_in_faction", 1),
         (try_begin),
@@ -13076,11 +13086,12 @@ scripts = [
       (try_end),
       (assign, reg0, ":selected_troop"),
       (assign, reg1, ":leader_player"),
-      ]),	
+      ]),
 
-  #------------GTD-START------------
-  #modded version to select 
-  ("multiplayer_find_bot_troop_and_group_for_spawn",
+# script_multiplayer_find_bot_troop_and_group_for_spawn_modded
+  # Input: arg1 = team_no
+  # Output: reg0 = troop_id, reg1 = group_id
+("multiplayer_find_bot_troop_and_group_for_spawn",
     [
       (store_script_param, ":team_no", 1),
       (store_script_param, ":look_only_actives", 2),
@@ -13088,11 +13099,11 @@ scripts = [
       (call_script, "script_multiplayer_find_player_leader_for_bot", ":team_no", ":look_only_actives"),
       (assign, ":leader_player", reg0),
 	  (try_begin),
-		(eq, ":team_no", 1), #if king harlaus has to spawn, return harlaus' troop
+		(eq, ":team_no", 1), #if king harlaus has to spawn:
 		(assign, reg0, "trp_kingdom_1_lord"),
 		(assign, reg1, -1),
 	  (else_try),
-		#get current round and troops for the current round
+		#get current round
 		(team_get_score, ":team1_score", 0),
 		(team_get_score, ":team2_score", 1),
 		(store_add, ":curr_wave", ":team1_score", ":team2_score"),
@@ -13101,9 +13112,7 @@ scripts = [
 		(assign, reg0, ":troop_to_spawn"),
 		(assign, reg1, ":leader_player"),
 	  (try_end),
-    ]),
-  #------------GTD-END--------------
-
+    ]),		  
 
   # script_multiplayer_change_leader_of_bot
   # Input: arg1 = agent_no
@@ -13116,11 +13125,25 @@ scripts = [
       (assign, ":leader_player", reg0),
       (agent_set_group, ":agent_no", ":leader_player"),
       ]),
+      
+ 
+    #modded version script_multiplayer_find_spawn_point_modded just needed for players, bots always spawn at 0/32 see in multiplayer_server_spawn_bots
+ ("multiplayer_find_spawn_point",
+  [
+     (store_script_param, ":team_no", 1),
+     (try_begin),
+        (eq, ":team_no", 1), 
+        (store_random_in_range, ":my_entry_point", 33, 64),
+     (else_try),
+        (eq, ":team_no", 0),
+        (store_random_in_range, ":my_entry_point", 0, 32), #in range apparently does not include 32 (0- 31)
+     (try_end),
+     (assign, reg0, ":my_entry_point"),
+  ]),
+  
 
-  #------------GTD-START------------
-  # Renamed script to multiplayer_find_spawn_point_native 
-  #------------GTD-END--------------
-  ("multiplayer_find_spawn_point_native",
+
+ ("multiplayer_find_spawn_point_native",
   [
      (store_script_param, ":team_no", 1),
      (store_script_param, ":examine_all_spawn_points", 2), #0-dm, 1-tdm, 2-cf, 3-hq, 4-sg
@@ -13201,27 +13224,6 @@ scripts = [
 
      (multiplayer_find_spawn_point, reg0, ":team_no", ":flags"),
   ]),
-
-  #------------GTD-START------------
-  #modded version of script that finds spawn point
-  #only need to select player spawn point
-  #bots can spawn in concentrated area on map 
-  #bots always spawn at points 0-32 , see multiplayer_server_spawn_bots script
-  #take care, when creating maps:
-  #a real player only spawns from points 33-64 (see below)
- ("multiplayer_find_spawn_point",
-  [
-     (store_script_param, ":team_no", 1),
-     (try_begin),
-        (eq, ":team_no", 1), 
-        (store_random_in_range, ":my_entry_point", 33, 64),
-     (else_try),
-        (eq, ":team_no", 0),
-        (store_random_in_range, ":my_entry_point", 0, 32), #in range apparently does not include 32 (0- 31)
-     (try_end),
-     (assign, reg0, ":my_entry_point"),
-  ]),
-  #------------GTD-END--------------
     
   # script_multiplayer_find_spawn_point_2
   # Input: arg1 = team_no, arg2 = examine_all_spawn_points, arg3 = is_horseman
@@ -13723,217 +13725,8 @@ scripts = [
      (try_end),
      (assign, reg0, ":best_entry_point"), 
      ]),
-  
-  #script_multiplayer_buy_agent_equipment
-  # Input: arg1 = player_no
-  # Output: none
-  #------------GTD-START------------
-  #Renamed script to multiplayer_buy_agent_equipment_native
-  #Removed capability of player to loose gold, when buying equipment
-  #------------GTD-END--------------
-  ("multiplayer_buy_agent_equipment_native",
-   [
-     (store_script_param, ":player_no", 1),
-     (player_get_troop_id, ":player_troop", ":player_no"),
-     (player_get_gold, ":player_gold", ":player_no"),
-     (player_get_slot, ":added_gold", ":player_no", slot_player_last_rounds_used_item_earnings),
-     (player_set_slot, ":player_no", slot_player_last_rounds_used_item_earnings, 0),
-     (val_add, ":player_gold", ":added_gold"),
-     (assign, ":armor_bought", 0),
-     
-     #moving original values to temp slots
-     (try_for_range, ":i_item", slot_player_selected_item_indices_begin, slot_player_selected_item_indices_end),
-       (player_get_slot, ":selected_item_index", ":player_no", ":i_item"),
-       (store_sub, ":i_cur_selected_item", ":i_item", slot_player_selected_item_indices_begin),
-       (try_begin),
-         (player_item_slot_is_picked_up, ":player_no", ":i_cur_selected_item"),
-         (assign, ":selected_item_index", -1),
-       (try_end),
-       (val_add, ":i_cur_selected_item", slot_player_cur_selected_item_indices_begin),
-       (player_set_slot, ":player_no", ":i_cur_selected_item", ":selected_item_index"),
-     (try_end),
-     (assign, ":end_cond", 1000),
-     (try_for_range, ":unused", 0, ":end_cond"),
-       (call_script, "script_multiplayer_calculate_cur_selected_items_cost", ":player_no", 0),
-       (assign, ":total_cost", reg0),
-       (try_begin),
-         (gt, ":total_cost", ":player_gold"),
-         #downgrade one of the selected items
-         #first normalize the prices
-         #then prioritize some of the weapon classes for specific troop classes
-         (call_script, "script_multiplayer_get_troop_class", ":player_troop"),
-         (assign, ":player_troop_class", reg0),
-
-         (assign, ":max_cost_value", 0),
-         (assign, ":max_cost_value_index", -1),
-         (try_for_range, ":i_item", slot_player_cur_selected_item_indices_begin, slot_player_cur_selected_item_indices_end),
-           (player_get_slot, ":item_id", ":player_no", ":i_item"),
-           (ge, ":item_id", 0), #might be -1 for horses etc.
-           (call_script, "script_multiplayer_get_item_value_for_troop", ":item_id", ":player_troop"),
-           (assign, ":item_value", reg0),
-           (store_sub, ":item_type", ":i_item", slot_player_cur_selected_item_indices_begin),
-           (try_begin), #items
-             (this_or_next|eq, ":item_type", 0),
-             (this_or_next|eq, ":item_type", 1),
-             (this_or_next|eq, ":item_type", 2),
-             (eq, ":item_type", 3),
-             (val_mul, ":item_value", 5),
-           (else_try), #head
-             (eq, ":item_type", 4),
-             (val_mul, ":item_value", 4),
-           (else_try), #body
-             (eq, ":item_type", 5),
-             (val_mul, ":item_value", 2),
-           (else_try), #foot
-             (eq, ":item_type", 6),
-             (val_mul, ":item_value", 8),
-           (else_try), #gloves
-             (eq, ":item_type", 7),
-             (val_mul, ":item_value", 8),
-           (else_try), #horse
-             #base value (most expensive)
-           (try_end),
-           (item_get_slot, ":item_class", ":item_id", slot_item_multiplayer_item_class),
-           (try_begin),
-             (eq, ":player_troop_class", multi_troop_class_infantry),
-             (this_or_next|eq, ":item_class", multi_item_class_type_sword),
-             (this_or_next|eq, ":item_class", multi_item_class_type_axe),
-             (this_or_next|eq, ":item_class", multi_item_class_type_blunt),
-             (this_or_next|eq, ":item_class", multi_item_class_type_war_picks),
-             (this_or_next|eq, ":item_class", multi_item_class_type_two_handed_sword),
-             (this_or_next|eq, ":item_class", multi_item_class_type_small_shield),
-             (eq, ":item_class", multi_item_class_type_two_handed_axe),
-             (val_div, ":item_value", 2),
-           (else_try),
-             (eq, ":player_troop_class", multi_troop_class_spearman),
-             (this_or_next|eq, ":item_class", multi_item_class_type_spear),
-             (eq, ":item_class", multi_item_class_type_large_shield),
-             (val_div, ":item_value", 2),
-           (else_try),
-             (eq, ":player_troop_class", multi_troop_class_cavalry),
-             (this_or_next|eq, ":item_class", multi_item_class_type_lance),
-             (this_or_next|eq, ":item_class", multi_item_class_type_sword),
-             (eq, ":item_class", multi_item_class_type_horse),
-             (val_div, ":item_value", 2),
-           (else_try),
-             (eq, ":player_troop_class", multi_troop_class_archer),
-             (this_or_next|eq, ":item_class", multi_item_class_type_bow),
-             (eq, ":item_class", multi_item_class_type_arrow),
-             (val_div, ":item_value", 2),
-           (else_try),
-             (eq, ":player_troop_class", multi_troop_class_crossbowman),
-             (this_or_next|eq, ":item_class", multi_item_class_type_crossbow),
-             (eq, ":item_class", multi_item_class_type_bolt),
-             (val_div, ":item_value", 2),
-           (else_try),
-             (eq, ":player_troop_class", multi_troop_class_mounted_archer),
-             (this_or_next|eq, ":item_class", multi_item_class_type_bow),
-             (this_or_next|eq, ":item_class", multi_item_class_type_arrow),
-             (eq, ":item_class", multi_item_class_type_horse),
-             (val_div, ":item_value", 2),
-           (else_try),
-             (eq, ":player_troop_class", multi_troop_class_mounted_crossbowman),
-             (this_or_next|eq, ":item_class", multi_item_class_type_crossbow),
-             (this_or_next|eq, ":item_class", multi_item_class_type_bolt),
-             (eq, ":item_class", multi_item_class_type_horse),
-             (val_div, ":item_value", 2),
-           (try_end),
-   
-           (try_begin),
-             (gt, ":item_value", ":max_cost_value"),
-             (assign, ":max_cost_value", ":item_value"),
-             (assign, ":max_cost_value_index", ":i_item"),
-           (try_end),
-         (try_end),
-
-         #max_cost_value and max_cost_value_index will definitely be valid
-         #unless no items are left (therefore some items must cost 0 gold)
-         (player_get_slot, ":item_id", ":player_no", ":max_cost_value_index"),
-         (call_script, "script_multiplayer_get_previous_item_for_item_and_troop", ":item_id", ":player_troop"),
-         (assign, ":item_id", reg0),
-         (player_set_slot, ":player_no", ":max_cost_value_index", ":item_id"),
-       (else_try),
-         (assign, ":end_cond", 0),
-          #------------GTD-END--------------
-          # player gold shouldn't change, when player is buying equipment
-          # equipment will be replaced upon spawn
-          #(val_sub, ":player_gold", ":total_cost"),
-          #(player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
-          #------------GTD-END--------------
-         (try_for_range, ":i_item", slot_player_cur_selected_item_indices_begin, slot_player_cur_selected_item_indices_end),
-           (player_get_slot, ":item_id", ":player_no", ":i_item"),
-           #checking if different class default item replace is needed for weapons
-           (try_begin),
-             (ge, ":item_id", 0),
-             #then do nothing
-           (else_try),
-             (store_sub, ":base_index_slot", ":i_item", slot_player_cur_selected_item_indices_begin),
-             (store_add, ":selected_item_index_slot", ":base_index_slot", slot_player_selected_item_indices_begin),
-             (player_get_slot, ":selected_item_index", ":player_no", ":selected_item_index_slot"),
-             (this_or_next|eq, ":selected_item_index", -1),
-             (player_item_slot_is_picked_up, ":player_no", ":base_index_slot"),
-             #then do nothing
-           (else_try),
-             #an item class without a default value is -1, then find a default weapon
-             (item_get_slot, ":item_class", ":selected_item_index", slot_item_multiplayer_item_class),
-             (is_between, ":item_class", multi_item_class_type_weapons_begin, multi_item_class_type_weapons_end),
-             (assign, ":dc_replaced_item", -1),
-             (try_for_range, ":i_dc_item_class", multi_item_class_type_melee_weapons_begin, multi_item_class_type_melee_weapons_end),
-               (lt, ":dc_replaced_item", 0),
-               (assign, ":dc_item_class_used", 0),
-               (try_for_range, ":i_dc_item", slot_player_cur_selected_item_indices_begin, slot_player_cur_selected_item_indices_end),
-                 (player_get_slot, ":dc_cur_item", ":player_no", ":i_dc_item"),
-                 (ge, ":dc_cur_item", 0),
-                 (item_get_slot, ":dc_item_class", ":dc_cur_item", slot_item_multiplayer_item_class),
-                 (eq, ":dc_item_class", ":i_dc_item_class"),
-                 (assign, ":dc_item_class_used", 1),
-               (try_end),
-               (eq, ":dc_item_class_used", 0),
-               (assign, ":dc_end_cond", all_items_end),
-               (try_for_range, ":i_dc_new_item", all_items_begin, ":dc_end_cond"),
-                 (item_slot_eq, ":i_dc_new_item", slot_item_multiplayer_item_class, ":i_dc_item_class"),
-                 (call_script, "script_cf_multiplayer_is_item_default_for_troop", ":i_dc_new_item", ":player_troop"),
-                 (assign, ":dc_end_cond", 0), #break
-                 (assign, ":dc_replaced_item", ":i_dc_new_item"),
-               (try_end),
-             (try_end),
-             (ge, ":dc_replaced_item", 0),
-             (player_set_slot, ":player_no", ":i_item", ":dc_replaced_item"),
-             (assign, ":item_id", ":dc_replaced_item"),
-           (try_end),
-
-           #finally, add the item to agent
-           (try_begin),
-             (ge, ":item_id", 0), #might be -1 for horses etc.
-             (store_sub, ":item_slot", ":i_item", slot_player_cur_selected_item_indices_begin),
-             (player_add_spawn_item, ":player_no", ":item_slot", ":item_id"),
-             (try_begin),
-               (eq, ":item_slot", ek_body), #ek_body is the slot for armor
-               (assign, ":armor_bought", 1),
-             (try_end),
-           (try_end),
-         (try_end),
-
-         (player_set_slot, ":player_no", slot_player_total_equipment_value, ":total_cost"),     
-       (try_end),
-     (try_end),
-     (try_begin),
-       (eq, ":armor_bought", 0),
-       (eq, "$g_multiplayer_force_default_armor", 1),
-       (assign, ":end_cond", all_items_end),
-       (try_for_range, ":i_new_item", all_items_begin, ":end_cond"),
-         (this_or_next|item_slot_eq, ":i_new_item", slot_item_multiplayer_item_class, multi_item_class_type_light_armor),
-         (this_or_next|item_slot_eq, ":i_new_item", slot_item_multiplayer_item_class, multi_item_class_type_medium_armor),
-         (item_slot_eq, ":i_new_item", slot_item_multiplayer_item_class, multi_item_class_type_heavy_armor),
-         (call_script, "script_cf_multiplayer_is_item_default_for_troop", ":i_new_item", ":player_troop"),
-         (assign, ":end_cond", 0), #break
-         (player_add_spawn_item, ":player_no", ek_body, ":i_new_item"), #ek_body is the slot for armor
-       (try_end),
-     (try_end),
-     ]),
-
-  #------------GTD-START------------
-  #determine player equipment based on gold (kills)
+	 
+  ##script_multiplayer_buy_agent_equipment_modded
   ("multiplayer_buy_agent_equipment",[
 	(store_script_param, ":player_no", 1),
 	(player_get_gold, ":player_gold", ":player_no"),
@@ -14192,8 +13985,207 @@ scripts = [
 		(player_add_spawn_item, ":player_no", ek_horse, "itm_no_item"),
 	(try_end),
   ]),
-  #------------GTD-END--------------
+  
+  #script_multiplayer_buy_agent_equipment_native
+  # Input: arg1 = player_no
+  # Output: none
+  ("multiplayer_buy_agent_equipment_native",
+   [
+     (store_script_param, ":player_no", 1),
+     (player_get_troop_id, ":player_troop", ":player_no"),
+     (player_get_gold, ":player_gold", ":player_no"),
+     (player_get_slot, ":added_gold", ":player_no", slot_player_last_rounds_used_item_earnings),
+     (player_set_slot, ":player_no", slot_player_last_rounds_used_item_earnings, 0),
+     (val_add, ":player_gold", ":added_gold"),
+     (assign, ":armor_bought", 0),
+     
+     #moving original values to temp slots
+     (try_for_range, ":i_item", slot_player_selected_item_indices_begin, slot_player_selected_item_indices_end),
+       (player_get_slot, ":selected_item_index", ":player_no", ":i_item"),
+       (store_sub, ":i_cur_selected_item", ":i_item", slot_player_selected_item_indices_begin),
+       (try_begin),
+         (player_item_slot_is_picked_up, ":player_no", ":i_cur_selected_item"),
+         (assign, ":selected_item_index", -1),
+       (try_end),
+       (val_add, ":i_cur_selected_item", slot_player_cur_selected_item_indices_begin),
+       (player_set_slot, ":player_no", ":i_cur_selected_item", ":selected_item_index"),
+     (try_end),
+     (assign, ":end_cond", 1000),
+     (try_for_range, ":unused", 0, ":end_cond"),
+       (call_script, "script_multiplayer_calculate_cur_selected_items_cost", ":player_no", 0),
+       (assign, ":total_cost", reg0),
+       (try_begin),
+         (gt, ":total_cost", ":player_gold"),
+         #downgrade one of the selected items
+         #first normalize the prices
+         #then prioritize some of the weapon classes for specific troop classes
+         (call_script, "script_multiplayer_get_troop_class", ":player_troop"),
+         (assign, ":player_troop_class", reg0),
 
+         (assign, ":max_cost_value", 0),
+         (assign, ":max_cost_value_index", -1),
+         (try_for_range, ":i_item", slot_player_cur_selected_item_indices_begin, slot_player_cur_selected_item_indices_end),
+           (player_get_slot, ":item_id", ":player_no", ":i_item"),
+           (ge, ":item_id", 0), #might be -1 for horses etc.
+           (call_script, "script_multiplayer_get_item_value_for_troop", ":item_id", ":player_troop"),
+           (assign, ":item_value", reg0),
+           (store_sub, ":item_type", ":i_item", slot_player_cur_selected_item_indices_begin),
+           (try_begin), #items
+             (this_or_next|eq, ":item_type", 0),
+             (this_or_next|eq, ":item_type", 1),
+             (this_or_next|eq, ":item_type", 2),
+             (eq, ":item_type", 3),
+             (val_mul, ":item_value", 5),
+           (else_try), #head
+             (eq, ":item_type", 4),
+             (val_mul, ":item_value", 4),
+           (else_try), #body
+             (eq, ":item_type", 5),
+             (val_mul, ":item_value", 2),
+           (else_try), #foot
+             (eq, ":item_type", 6),
+             (val_mul, ":item_value", 8),
+           (else_try), #gloves
+             (eq, ":item_type", 7),
+             (val_mul, ":item_value", 8),
+           (else_try), #horse
+             #base value (most expensive)
+           (try_end),
+           (item_get_slot, ":item_class", ":item_id", slot_item_multiplayer_item_class),
+           (try_begin),
+             (eq, ":player_troop_class", multi_troop_class_infantry),
+             (this_or_next|eq, ":item_class", multi_item_class_type_sword),
+             (this_or_next|eq, ":item_class", multi_item_class_type_axe),
+             (this_or_next|eq, ":item_class", multi_item_class_type_blunt),
+             (this_or_next|eq, ":item_class", multi_item_class_type_war_picks),
+             (this_or_next|eq, ":item_class", multi_item_class_type_two_handed_sword),
+             (this_or_next|eq, ":item_class", multi_item_class_type_small_shield),
+             (eq, ":item_class", multi_item_class_type_two_handed_axe),
+             (val_div, ":item_value", 2),
+           (else_try),
+             (eq, ":player_troop_class", multi_troop_class_spearman),
+             (this_or_next|eq, ":item_class", multi_item_class_type_spear),
+             (eq, ":item_class", multi_item_class_type_large_shield),
+             (val_div, ":item_value", 2),
+           (else_try),
+             (eq, ":player_troop_class", multi_troop_class_cavalry),
+             (this_or_next|eq, ":item_class", multi_item_class_type_lance),
+             (this_or_next|eq, ":item_class", multi_item_class_type_sword),
+             (eq, ":item_class", multi_item_class_type_horse),
+             (val_div, ":item_value", 2),
+           (else_try),
+             (eq, ":player_troop_class", multi_troop_class_archer),
+             (this_or_next|eq, ":item_class", multi_item_class_type_bow),
+             (eq, ":item_class", multi_item_class_type_arrow),
+             (val_div, ":item_value", 2),
+           (else_try),
+             (eq, ":player_troop_class", multi_troop_class_crossbowman),
+             (this_or_next|eq, ":item_class", multi_item_class_type_crossbow),
+             (eq, ":item_class", multi_item_class_type_bolt),
+             (val_div, ":item_value", 2),
+           (else_try),
+             (eq, ":player_troop_class", multi_troop_class_mounted_archer),
+             (this_or_next|eq, ":item_class", multi_item_class_type_bow),
+             (this_or_next|eq, ":item_class", multi_item_class_type_arrow),
+             (eq, ":item_class", multi_item_class_type_horse),
+             (val_div, ":item_value", 2),
+           (else_try),
+             (eq, ":player_troop_class", multi_troop_class_mounted_crossbowman),
+             (this_or_next|eq, ":item_class", multi_item_class_type_crossbow),
+             (this_or_next|eq, ":item_class", multi_item_class_type_bolt),
+             (eq, ":item_class", multi_item_class_type_horse),
+             (val_div, ":item_value", 2),
+           (try_end),
+   
+           (try_begin),
+             (gt, ":item_value", ":max_cost_value"),
+             (assign, ":max_cost_value", ":item_value"),
+             (assign, ":max_cost_value_index", ":i_item"),
+           (try_end),
+         (try_end),
+
+         #max_cost_value and max_cost_value_index will definitely be valid
+         #unless no items are left (therefore some items must cost 0 gold)
+         (player_get_slot, ":item_id", ":player_no", ":max_cost_value_index"),
+         (call_script, "script_multiplayer_get_previous_item_for_item_and_troop", ":item_id", ":player_troop"),
+         (assign, ":item_id", reg0),
+         (player_set_slot, ":player_no", ":max_cost_value_index", ":item_id"),
+       (else_try),
+         (assign, ":end_cond", 0),
+         #modded: commenting this out, dont want player to loose gold for buying
+		 #(val_sub, ":player_gold", ":total_cost"),
+         #(player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
+         (try_for_range, ":i_item", slot_player_cur_selected_item_indices_begin, slot_player_cur_selected_item_indices_end),
+           (player_get_slot, ":item_id", ":player_no", ":i_item"),
+           #checking if different class default item replace is needed for weapons
+           (try_begin),
+             (ge, ":item_id", 0),
+             #then do nothing
+           (else_try),
+             (store_sub, ":base_index_slot", ":i_item", slot_player_cur_selected_item_indices_begin),
+             (store_add, ":selected_item_index_slot", ":base_index_slot", slot_player_selected_item_indices_begin),
+             (player_get_slot, ":selected_item_index", ":player_no", ":selected_item_index_slot"),
+             (this_or_next|eq, ":selected_item_index", -1),
+             (player_item_slot_is_picked_up, ":player_no", ":base_index_slot"),
+             #then do nothing
+           (else_try),
+             #an item class without a default value is -1, then find a default weapon
+             (item_get_slot, ":item_class", ":selected_item_index", slot_item_multiplayer_item_class),
+             (is_between, ":item_class", multi_item_class_type_weapons_begin, multi_item_class_type_weapons_end),
+             (assign, ":dc_replaced_item", -1),
+             (try_for_range, ":i_dc_item_class", multi_item_class_type_melee_weapons_begin, multi_item_class_type_melee_weapons_end),
+               (lt, ":dc_replaced_item", 0),
+               (assign, ":dc_item_class_used", 0),
+               (try_for_range, ":i_dc_item", slot_player_cur_selected_item_indices_begin, slot_player_cur_selected_item_indices_end),
+                 (player_get_slot, ":dc_cur_item", ":player_no", ":i_dc_item"),
+                 (ge, ":dc_cur_item", 0),
+                 (item_get_slot, ":dc_item_class", ":dc_cur_item", slot_item_multiplayer_item_class),
+                 (eq, ":dc_item_class", ":i_dc_item_class"),
+                 (assign, ":dc_item_class_used", 1),
+               (try_end),
+               (eq, ":dc_item_class_used", 0),
+               (assign, ":dc_end_cond", all_items_end),
+               (try_for_range, ":i_dc_new_item", all_items_begin, ":dc_end_cond"),
+                 (item_slot_eq, ":i_dc_new_item", slot_item_multiplayer_item_class, ":i_dc_item_class"),
+                 (call_script, "script_cf_multiplayer_is_item_default_for_troop", ":i_dc_new_item", ":player_troop"),
+                 (assign, ":dc_end_cond", 0), #break
+                 (assign, ":dc_replaced_item", ":i_dc_new_item"),
+               (try_end),
+             (try_end),
+             (ge, ":dc_replaced_item", 0),
+             (player_set_slot, ":player_no", ":i_item", ":dc_replaced_item"),
+             (assign, ":item_id", ":dc_replaced_item"),
+           (try_end),
+
+           #finally, add the item to agent
+           (try_begin),
+             (ge, ":item_id", 0), #might be -1 for horses etc.
+             (store_sub, ":item_slot", ":i_item", slot_player_cur_selected_item_indices_begin),
+             (player_add_spawn_item, ":player_no", ":item_slot", ":item_id"),
+             (try_begin),
+               (eq, ":item_slot", ek_body), #ek_body is the slot for armor
+               (assign, ":armor_bought", 1),
+             (try_end),
+           (try_end),
+         (try_end),
+
+         (player_set_slot, ":player_no", slot_player_total_equipment_value, ":total_cost"),     
+       (try_end),
+     (try_end),
+     (try_begin),
+       (eq, ":armor_bought", 0),
+       (eq, "$g_multiplayer_force_default_armor", 1),
+       (assign, ":end_cond", all_items_end),
+       (try_for_range, ":i_new_item", all_items_begin, ":end_cond"),
+         (this_or_next|item_slot_eq, ":i_new_item", slot_item_multiplayer_item_class, multi_item_class_type_light_armor),
+         (this_or_next|item_slot_eq, ":i_new_item", slot_item_multiplayer_item_class, multi_item_class_type_medium_armor),
+         (item_slot_eq, ":i_new_item", slot_item_multiplayer_item_class, multi_item_class_type_heavy_armor),
+         (call_script, "script_cf_multiplayer_is_item_default_for_troop", ":i_new_item", ":player_troop"),
+         (assign, ":end_cond", 0), #break
+         (player_add_spawn_item, ":player_no", ek_body, ":i_new_item"), #ek_body is the slot for armor
+       (try_end),
+     (try_end),
+     ]),
   
   # script_party_get_ideal_size @used for NPC parties.
   # Input: arg1 = party_no
@@ -16519,7 +16511,7 @@ scripts = [
          (else_try), #there are people who only killed.
            (gt, ":num_killed", 0),
            (assign, reg1, ":num_killed"),
-           (str_store_string, s3, "@&gold="),
+           (str_store_string, s3, "@killed"),
            (str_store_string, s2, "str_reg1_blank_s3"),
          (else_try), #there are people who only wounded.
            (gt, ":num_wounded", 0),
@@ -16580,7 +16572,7 @@ scripts = [
          (str_store_string, s2, "str_reg4_wounded_reg5_routed"),
        (else_try),
          (gt, ":total_killed", 0),
-         (str_store_string, s2, "@&user_id="),
+         (str_store_string, s2, "@killed"),
        (else_try),
          (gt, ":total_wounded", 0),
          (str_store_string, s2, "@wounded"),
@@ -51225,1024 +51217,766 @@ scripts = [
     (cur_tableau_add_sun_light, pos8, 175,150,125),
     ]),
    #INVASION MODE END
-     
-  #---------------WSE START-----------------
-  #script_wse_multiplayer_message_received
-  # Called each time a composite multiplayer message is received
-  # INPUT
-  # script param 1 = sender player no
-  # script param 2 = event no
-  ("wse_multiplayer_message_received", [
-    (store_script_param, ":player_no", 1),
-    (store_script_param, ":event_no", 2),
+   
+   
+   
+   #script_wse_multiplayer_message_received
+# Called each time a composite multiplayer message is received
+# INPUT
+# script param 1 = sender player no
+# script param 2 = event no
+("wse_multiplayer_message_received", [
+	(store_script_param, ":player_no", 1),
+	(store_script_param, ":event_no", 2),
+]),
+
+#script_wse_game_saved
+# Called each time after game is saved successfully
+("wse_game_saved", [
+]),
+
+#script_wse_savegame_loaded
+# Called each time after savegame is loaded successfully
+("wse_savegame_loaded", [
+]),
+
+#script_wse_chat_message_received
+# Called each time a chat message is received (both for servers and clients)
+# INPUT
+# script param 1 = sender player no
+# script param 2 = chat type (0 = global, 1 = team)
+# s0 = message
+# OUTPUT
+# trigger result = anything non-zero suppresses default chat behavior. Server will not even broadcast messages to clients.
+# result string = changes message text for default chat behavior (if not suppressed).
+("wse_chat_message_received", [
+	(store_script_param, ":player_no", 1),
+	(store_script_param, ":chat_type", 2),
+]),
+
+#script_wse_console_command_received
+# Called each time a command is typed on the dedicated server console or received with RCON (after parsing standard commands)
+# INPUT
+# script param 1 = command type (0 - local, 1 - remote)
+# s0 = text
+# OUTPUT
+# trigger result = anything non-zero if the command succeeded
+# result string = message to display on success (if empty, default message will be used)
+("wse_console_command_received", [
+	(store_script_param, ":command_type", 1),
+]),
+
+#script_wse_get_agent_scale
+# Called each time an agent is created
+# INPUT
+# script param 1 = troop no
+# script param 2 = horse item no
+# script param 3 = horse item modifier
+# script param 4 = player no
+# OUTPUT
+# trigger result = agent scale (fixed point)
+("wse_get_agent_scale", [
+	(store_script_param, ":troop_no", 1),
+	(store_script_param, ":horse_item_no", 2),
+	(store_script_param, ":horse_item_modifier", 3),
+	(store_script_param, ":player_no", 4),
+]),
+
+#script_wse_window_opened
+# Called each time a window (party/inventory/character) is opened
+# INPUT
+# script param 1 = window no
+# script param 2 = window param 1
+# script param 3 = window param 2
+# OUTPUT
+# trigger result = presentation that replaces the window (if not set or negative, window will open normally)
+("wse_window_opened", [
+	(store_script_param, ":window_no", 1),
+	(store_script_param, ":window_param_1", 2),
+	(store_script_param, ":window_param_2", 3),
+]),
+
+#script_game_missile_dives_into_water
+# Called each time a missile dives into water
+# INPUT
+# script param 1 = missile item no
+# script param 2 = missile item modifier
+# script param 3 = launcher item no
+# script param 4 = launcher item modifier
+# script param 5 = shooter agent no
+# script param 6 = missile no
+# pos1 = water impact position and rotation
+("game_missile_dives_into_water", [
+	(store_script_param, ":missile_item_no", 1),
+	(store_script_param, ":missile_item_modifier", 2),
+	(store_script_param, ":launcher_item_no", 3),
+	(store_script_param, ":launcher_item_modifier", 4),
+	(store_script_param, ":shooter_agent_no", 5),
+	(store_script_param, ":missile_no", 6),
+]),
+
+#script_wse_get_server_info
+# Called each time a http request for server info received (http://server_ip:server_port/)
+# OUTPUT
+# trigger result = anything non-zero replace message text for response info 
+# result string =  message text for response info 
+("wse_get_server_info", [
+]),
+
+
+#modded scripts
+
+("send_server_message_to_players",
+  [
+	(store_script_param_1, ":string"),
+	(try_for_players, ":player_no"), 
+    #(get_max_players,":max"),
+    #(try_for_range,":player",0,":max"),
+     (player_is_active,":player_no"),
+     (multiplayer_send_string_to_player,":player_no",multiplayer_event_show_server_message,":string"),  
+    (try_end),
+    (server_add_message_to_log, ":string"),
   ]),
 
-  #script_wse_game_saved
-  # Called each time after game is saved successfully
-  ("wse_game_saved", [
-  ]),
-
-  #script_wse_savegame_loaded
-  # Called each time after savegame is loaded successfully
-  ("wse_savegame_loaded", [
-  ]),
-
-  #script_wse_chat_message_received
-  # Called each time a chat message is received (both for servers and clients)
-  # INPUT
-  # script param 1 = sender player no
-  # script param 2 = chat type (0 = global, 1 = team)
-  # s0 = message
-  # OUTPUT
-  # trigger result = anything non-zero suppresses default chat behavior. Server will not even broadcast messages to clients.
-  # result string = changes message text for default chat behavior (if not suppressed).
-  ("wse_chat_message_received", [
-    (store_script_param, ":player_no", 1),
-    (store_script_param, ":chat_type", 2),
-  ]),
-
-  #script_wse_console_command_received
-  # Called each time a command is typed on the dedicated server console or received with RCON (after parsing standard commands)
-  # INPUT
-  # script param 1 = command type (0 - local, 1 - remote)
-  # s0 = text
-  # OUTPUT
-  # trigger result = anything non-zero if the command succeeded
-  # result string = message to display on success (if empty, default message will be used)
-  ("wse_console_command_received", [
-    (store_script_param, ":command_type", 1),
-  ]),
-
-  #script_wse_get_agent_scale
-  # Called each time an agent is created
-  # INPUT
-  # script param 1 = troop no
-  # script param 2 = horse item no
-  # script param 3 = horse item modifier
-  # script param 4 = player no
-  # OUTPUT
-  # trigger result = agent scale (fixed point)
-  ("wse_get_agent_scale", [
-    (store_script_param, ":troop_no", 1),
-    (store_script_param, ":horse_item_no", 2),
-    (store_script_param, ":horse_item_modifier", 3),
-    (store_script_param, ":player_no", 4),
-  ]),
-
-  #script_wse_window_opened
-  # Called each time a window (party/inventory/character) is opened
-  # INPUT
-  # script param 1 = window no
-  # script param 2 = window param 1
-  # script param 3 = window param 2
-  # OUTPUT
-  # trigger result = presentation that replaces the window (if not set or negative, window will open normally)
-  ("wse_window_opened", [
-    (store_script_param, ":window_no", 1),
-    (store_script_param, ":window_param_1", 2),
-    (store_script_param, ":window_param_2", 3),
-  ]),
-
-  #script_game_missile_dives_into_water
-  # Called each time a missile dives into water
-  # INPUT
-  # script param 1 = missile item no
-  # script param 2 = missile item modifier
-  # script param 3 = launcher item no
-  # script param 4 = launcher item modifier
-  # script param 5 = shooter agent no
-  # script param 6 = missile no
-  # pos1 = water impact position and rotation
-  ("game_missile_dives_into_water", [
-    (store_script_param, ":missile_item_no", 1),
-    (store_script_param, ":missile_item_modifier", 2),
-    (store_script_param, ":launcher_item_no", 3),
-    (store_script_param, ":launcher_item_modifier", 4),
-    (store_script_param, ":shooter_agent_no", 5),
-    (store_script_param, ":missile_no", 6),
-  ]),
-
-  #script_wse_get_server_info
-  # Called each time a http request for server info received (http://server_ip:server_port/)
-  # OUTPUT
-  # trigger result = anything non-zero replace message text for response info 
-  # result string =  message text for response info 
-  ("wse_get_server_info", [
-  ]),
-  #---------------WSE END-------------------
-
-
-  #------------GTD-START------------
-  ("send_server_message_to_players",
-    [
-    (store_script_param_1, ":string"),
-    (try_for_players, ":player_no"), 
-      #(get_max_players,":max"),
-      #(try_for_range,":player",0,":max"),
-      (player_is_active,":player_no"),
-      (multiplayer_send_string_to_player,":player_no",multiplayer_event_show_server_message,":string"),  
-      (try_end),
-      (server_add_message_to_log, ":string"),
-  ]),
-
-  ("send_server_message_to_player",
-    [
-    (store_script_param_1, ":player_no"),
-    (store_script_param_2, ":string"),
-      (multiplayer_send_string_to_player,":player_no",multiplayer_event_show_server_message,":string"),  
-      (server_add_message_to_log, ":string"),
+("send_server_message_to_player",
+  [
+	 (store_script_param_1, ":player_no"),
+	 (store_script_param_2, ":string"),
+     (multiplayer_send_string_to_player,":player_no",multiplayer_event_show_server_message,":string"),  
+     (server_add_message_to_log, ":string"),
   ]),   
+  
+	 #Database Querys
+	 
+	 ("save_player_gold",[
+        (store_script_param_1, reg0),#reg0 = player_id
+       
+        (player_get_unique_id, reg1, reg0),
+        (player_get_gold, reg2, reg0),
+        (str_store_player_username, s0, reg0),
+        (send_message_to_url, "@http://skript3400.ddns.net/warband.php?unique_id={reg1}&local_id={reg0}&event=2&username={s0}&gold={reg2}"),
+    ]),
+   
+    ("load_player_gold",[
+		(store_script_param_1, reg0),#reg0 = player_id
+		(try_begin),
+			(neq, reg0,0),
+			(player_is_active, reg0),
+			(player_get_unique_id, reg1, reg0),
+			(str_store_player_username, s0, reg0),
+			(send_message_to_url, "@http://skript3400.ddns.net/warband.php?unique_id={reg1}&local_id={reg0}&event=1&username={s0}"),
+		(else_try),
+			(eq, reg0, 0),
+			(display_message, "str_load_gold_error"),#error will display in console window
+		(try_end),
+	]),
+	
+	
+	("set_num_bots",[
+		(store_script_param_1, ":team_no"),
+		(store_script_param_2, ":bots_no"),
+		#set
+		(try_begin),
+		(eq, ":team_no", 0),
+			(assign, "$g_multiplayer_num_bots_team_1", ":bots_no"),
+		(else_try),
+			(assign, "$g_multiplayer_num_bots_team_2", ":bots_no"),
+		(try_end),
+		#announce                              
+        (get_max_players, ":num_players"),                               
+        (try_for_range, ":player_no", 1, ":num_players"),
+        (player_is_active, ":player_no"),
+        (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 1, "$g_multiplayer_num_bots_team_1"),
+        (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 2, "$g_multiplayer_num_bots_team_2"),
+		(try_end),
+	]),
+	
+	("set_team_score",[
+		(store_script_param_1, ":team_no"),
+		(store_script_param_2, ":score"),
+		(team_set_score, ":team_no", ":score"),
+		(try_for_players, ":player_no"),
+			(team_get_score, ":team1_score" ,0),
+			(team_get_score, ":team2_score" ,1),
+			(multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_set_team_score, 0, ":team1_score" ),
+			(multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_set_team_score, 1, ":team2_score" ),
+		(try_end),
+	]),
+	
+	("send_bot_info_to_player",[
+		(store_script_param_1, ":player_no"),
+		(multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 1, "$g_multiplayer_num_bots_team_1"),
+        (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 2, "$g_multiplayer_num_bots_team_2"),
+	]),
+	
+	("send_score_info_to_players",[
+		(try_for_players, ":player_no",1),
+			(team_get_score, ":team1_score" ,0),
+			(team_get_score, ":team2_score" ,1),
+			(multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_set_team_score, 0, ":team1_score"),
+			(multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_set_team_score, 1, ":team2_score"),
+		(try_end),
+	]),
     
-    
-#<DATABASE_FUNCTIONS_START>
-
-  ("load_player_gold",[
-    (store_script_param_1, reg0),#reg0 = player_id
-    (try_begin),
-      (neq, reg0,0),
-      (player_is_active, reg0),#reg0 = player_id, integer
-      (player_get_unique_id, reg1, reg0),#reg1 = unique steam id
-      (send_message_to_url, "@http://localhost/webpage.php?unique_id={reg1}&event=1"), #<URL_GET_MARKER>
-    (else_try),
-      (le, reg0, 0), #player_id 0 = server entity/player
-      (display_message, "str_load_gold_error"),#error will display in console window
-    (try_end),
-  ]),
-
-  ("save_player_gold",[
-    (store_script_param_1, reg0),#reg0 = player_id, integer
-    (try_begin),
-      (player_get_unique_id, reg1, reg0),#reg1 = unique steam id
-      (player_get_gold, reg2, reg0),#reg2 = player gold amount
-      (send_message_to_url, "@http://localhost/webpage.php?unique_id={reg1}&gold={reg2}&event=2"), #<URL_SET_MARKER>
-    (else_try),
-      (le, reg0, 0),  #player_id 0 = server entity/player
-      (display_message, "str_save_gold_error"),#error will display in console window
-    (try_end),
-  ]),
-
-# load player's gold from database
-  # message template:
-  # event | unique_id | gold
-  # reg0  | reg1      | reg2
-  # event success: 1
-  # event failed: -1
-  # don't change the following <MARKERS>
-  ("game_receive_url_response", 
-    [
-    (store_script_param, ":num_integers", 1),
-    (store_script_param, ":num_strings", 2),
-    (try_begin),
-      #check msg format
-      (neq, ":num_integers", 3),
-      (neq, ":num_strings", 0), 
-      (display_message, "str_msg_malformed"),
-    (else_try), 
-      #process msg
-      (assign, ":event", reg0), #<VAR_EVENT_REG>
-      (try_begin),
-        (eq, ":event", -1), #<FAIL_EVENT_NO>
-          (display_message, "str_msg_error"),
-      (else_try),
-        (eq, ":event", 1), #<SUCCESS_EVENT_NO>
-        (assign, ":unique_id", reg1), #<VAR_ID_REG>
-        (assign, ":gold", reg2), #<VAR_GOLD_REG>
-        (display_message, "str_msg_success"),
-        #assign gold
-        (try_for_players, ":player_no", 1),
-          (player_is_active, ":player_no"),
-          (player_get_unique_id, ":player_unique_id", ":player_no"),
-          (eq, ":player_unique_id", ":unique_id"),
-          (player_set_gold, ":player_no", ":gold"),
-        (try_end),
-      (else_try),
-        (display_message, "str_msg_event_error"), 
-      (try_end),
-    (try_end),
-  ]),
-
-# don't change the following <MARKERS>
-#<DATABASE_FUNCTIONS_END>  
-    
-  ("set_num_bots",[
-      (store_script_param_1, ":team_no"),
-      (store_script_param_2, ":bots_no"),
-      #set
-      (try_begin),
-      (eq, ":team_no", 0),
-        (assign, "$g_multiplayer_num_bots_team_1", ":bots_no"),
-      (else_try),
-        (assign, "$g_multiplayer_num_bots_team_2", ":bots_no"),
-      (try_end),
-      #announce                              
-          (get_max_players, ":num_players"),                               
-          (try_for_range, ":player_no", 1, ":num_players"),
-          (player_is_active, ":player_no"),
-          (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 1, "$g_multiplayer_num_bots_team_1"),
-          (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 2, "$g_multiplayer_num_bots_team_2"),
-      (try_end),
-  ]),
-    
-  ("set_team_score",[
-      (store_script_param_1, ":team_no"),
-      (store_script_param_2, ":score"),
-      (team_set_score, ":team_no", ":score"),
-      (try_for_players, ":player_no"),
-        (team_get_score, ":team1_score" ,0),
-        (team_get_score, ":team2_score" ,1),
-        (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_set_team_score, 0, ":team1_score" ),
-        (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_set_team_score, 1, ":team2_score" ),
-      (try_end),
-  ]),
-    
-  ("send_bot_info_to_player",[
-      (store_script_param_1, ":player_no"),
-      (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 1, "$g_multiplayer_num_bots_team_1"),
-          (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 2, "$g_multiplayer_num_bots_team_2"),
-  ]),
-    
-  ("send_score_info_to_players",[
-      (try_for_players, ":player_no",1),
-        (team_get_score, ":team1_score" ,0),
-        (team_get_score, ":team2_score" ,1),
-        (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_set_team_score, 0, ":team1_score"),
-        (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_set_team_score, 1, ":team2_score"),
-      (try_end),
-  ]),
-
-  #Formula to calculate Bot numbers, 3-point polynomial curve-fitting
-  #further fine tuning might be useful, if difficulty too hard/easy
-  #ax?? +bx +c --> through 3 Points
-  #x=wave no
-  #0.175*x??+1.75*x+15 -> x=1->15 bots, x=10->50 bots, x=20->120 bots
-  ("calculate_wave_bot_num",[
-    (store_script_param_1, ":x"),
+    ("calculate_wave_bot_num",[
+		(store_script_param_1, ":x"),
         (store_script_param_2, ":c"),
-        (val_mul, ":c", 100), # *100, since every number is integer: 1.75->17
+        (val_mul, ":c", 100),
         (store_mul,":ax", ":x", ":x"),
         (val_mul,":ax", 17),
-        (store_mul, ":bx", ":x", 240),
+        (store_mul, ":bx", ":x", 170),
         (store_add, ":ax_bx", ":ax", ":bx"),
         (val_add, ":ax_bx", ":c"),
         (val_div, ":ax_bx", 100),
         (assign, reg30, ":ax_bx"),
         (assign, reg0, ":ax"),
         (call_script, "script_send_server_message_to_players", "str_reg0_debug"),
-  ]),
+	]),
     
     
+	
 
-
-  ("get_available_troops_for_round", [ 
-    (store_script_param_1, ":curr_wave"), 
+	
+	 ("get_available_troops_for_round",[ 
+        (store_script_param_1, ":curr_wave"), 
+		
+		(try_begin),
+			(eq, ":curr_wave", 1),
+            (store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_farmer"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 2),
+            (store_random_in_range,":random",0,6),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_farmer"),
+            (else_try),
+            (eq, ":random", 5),
+            (assign, ":troop", "trp_farmer"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 3),
+			(store_random_in_range,":random",0,6),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_nord_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_rhodok_tribesman"),
+            (else_try),
+            (eq, ":random", 5),
+            (assign, ":troop", "trp_rhodok_tribesman"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 4),
+			(store_random_in_range,":random",0,6),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_sarranid_skirmisher"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_nord_recruit"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_rhodok_tribesman"),
+            (else_try),
+            (eq, ":random", 5),
+            (assign, ":troop", "trp_rhodok_tribesman"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 5),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_sarranid_skirmisher"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_sarranid_skirmisher"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_rhodok_tribesman"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_rhodok_tribesman"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 6),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_swadian_recruit"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_rhodok_tribesman"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_looter"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 7),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_sarranid_skirmisher"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_watchman"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_farmer"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_farmer"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 8),
+			(store_random_in_range,":random",0,6),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_sarranid_skirmisher"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_nord_archer_multiplayer_ai"),
+            (else_try),
+            (eq, ":random", 5),
+            (assign, ":troop", "trp_rhodok_veteran_spearman"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 9),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_sarranid_infantry"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_rhodok_veteran_spearman"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_nord_archer_multiplayer_ai"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 10),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_sarranid_infantry"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 11),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_khergit_dismounted_lancer_multiplayer_ai"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_rhodok_scout_multiplayer_ai"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_vaegir_spearman_multiplayer_ai"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 12),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_swadian_man_at_arms_multiplayer_ai"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_nord_archer_multiplayer_ai"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 13),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_farmer"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_farmer"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 14),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_farmer"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_farmer"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 15),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_slave_driver"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_farmer"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_hired_assassin"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 16),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_farmer"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_hired_assassin"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 17),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_farmer"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_hired_assassin"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 18),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_farmer"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_hired_assassin"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 19),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_looter"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_nord_champion"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_nord_champion"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_hired_assassin"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(eq, ":curr_wave", 20),
+			(store_random_in_range,":random",0,5),
+            (assign, ":troop", -1),
+            (try_begin),
+            (eq, ":random", 0),
+            (assign, ":troop", "trp_nord_champion"),
+            (else_try),
+            (eq, ":random", 1),
+            (assign, ":troop", "trp_nord_champion"),
+            (else_try),
+            (eq, ":random", 2),
+            (assign, ":troop", "trp_sarranid_recruit"),
+            (else_try),
+            (eq, ":random", 3),
+            (assign, ":troop", "trp_nord_champion"),
+            (else_try),
+            (eq, ":random", 4),
+            (assign, ":troop", "trp_hired_assassin"),
+            (try_end),
+			(assign, reg0, ":troop"),
+		(else_try),
+			(assign, reg0, "trp_kingdom_2_lord"),
+		(try_end),
+	
+    ]),
     
-    (try_begin),
-      (eq, ":curr_wave", 1),
-      (call_script, "script_choose_tier_1_infantry"),
-    (else_try),
-      (eq, ":curr_wave", 2),
-      (call_script, "script_choose_tier_1_infantry"),
-    (else_try),
-      (eq, ":curr_wave", 3),
-      (store_random_in_range, ":random", 0, 4),
-      (try_begin),
-        (eq, ":random", 0),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (eq, ":random", 1),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (eq, ":random", 2),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (eq, ":random", 3),
-        (call_script, "script_choose_tier_2_infantry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 4),
-      (store_random_in_range, ":random", 0, 2),
-      (try_begin),
-        (eq, ":random", 0),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (eq, ":random", 1),
-        (call_script, "script_choose_tier_2_infantry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 5),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 40),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 40, 85),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 85, 100),
-        (call_script, "script_choose_tier_3_infantry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 6),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 30),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 30, 85),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 85, 100),
-        (call_script, "script_choose_tier_3_infantry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 7),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 25),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 25, 70),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 70, 100),
-        (call_script, "script_choose_tier_3_infantry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 8),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 25),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 25, 50),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 50, 95),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 100),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 9),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 50),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 50, 95),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 100),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 10),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 50),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 50, 90),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 90, 95),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (else_try),
-        (is_between, ":random", 95, 100),
-        (call_script, "script_choose_special_troop"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 11),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 45),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 45, 90),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 90, 95),
-        (call_script, "script_choose_tier_4_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 100),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 12),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 30),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 30, 75),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 75, 95),
-        (call_script, "script_choose_tier_4_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 100),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 13),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 30),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 30, 65),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 65, 95),
-        (call_script, "script_choose_tier_4_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 98),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (else_try),
-        (is_between, ":random", 98, 100),
-        (call_script, "script_choose_tier_2_cavallry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 14),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 30),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 30, 55),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 55, 85),
-        (call_script, "script_choose_tier_4_infantry"),
-      (else_try),
-        (is_between, ":random", 85, 95),
-        (call_script, "script_choose_tier_5_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 98),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (else_try),
-        (is_between, ":random", 98, 100),
-        (call_script, "script_choose_tier_2_cavallry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 15),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 30),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 30, 50),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 50, 80),
-        (call_script, "script_choose_tier_4_infantry"),
-      (else_try),
-        (is_between, ":random", 80, 95),
-        (call_script, "script_choose_tier_5_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 98),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (else_try),
-        (is_between, ":random", 98, 100),
-        (call_script, "script_choose_tier_2_cavallry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 16),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 30),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 30, 50),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 50, 80),
-        (call_script, "script_choose_tier_4_infantry"),
-      (else_try),
-        (is_between, ":random", 80, 95),
-        (call_script, "script_choose_tier_5_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 98),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (else_try),
-        (is_between, ":random", 98, 100),
-        (call_script, "script_choose_tier_2_cavallry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 17),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 30),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 30, 50),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 50, 80),
-        (call_script, "script_choose_tier_4_infantry"),
-      (else_try),
-        (is_between, ":random", 80, 95),
-        (call_script, "script_choose_tier_5_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 98),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (else_try),
-        (is_between, ":random", 98, 100),
-        (call_script, "script_choose_tier_2_cavallry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 18),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 30),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 30, 50),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 50, 80),
-        (call_script, "script_choose_tier_4_infantry"),
-      (else_try),
-        (is_between, ":random", 80, 95),
-        (call_script, "script_choose_tier_5_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 98),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (else_try),
-        (is_between, ":random", 98, 100),
-        (call_script, "script_choose_tier_2_cavallry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 19),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 30),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 30, 50),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 50, 80),
-        (call_script, "script_choose_tier_4_infantry"),
-      (else_try),
-        (is_between, ":random", 80, 95),
-        (call_script, "script_choose_tier_5_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 98),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (else_try),
-        (is_between, ":random", 98, 100),
-        (call_script, "script_choose_tier_2_cavallry"),
-      (try_end),
-    (else_try),
-      (eq, ":curr_wave", 20),
-      (store_random_in_range, ":random", 0, 100),
-      (try_begin),
-        (is_between, ":random", 0, 15),
-        (call_script, "script_choose_tier_1_infantry"),
-      (else_try),
-        (is_between, ":random", 15, 30),
-        (call_script, "script_choose_tier_2_infantry"),
-      (else_try),
-        (is_between, ":random", 30, 50),
-        (call_script, "script_choose_tier_3_infantry"),
-      (else_try),
-        (is_between, ":random", 50, 80),
-        (call_script, "script_choose_tier_4_infantry"),
-      (else_try),
-        (is_between, ":random", 80, 95),
-        (call_script, "script_choose_tier_5_infantry"),
-      (else_try),
-        (is_between, ":random", 95, 98),
-        (call_script, "script_choose_tier_1_cavallry"),
-      (else_try),
-        (is_between, ":random", 98, 100),
-        (call_script, "script_choose_tier_2_cavallry"),
-      (try_end),
-    (else_try),
-      (assign, reg0, "trp_kingdom_2_lord"), #default-should never be spawned
-    (try_end),
-  ]),
+    ("send_kills_until_upgrade_to_players", [
     
-
-  ("choose_tier_1_infantry", [
-    (store_random_in_range, ":random", 0, 7),
-    (assign, ":troop", -1), #initialize
-    (try_begin),
-      (eq, ":random", 0),
-      (assign, ":troop", "trp_looter"),
-    (else_try),
-      (eq, ":random", 1),
-      (assign, ":troop", "trp_sarranid_recruit"),
-    (else_try),
-      (eq, ":random", 2),
-      (assign, ":troop", "trp_farmer"),
-    (else_try),
-      (eq, ":random", 3),
-      (assign, ":troop", "trp_belligerent_drunk"),
-    (else_try),
-      (eq, ":random", 4),
-      (assign, ":troop", "trp_fight_promoter"),
-    (else_try),
-      (eq, ":random", 5),
-      (assign, ":troop", "trp_rhodok_tribesman"),
-    (else_try),
-      (eq, ":random", 6),
-      (assign, ":troop", "trp_khergit_tribesman"),
-    (try_end),
-    (assign, reg0, ":troop"),
-  ]),
-
-  ("choose_tier_2_infantry", [
-    (store_random_in_range, ":random", 0, 7),
-    (assign, ":troop", -1), #initialize
-    (try_begin),
-      (eq, ":random", 0),
-      (assign, ":troop", "trp_bandit"),
-    (else_try),
-      (eq, ":random", 1),
-      (assign, ":troop", "trp_brigand"),
-    (else_try),
-      (eq, ":random", 2),
-      (assign, ":troop", "trp_townsman"),
-    (else_try),
-      (eq, ":random", 3),
-      (assign, ":troop", "trp_swadian_recruit"),
-    (else_try),
-      (eq, ":random", 4),
-      (assign, ":troop", "trp_forest_bandit"),
-    (else_try),
-      (eq, ":random", 5),
-      (assign, ":troop", "trp_nord_recruit"),
-    (else_try),
-      (eq, ":random", 6),
-      (assign, ":troop", "trp_vaegir_recruit"),
-    (try_end),
-    (assign, reg0, ":troop"),
-  ]),
-  ("choose_tier_3_infantry", [
-    (store_random_in_range, ":random", 0, 8),
-    (assign, ":troop", -1), #initialize
-    (try_begin),
-      (eq, ":random", 0),
-      (assign, ":troop", "trp_desert_bandit"),
-    (else_try),
-      (eq, ":random", 1),
-      (assign, ":troop", "trp_swadian_militia"),
-    (else_try),
-      (eq, ":random", 2),
-      (assign, ":troop", "trp_sarranid_skirmisher"),
-    (else_try),
-      (eq, ":random", 3),
-      (assign, ":troop", "trp_vaegir_skirmisher"),
-    (else_try),
-      (eq, ":random", 4),
-      (assign, ":troop", "trp_rhodok_trained_spearman"),
-    (else_try),
-      (eq, ":random", 5),
-      (assign, ":troop", "trp_nord_footman"),
-    (else_try),
-      (eq, ":random", 6),
-      (assign, ":troop", "trp_khergit_skirmisher"),
-    (else_try),
-      (eq, ":random", 7),
-      (assign, ":troop", "trp_vaegir_footman"),
-    (try_end),
-    (assign, reg0, ":troop"),
-  ]),
-  ("choose_tier_4_infantry", [
-    (store_random_in_range, ":random", 0, 4),
-    (assign, ":troop", -1), #initialize
-    (try_begin),
-      (eq, ":random", 0),
-      (assign, ":troop", "trp_nord_warrior"),
-    (else_try),
-      (eq, ":random", 1),
-      (assign, ":troop", "trp_khergit_horseman"),
-    (else_try),
-      (eq, ":random", 2),
-      (assign, ":troop", "trp_vaegir_veteran"),
-    (else_try),
-      (eq, ":random", 3),
-      (assign, ":troop", "trp_mercenary_swordsman"),
-    (try_end),
-    (assign, reg0, ":troop"),
-  ]),
-  ("choose_tier_5_infantry", [
-    (store_random_in_range, ":random", 0, 4),
-    (assign, ":troop", -1), #initialize
-    (try_begin),
-      (eq, ":random", 0),
-      (assign, ":troop", "trp_nord_champion"),
-    (else_try),
-      (eq, ":random", 1),
-      (assign, ":troop", "trp_vaegir_spearman_multiplayer_coop_tier_4"),
-    (else_try),
-      (eq, ":random", 2),
-      (assign, ":troop", "trp_rhodok_sergeant_multiplayer_coop_tier_4"),
-    (else_try),
-      (eq, ":random", 3),
-      (assign, ":troop", "trp_khergit_lancer_multiplayer_coop_tier_4"),
-    (try_end),
-    (assign, reg0, ":troop"),
-  ]),
-
-  ("choose_tier_1_cavallry", [
-    (store_random_in_range, ":random", 0, 2),
-    (assign, ":troop", -1), #initialize
-    (try_begin),
-      (eq, ":random", 0),
-      (assign, ":troop", "trp_sarranid_mamluke_multiplayer_coop_tier_1"),
-    (else_try),
-      (eq, ":random", 1),
-      (assign, ":troop", "trp_vaegir_horseman_multiplayer_coop_tier_1"),
-    (try_end),
-    (assign, reg0, ":troop"),
-  ]),
-  ("choose_tier_2_cavallry", [
-    (store_random_in_range, ":random", 0, 2),
-    (assign, ":troop", -1), #initialize
-    (try_begin),
-      (eq, ":random", 0),
-      (assign, ":troop", "trp_sarranid_mamluke_multiplayer_coop_tier_2"),
-    (else_try),
-      (eq, ":random", 1),
-      (assign, ":troop", "trp_khergit_lancer_multiplayer_coop_tier_2"),
-    (try_end),
-    (assign, reg0, ":troop"),
-  ]),
-  ("choose_tier_3_cavallry", [
-    (store_random_in_range, ":random", 0, 2),
-    (assign, ":troop", -1), #initialize
-    (try_begin),
-      (eq, ":random", 0),
-      (assign, ":troop", "trp_khergit_lancer"),
-    (else_try),
-      (eq, ":random", 1),
-      (assign, ":troop", "trp_sarranid_mamluke_multiplayer_coop_tier_3"),
-    (try_end),
-    (assign, reg0, ":troop"),
-  ]),
-
-  ("choose_special_troop", [
-    (assign, reg0, "trp_hired_assassin"),
-  ]),
-
-  ("player_troop_changed", [
-    (store_script_param_1, ":player_no"),
-    (player_get_gold, ":player_gold", ":player_no"),
-    (player_get_troop_id, ":curr_player_troop", ":player_no"),
-    (assign, ":player_troop", -1),
-    (try_begin),
-      (is_between, ":player_gold", 0, lvl1_limit),
-      (assign, ":player_troop", "trp_rhodok_spearman"),
-    (else_try),
-      (is_between, ":player_gold", lvl1_limit, lvl2_limit),
-      (assign, ":player_troop", "trp_rhodok_spearman"),
-    (else_try),
-      (is_between, ":player_gold", lvl2_limit, lvl3_limit),
-      (assign, ":player_troop", "trp_rhodok_trained_spearman"),
-    (else_try),
-      (is_between, ":player_gold", lvl3_limit, lvl4_limit),
-      (assign, ":player_troop", "trp_rhodok_veteran_spearman"),
-    (else_try),
-      (is_between, ":player_gold", lvl4_limit, lvl5_limit),
-      (assign, ":player_troop", "trp_nord_warrior"),
-    (else_try),
-      (is_between, ":player_gold", lvl5_limit, lvl6_limit),
-      (assign, ":player_troop", "trp_nord_veteran"),
-    (else_try),
-      (is_between, ":player_gold", lvl6_limit, lvl7_limit),
-      (assign, ":player_troop", "trp_rhodok_sergeant"),
-    (else_try),
-      (is_between, ":player_gold", lvl7_limit, lvl8_limit),
-      (assign, ":player_troop", "trp_swadian_skirmisher"),
-    (else_try),
-      (is_between, ":player_gold", lvl8_limit, lvl9_limit),
-      (assign, ":player_troop", "trp_nord_huntsman"),
-    (else_try),
-      (is_between, ":player_gold", lvl9_limit, lvl10_limit),
-      (assign, ":player_troop", "trp_rhodok_trained_crossbowman"),
-    (else_try),
-      (is_between, ":player_gold", lvl10_limit, lvl11_limit),
-      (assign, ":player_troop", "trp_sarranid_archer"),
-    (else_try),
-      (is_between, ":player_gold", lvl11_limit, lvl11_limit),
-      (assign, ":player_troop", "trp_swadian_sharpshooter"),
-    (else_try),
-      (is_between, ":player_gold", lvl11_limit, lvl12_limit),
-      (assign, ":player_troop", "trp_nord_veteran_archer"),
-    (else_try),
-      (is_between, ":player_gold", lvl12_limit, lvl13_limit),
-      (assign, ":player_troop", "trp_rhodok_sharpshooter"),
-    (else_try),
-      (is_between, ":player_gold", lvl13_limit, lvl14_limit),
-      (assign, ":player_troop", "trp_khergit_veteran_horse_archer"),
-    (else_try),
-      (is_between, ":player_gold", lvl14_limit, lvl15_limit),
-      (assign, ":player_troop", "trp_rhodok_sharpshooter"),
-    (else_try),
-      (is_between, ":player_gold", lvl15_limit, lvl16_limit),
-      (assign, ":player_troop", "trp_sarranid_master_archer"),
-    (else_try),
-      (is_between, ":player_gold", lvl16_limit, lvl17_limit),
-      (assign, ":player_troop", "trp_vaegir_marksman"),
-    (else_try),
-      (is_between, ":player_gold", lvl17_limit, lvl18_limit),
-      (assign, ":player_troop", "trp_vaegir_marksman"),
-    (else_try),
-      (is_between, ":player_gold", lvl18_limit, lvl19_limit),
-      (assign, ":player_troop", "trp_vaegir_marksman"),
-    (else_try),
-      (is_between, ":player_gold", lvl19_limit, lvl20_limit),
-      (assign, ":player_troop", "trp_vaegir_marksman"),
-    (else_try),
-      (is_between, ":player_gold", lvl20_limit, lvl21_limit),
-      (assign, ":player_troop", "trp_vaegir_marksman"),
-    (else_try),
-      (ge, ":player_gold", lvl21_limit),
-      (player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-    (else_try), #default error troop
-      (player_set_troop_id, ":player_no", 0),
-    (try_end),
-    (try_begin),
-      (eq, ":player_troop", ":curr_player_troop"),
-      (assign, reg0, 0),
-      (assign, reg1, 0),
-    (else_try),
-      (assign, reg0, 1),
-      (assign, reg1, ":player_troop"),
-    (try_end),
-  ]),
-
-  ("send_kills_until_upgrade_to_players", [
     (try_for_players, ":player_no", 1),
-      (player_is_active, ":player_no"),
-      (player_get_gold, ":player_gold", ":player_no"),
-      (try_begin),
-        (is_between, ":player_gold", 0, lvl1_limit),
-        (store_sub, ":diff", lvl1_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl1_limit, lvl2_limit),
-        (store_sub, ":diff", lvl2_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl2_limit, lvl3_limit),
-        (store_sub, ":diff", lvl3_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl3_limit, lvl4_limit),
-        (store_sub, ":diff", lvl4_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl4_limit, lvl5_limit),
-        (store_sub, ":diff", lvl5_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl5_limit, lvl6_limit),
-        (store_sub, ":diff", lvl6_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl6_limit, lvl7_limit),
-        (store_sub, ":diff", lvl7_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl7_limit, lvl8_limit),
-        (store_sub, ":diff", lvl8_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl8_limit, lvl9_limit),
-        (store_sub, ":diff", lvl9_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl9_limit, lvl10_limit),
-        (store_sub, ":diff", lvl10_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl10_limit, lvl11_limit),
-        (store_sub, ":diff", lvl11_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl11_limit, lvl12_limit),
-        (store_sub, ":diff", lvl12_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl12_limit, lvl13_limit),
-        (store_sub, ":diff", lvl13_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl13_limit, lvl14_limit),
-        (store_sub, ":diff", lvl14_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl14_limit, lvl15_limit),
-        (store_sub, ":diff", lvl15_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl15_limit, lvl16_limit),
-        (store_sub, ":diff", lvl16_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl16_limit, lvl17_limit),
-        (store_sub, ":diff", lvl17_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl17_limit, lvl18_limit),
-        (store_sub, ":diff", lvl18_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl18_limit, lvl19_limit),
-        (store_sub, ":diff", lvl19_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl19_limit, lvl20_limit),
-        (store_sub, ":diff", lvl20_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl20_limit, lvl21_limit),
-        (store_sub, ":diff", lvl21_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (is_between, ":player_gold", lvl21_limit, lvl22_limit),
-        (store_sub, ":diff", lvl22_limit, ":player_gold"),
-        (assign, reg0, ":diff"),
-      (else_try),
-        (assign, reg0, 0), #full build
-      (try_end),
-      
-      (call_script, "script_send_server_message_to_player", ":player_no", "str_next_upgrade_status"),
-    (try_end),
-  ]),
-  #------------GTD-END--------------
+         (player_is_active, ":player_no"),
+         (player_get_gold, ":player_gold", ":player_no"),
+         (try_begin),
+            (is_between, ":player_gold", 0, lvl1_limit),
+            (store_sub, ":diff", lvl1_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl2_limit),
+            (store_sub, ":diff", lvl2_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl3_limit),
+            (store_sub, ":diff", lvl3_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl4_limit),
+            (store_sub, ":diff", lvl4_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl5_limit),
+            (store_sub, ":diff", lvl5_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl6_limit),
+            (store_sub, ":diff", lvl6_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl7_limit),
+            (store_sub, ":diff", lvl7_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl8_limit),
+            (store_sub, ":diff", lvl8_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl9_limit),
+            (store_sub, ":diff", lvl9_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl10_limit),
+            (store_sub, ":diff", lvl10_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl11_limit),
+            (store_sub, ":diff", lvl11_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl12_limit),
+            (store_sub, ":diff", lvl12_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl13_limit),
+            (store_sub, ":diff", lvl13_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl14_limit),
+            (store_sub, ":diff", lvl14_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl15_limit),
+            (store_sub, ":diff", lvl15_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl16_limit),
+            (store_sub, ":diff", lvl16_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl17_limit),
+            (store_sub, ":diff", lvl17_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl18_limit),
+            (store_sub, ":diff", lvl18_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl19_limit),
+            (store_sub, ":diff", lvl19_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl20_limit),
+            (store_sub, ":diff", lvl20_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl21_limit),
+            (store_sub, ":diff", lvl21_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (else_try),
+            (is_between, ":player_gold", 0, lvl22_limit),
+            (store_sub, ":diff", lvl22_limit, ":player_gold"),
+            (assign, reg0, ":diff"),
+         (try_end),
+         
+         (call_script, "script_send_server_message_to_player", ":player_no", "str_next_upgrade_status"),
+         (try_end),
+    
+    
+    ]),
+     
 ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

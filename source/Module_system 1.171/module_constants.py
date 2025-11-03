@@ -1140,6 +1140,10 @@ scene_prop_ccoop_item_drop_start    = 7 #For keeping track of who has opened dro
 scene_prop_ccoop_item_drop_end      = scene_prop_ccoop_item_drop_start + 10
 #INVASION MODE END
 
+#------------GTD-BEGIN----------------
+scene_prop_position = 20
+#------------GTD-END----------------
+
 ########################################################
 rel_enemy   = 0
 rel_neutral = 1
@@ -1632,11 +1636,16 @@ village_elders_end     = "trp_merchants_end"
 startup_merchants_begin = "trp_swadian_merchant"
 startup_merchants_end = "trp_startup_merchants_end"
 
-num_max_items = 10000 #used for multiplayer mode
+#------------GTD-BEGIN----------------
+
+num_max_items = 100000 #used for multiplayer mode #modded from 10000 
 
 average_price_factor = 1000
 minimum_price_factor = 100
-maximum_price_factor = 10000
+maximum_price_factor = 100000 #modded from 10000
+
+#------------GTD-END----------------
+
 
 village_prod_min = 0 #was -5
 village_prod_max = 20 #was 20
