@@ -2,13 +2,15 @@
 .DESCRIPTION
     This script performs the following actions:
     1. Checks if all required files are present.
-    2. Reads the database settings (DB_ variables) and register settings (VAR_ variables)
-        from "databaseSettings.txt".
+    2. Reads all database (DB_) and variable (VAR_) settings
+        from "databaseSettings.txt" into a dynamic hashtable.
     3. Creates a backup of "module_scripts.py".
-    4. Modifies "module_scripts.py" by finding the #<DATABASE_FUNCTIONS_START/END>
-        markers and replacing the URLs inside the save_player_gold and
-        load_player_gold definitions using the loaded settings.
-    5. Creates "webpage.php" from "webpage_template.php" and saves it in the $BuildDir.
+    4. Modifies "module_scripts.py" within the #<DATABASE_FUNCTIONS_START/END> block
+        by finding lines with *both* a function (e.g., (assign, ) and a marker (e.g., #<MARKER>)
+        and rebuilding those lines using dynamic values from the settings file.
+        This version fixes the "True" output to the console.
+    5. Creates "webpage.php" from "webpage_template.php" by dynamically replacing
+        all found [KEY] placeholders and saves it in the $BuildDir.
 #>
 
 # Stop the script on terminating errors
@@ -47,7 +49,6 @@ if (-not (Test-Path -Path $PhpTemplateIn -PathType Leaf)) {
 }
 
 Write-Host "All required files found."
-Write-Host ""
 
 # === 2.5. ENSURE BUILD DIRECTORY EXISTS ===
 Write-Host "Checking for build directory: $BuildDir..."
@@ -62,129 +63,146 @@ if (-not (Test-Path -Path $BuildDir -PathType Container)) {
 } else {
     Write-Host "Build directory found."
 }
-Write-Host ""
 
 
 # === 3. PARSE SETTINGS ===
 Write-Host "Loading settings from $SettingsFile..."
+$Settings = @{} # Create a hashtable to store all settings
 try {
-    # Get all lines that start with "DB_" or "VAR_" and process them
     Get-Content -Path $SettingsFile | Where-Object { $_ -match "^(DB_|VAR_)" } | ForEach-Object {
-        # Split the line at the '=' sign
         $key, $value = $_ -Split '=', 2
         $key = $key.Trim()
         $value = $value.Trim()
         
-        # Dynamically create a variable in the script scope
-        New-Variable -Name $key -Value $value -Scope Script
-        Write-Host "Variable $key set to $value"
+        if (-not [string]::IsNullOrEmpty($key)) {
+            $Settings[$key] = $value
+            #Write-Host "  Loaded: $key = $value"
+        }
     }
 } catch {
     Exit-Script "ERROR reading or parsing $SettingsFile : `n$($_.Exception.Message)"
 }
-Write-Host ""
+Write-Host "Settings loaded successfully."
 
 # === 4. CREATE BACKUP ===
 Write-Host "Creating backup: $ModuleScriptBackup..."
 try {
-    Copy-Item -Path $ModuleScriptIn -Destination $ModuleScriptBackup -Force
+    Copy-Item -Path $ModuleScriptIn -Destination $ModuleScriptBackup -Force | Out-Null
     Write-Host "Backup created successfully."
 } catch {
     Exit-Script "ERROR: Could not create backup $ModuleScriptBackup. Aborting.`n$($_.Exception.Message)"
 }
-Write-Host ""
 
-# === 5. MODIFY module_scripts.py (Robust Method) ===
-Write-Host "Modifying $ModuleScriptIn using bounded markers..."
+# === 5. MODIFY module_scripts.py (Precise Line-by-Line Rebuild) ===
+Write-Host "Modifying $ModuleScriptIn..."
 try {
     $content = Get-Content -Path $ModuleScriptIn -Raw
-    
-    # Define your markers
+
+    # Define markers
     $startMarker = "#<DATABASE_FUNCTIONS_START>"
     $endMarker = "#<DATABASE_FUNCTIONS_END>"
 
     # Extract the block
     $regex = "(?ms)($startMarker)([\s\S]*?)($endMarker)"
-    
     if ($content -match $regex) {
-        $preBlock = $matches[1]  # Retains the start marker
-        $dbBlock = $matches[2]   # The content to be changed
-        $postBlock = $matches[3] # Retains the end marker
+        $preBlock = $matches[1] # Start marker
+        $dbBlock = $matches[2]  # Content to change
+        $postBlock = $matches[3] # End marker
 
-        Write-Host "Database block found. Applying replacements..."
+        # --- 1. Build URLs from Settings ---
+        $idRegUrl = "{$($Settings['VAR_ID_REG'])}"
+        $goldRegUrl = "{$($Settings['VAR_GOLD_REG'])}"
 
-        # --- Perform your replacements ONLY on the $dbBlock ---
-
-        # --- save_player_gold (Uses DB_EVENT_SET) ---
-        # This regex finds the *entire* URL string for send_message_to_url
-        # inside the save_player_gold script.
-        $saveRegex = '((?s)\("save_player_gold",.*?send_message_to_url, "@)(.*?)("\))'
+        $loadURL = "$($Settings['DB_URL_ADDRESS'])?$($Settings['DB_ID_FIELD_NAME'])=$idRegUrl&$($Settings['VAR_EVENT_PARAM_NAME'])=$($Settings['VAR_EVENT_GET'])"
+        $saveURL = "$($Settings['DB_URL_ADDRESS'])?$($Settings['DB_ID_FIELD_NAME'])=$idRegUrl&$($Settings['DB_GOLD_FIELD_NAME'])=$goldRegUrl&$($Settings['VAR_EVENT_PARAM_NAME'])=$($Settings['VAR_EVENT_SET'])"
         
-        # Build the new URL string from variables (now including $VAR_ID and $VAR_GOLD)
-        $saveURL = "$($DB_URL_ADDRESS)?$($DB_ID)=$($VAR_ID)&$($DB_GOLD)=$($VAR_GOLD)&$($DB_EVENT)=$($DB_EVENT_SET)"
-        
-        $dbBlock = $dbBlock -creplace $saveRegex, ('$1' + $saveURL + '$3')
-        Write-Host "save_player_gold (URL) replaced with: $saveURL"
+        Write-Host "  Built Load URL: $loadURL"
+        Write-Host "  Built Save URL: $saveURL"
 
+        # --- 2. Add ":[variable]" to variables from Settings ---
+        $pyEventVar = '":' + $Settings['VAR_EVENT_PARAM_NAME'] + '"'
+        $pyGoldVar  = '":' + $Settings['DB_GOLD_FIELD_NAME'] + '"'
+        $pyIdVar    = '":' + $Settings['DB_ID_FIELD_NAME'] + '"'
 
-        # --- load_player_gold (Uses DB_EVENT_GET) ---
-        # This regex finds the *entire* URL string for send_message_to_url
-        # inside the load_player_gold script.
-        $loadRegex = '((?s)\("load_player_gold",.*?send_message_to_url, "@)(.*?)("\))'
+        # --- 3. Process the block line by line ---
+        $newDbBlockLinesList = [System.Collections.ArrayList]@()
         
-        # Build the new URL string from variables (now including $VAR_ID)
-        $loadURL = "$($DB_URL_ADDRESS)?$($DB_ID)=$($VAR_ID)&$($DB_EVENT)=$($DB_EVENT_GET)"
-        
-        $dbBlock = $dbBlock -creplace $loadRegex, ('$1' + $loadURL + '$3')
-        Write-Host "load_player_gold (URL) replaced with: $loadURL"
+        ($dbBlock -split "\r?\n") | ForEach-Object {
+            $line = $_
+            
+            $null = $line -match '^(\s*)'
+            $indent = $matches[1]
 
-        
-        # Reassemble the entire content
-        $newContent = $content -creplace $regex, ($preBlock + $dbBlock + $postBlock)
+            $newLine = $line # Default to original line
 
-        # Save the file
-        Set-Content -Path $ModuleScriptIn -Value $newContent -Encoding Ascii -NoNewline
-        Write-Host "Successfully patched $ModuleScriptIn."
+            if ($line -match "\s\(send_message_to_url," -and $line -match "#<URL_GET_MARKER>") {
+                $newLine = "$indent(send_message_to_url, ""@$loadURL""), #<URL_GET_MARKER>"
+                Write-Host "  Rebuilt: $newline"
+            } elseif ($line -match "\s\(send_message_to_url," -and $line -match "#<URL_SET_MARKER>") {
+                $newLine = "$indent(send_message_to_url, ""@$saveURL""), #<URL_SET_MARKER>"
+                Write-Host "  Rebuilt: $newline"
+            } elseif ($line -match "\s\(assign," -and $line -match "#<VAR_EVENT_REG>") {
+                $newLine = "$indent(assign, $pyEventVar, $($Settings['VAR_EVENT_REG'])), #<VAR_EVENT_REG>"
+                Write-Host "  Rebuilt: $newline"
+            } elseif ($line -match "\s\(assign," -and $line -match "#<VAR_ID_REG>") {
+                $newLine = "$indent(assign, $pyIdVar, $($Settings['VAR_ID_REG'])), #<VAR_ID_REG>"
+                Write-Host "  Rebuilt: $newline"
+            } elseif ($line -match "\s\(assign," -and $line -match "#<VAR_GOLD_REG>") {
+                $newLine = "$indent(assign, $pyGoldVar, $($Settings['VAR_GOLD_REG'])), #<VAR_GOLD_REG>"
+                Write-Host "  Rebuilt: $newline"
+            } elseif ($line -match "\s\(eq," -and $line -match "#<FAIL_EVENT_NO>") {
+                $newLine = "$indent(eq, $pyEventVar, $($Settings['VAR_EVENT_FAIL'])), #<FAIL_EVENT_NO>"
+                Write-Host "  Rebuilt: $newline"
+            } elseif ($line -match "\s\(eq," -and $line -match "#<SUCCESS_EVENT_NO>") {
+                $newLine = "$indent(eq, $pyEventVar, $($Settings['VAR_EVENT_SUCCESS'])), #<SUCCESS_EVENT_NO>"
+                Write-Host "  Rebuilt: $newline"
+            }
+            
+            $null = $newDbBlockLinesList.Add($newLine)
+        }
+
+        # Join lines using `n (LF) to prevent \r\n (CRLF) issues
+        $newDbBlock = $newDbBlockLinesList -join "`n"
+
+        # Reassemble the full file content
+        $newContent = $content -replace [regex]::Escape($dbBlock), $newDbBlock
         
+        Set-Content -Path $ModuleScriptIn -Value $newContent -Encoding 'Default'
+        Write-Host "Successfully modified $ModuleScriptIn."
+
     } else {
-        # This error occurs if the markers were not found in module_scripts.py
-        Exit-Script "ERROR: Could not find markers '$startMarker' and '$endMarker' in $ModuleScriptIn. No changes made. Please add the markers to your Python file."
+        Write-Warning "Could not find start/end markers '$startMarker' and '$endMarker' in $ModuleScriptIn. No changes made. Please add the markers to your Python file."
     }
 } catch {
     Exit-Script "ERROR modifying $ModuleScriptIn.`n$($_.Exception.Message)"
 }
-Write-Host ""
 
-# === 6. EDIT PHP FILE ===
+
+# === 6. EDIT PHP FILE (Dynamic Method) ===
 Write-Host "Replacing placeholders in $PhpTemplateIn and creating $PhpOut..."
 try {
-    # Read the template as *one* single text block
     $phpContent = Get-Content -Path $PhpTemplateIn -Raw
 
-    # Perform all replacements sequentially in memory
-    # Note: -creplace is case-sensitive
-    $phpContent = $phpContent -creplace '\[DB_HOST\]', $DB_HOST
-    $phpContent = $phpContent -creplace '\[DB_USER\]', $DB_USER
-    $phpContent = $phpContent -creplace '\[DB_PASS\]', $DB_PASS
-    $phpContent = $phpContent -creplace '\[DB_NAME\]', $DB_NAME
-    $phpContent = $phpContent -creplace '\[DB_TABLE\]', $DB_TABLE
-    $phpContent = $phpContent -creplace '\[DB_EVENT_VAR\]', $DB_EVENT
-    $phpContent = $phpContent -creplace '\[DB_EVENT_GET_VAL\]', $DB_EVENT_GET
-    $phpContent = $phpContent -creplace '\[DB_EVENT_SET_VAL\]', $DB_EVENT_SET
-    $phpContent = $phpContent -creplace '\[DB_ID_COL\]', $DB_ID
-    $phpContent = $phpContent -creplace '\[DB_GOLD_COL\]', $DB_GOLD
+    foreach ($key in $Settings.Keys) {
+        $value = $Settings[$key]
+        $placeholder = "\[" + [regex]::Escape($key) + "\]"
+        
+        if ($phpContent -match $placeholder) {
+            $phpContent = $phpContent -creplace $placeholder, $value
+        }
+    }
 
-    # Write the destination file *once*
-    Set-Content -Path $PhpOut -Value $phpContent -Encoding Default
-    
-    Write-Host "$PhpOut created successfully."
-
+    Set-Content -Path $PhpOut -Value $phpContent -Encoding UTF8
+    Write-Host "Successfully created $PhpOut."
 } catch {
-    Exit-Script "ERROR while creating $PhpOut.`n$($_.Exception.Message)"
+    Exit-Script "ERROR processing $PhpTemplateIn or creating $PhpOut.`n$($_.Exception.Message)"
 }
-Write-Host ""
 
-# === 7. COMPLETION ===
-Write-Host "Done! $ModuleScriptIn and $PhpOut have been created/updated."
+# === 7. FINAL PROMPT ===
+Write-Host "-------------------------------------"
+Write-Host "Settings successfully loaded."
+Write-Host " - $ModuleScriptIn has been modified."
+Write-Host " - $PhpOut has been created/updated in $BuildDir."
+Write-Host "-------------------------------------"
 Write-Host "Press Enter to exit."
 $null = Read-Host

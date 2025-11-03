@@ -8637,11 +8637,12 @@ mission_templates = [
 
          # initialize is_wave_over variable
          (assign, ":is_wave_over", 1),
-         # upper limit for agents to check
-         (assign, ":max_agents_end_cond", 1000), 
-
+         # upper limit for agents to check, less than 500 players
+         #non ideal solution, but can't set outside variable from inside
+         #try_for_agent loop
+         (assign, ":max_agents_end_cond", 500), 
          # check if no agent of team 1 is alive (all bots dead)
-         # starting from 1; starting at 0 causes opcode error when trying human with id 0
+         # starting from 1 player id0 = server entity/player
          (try_for_range, ":agent_no", 1, ":max_agents_end_cond"),
            (agent_is_active, ":agent_no"),
            (agent_get_team, ":agent_team", ":agent_no"),

@@ -10,22 +10,37 @@
 # -> rejoining the server doesn't affect progress
 # the module_scripts.py File is expected to be in ../Module_system 1.171/
 
-### Database Section for module_scripts.py ###
+# The following is a default implementation 
+# with minimal no. of parameters:
+# Abstract message template:
+# [event type]|[user id]|[gold]
+# [return int]|[user id]|[gold]
+# corresponding warband registers
+# reg0        | reg1    | reg2
+
+### PHP communication information ###
+VAR_EVENT_PARAM_NAME = event
+VAR_EVENT_GET = 1
+VAR_EVENT_SET = 2
+VAR_EVENT_SUCCESS = 1
+VAR_EVENT_FAIL = -1
+VAR_EVENT_REG = reg0
+VAR_ID_REG = reg1
+VAR_GOLD_REG = reg2
+
+
+### Database information ###
 DB_URL_ADDRESS = http://localhost/webpage.php
-DB_ID = user_id
-DB_GOLD = gold
+# Name of the database ID field
+DB_ID_FIELD_NAME = unique_id
+# Name of the database gold field
+DB_GOLD_FIELD_NAME = gold
 
-### PHP Section for module_scripts.py ###
-DB_EVENT = event
-DB_EVENT_GET = 1
-DB_EVENT_SET = 2
-VAR_ID = {reg1}
-VAR_GOLD = {reg2}
 
-### Database Section for webpage.php ###
+### Database connection information ###
 DB_HOST = localhost
 DB_USER = root
-DB_PASS = your_password
-DB_NAME = warband_database
-DB_TABLE = players
+DB_PASS = 
+DB_NAME = warband
+DB_TABLE = wb_td
 
