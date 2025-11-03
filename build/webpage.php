@@ -17,12 +17,7 @@ $gold_col = "gold";
 
 // Error handling: Ensure minimal GET parameters are present
 if (!isset($_GET[$event_var]) || !isset($_GET[$id_col])) {
-    die("Error: Missing parameters.");
-}
-
-function return_error()
-{
-    echo "$event_fail|0|0";
+    die("$event_fail|0|0");
 }
 
 // Retrieve parameters
@@ -32,7 +27,7 @@ $user_id = $_GET[$id_col];
 // --- Database Connection ---
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("$event_fail|0|0");
 }
 
 // Prevent SQL Injection
@@ -42,6 +37,12 @@ $user_id_safe = $conn->real_escape_string($user_id);
 if ($event == $event_get) {
     // EVENT: RETRIEVE DATA (GET)
     $sql = "SELECT $gold_col FROM $db_table WHERE $id_col = '$user_id_safe' LIMIT 1";
+    try {
+        $result = $conn->query($sql);
+    } catch (Exception $e) {
+        die("$event_fail|0|0");
+        exit();
+    }
     $result = $conn->query($sql);
     
     $gold_value = "0";
@@ -59,7 +60,7 @@ if ($event == $event_get) {
         
         // Input Validation: Must be a non-negative integer
         if (!ctype_digit($gold)) {
-            die("Error: Invalid gold value. Must be a non-negative integer.");
+            die("$event_fail|0|0");
         }
         
         // Prevent SQL Injection
@@ -74,18 +75,18 @@ if ($event == $event_get) {
                 // Confirmation response: key=value
                 echo "$event_success|$user_id_safe|$gold_safe";
             } else {
-                return_error();
+                die("$event_fail|0|0");
             }
         } catch (Exception $e) {
-            return_error();
+            die("$event_fail|0|0");
         }
         
     } else {
-        return_error();
+        die("$event_fail|0|0");
     }
     
 } else {
-    return_error();
+    die("$event_fail|0|0");
 }
 
 $conn->close();
