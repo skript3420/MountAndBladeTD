@@ -4343,7 +4343,7 @@ We apologize sincerely if you contributed your suggestions and feedback but were
   #GTD Mod Strings
   ("server_message_test","Test"),
   ("reg0_debug","reg0 is: {reg0}"),
-  ("msg_malformed", "ERROR: Database resultstring not expected! reg0: {reg0} reg1: {reg1} s0: {s0}"),
+  ("msg_malformed", "ERROR: Database resultstring unexpected! reg0: {reg0} reg1: {reg1} reg2: {reg2} reg3: {reg3} s0: {s0} s1: {s1}"),
   ("msg_error", "ERROR: Database communication error!"),
   ("msg_event_error", "ERROR: Database eventcode unknown! eventcode: {reg0}"),
   ("msg_success", "SUCCESS: received Uid: {reg1} Gold: {reg2}"),

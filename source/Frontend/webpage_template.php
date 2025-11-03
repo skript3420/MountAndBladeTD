@@ -1,4 +1,21 @@
 <?php
+// Safe functions to comply with Warband encoding UTF-8 without BOM
+function safe_echo($output_string) {
+    // Force the string to be UTF-8
+    $utf8_string = mb_convert_encoding($output_string, 'UTF-8', 'auto');
+    
+    // Remove the UTF-8 BOM (hex: EF BB BF) from the beginning of the string
+    $cleaned_string = preg_replace('/^\x{EF}\x{BB}\x{BF}/', '', $utf8_string);
+    
+    echo $cleaned_string;
+}
+
+function safe_die($output_string) {
+    safe_echo($output_string); // Use our new clean function
+    exit(); // Stop the script
+}
+
+
 // ### DATABASE SETTINGS (OVERWRITTEN BY Load_Settings.ps1) ###
 $db_host = "[DB_HOST]";
 $db_user = "[DB_USER]";
@@ -17,7 +34,7 @@ $gold_col = "[DB_GOLD_FIELD_NAME]";
 
 // Error handling: Ensure minimal GET parameters are present
 if (!isset($_GET[$event_var]) || !isset($_GET[$id_col])) {
-    die("$event_fail|0|0");
+    safe_die("$event_fail|0|0"); // USE SAFE_DIE
 }
 
 // Retrieve parameters
@@ -27,7 +44,7 @@ $user_id = $_GET[$id_col];
 // --- Database Connection ---
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
 if ($conn->connect_error) {
-    die("$event_fail|0|0");
+    safe_die("$event_fail|0|0"); // USE SAFE_DIE
 }
 
 // Prevent SQL Injection
@@ -40,7 +57,7 @@ if ($event == $event_get) {
     try {
         $result = $conn->query($sql);
     } catch (Exception $e) {
-        die("$event_fail|0|0");
+        safe_die("$event_fail|0|0"); // USE SAFE_DIE
     }
     $result = $conn->query($sql);
     
@@ -50,7 +67,7 @@ if ($event == $event_get) {
         $row = $result->fetch_assoc();
         $gold_value = $row[$gold_col];
         // Prevent SQL Injection
-        echo "$event_success|$user_id_safe|$gold_value";
+        safe_echo("$event_success|$user_id_safe|$gold_value"); // USE SAFE_ECHO
     }
 
     else{
@@ -60,12 +77,12 @@ if ($event == $event_get) {
 
             if ($conn->query($sql) === TRUE) {
                 // Confirmation response: key=value
-                echo "$event_success|$user_id_safe|$gold_value";
+                safe_echo("$event_success|$user_id_safe|$gold_value"); // USE SAFE_ECHO
             } else {
-                die("$event_fail|0|0");
+                safe_die("$event_fail|0|0"); // USE SAFE_DIE
             }
         } catch (Exception $e) {
-            die("$event_fail|0|0");
+            safe_die("$event_fail|0|0"); // USE SAFE_DIE
         }
     }
 
@@ -76,7 +93,7 @@ if ($event == $event_get) {
         
         // Input Validation: Must be a non-negative integer
         if (!ctype_digit($gold_value)) {
-            die("$event_fail|0|0");
+            safe_die("$event_fail|0|0"); // USE SAFE_DIE
         }
         // Prevent SQL Injection
         $gold_safe = $conn->real_escape_string($gold_value);
@@ -87,20 +104,20 @@ if ($event == $event_get) {
         try {
             if ($conn->query($sql) === TRUE) {
                 // Confirmation response: key=value
-                echo "$event_success|$user_id_safe|$gold_safe";
+                safe_echo("$event_success|$user_id_safe|$gold_safe"); // USE SAFE_ECHO
             } else {
-                die("$event_fail|0|0");
+                safe_die("$event_fail|0|0"); // USE SAFE_DIE
             }
         } catch (Exception $e) {
-            die("$event_fail|0|0");
+            safe_die("$event_fail|0|0"); // USE SAFE_DIE
         }
         
     } else {
-        die("$event_fail|0|0");
+        safe_die("$event_fail|0|0"); // USE SAFE_DIE
     }
     
 } else {
-    die("$event_fail|0|0");
+    safe_die("$event_fail|0|0"); // USE SAFE_DIE
 }
 
 $conn->close();
