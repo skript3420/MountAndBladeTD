@@ -4346,7 +4346,7 @@ We apologize sincerely if you contributed your suggestions and feedback but were
   ("msg_malformed", "ERROR: Database resultstring does not match expected format!"),
   ("msg_error", "ERROR: Database communication error!"),
   ("msg_event_error", "ERROR: Database eventcode unknown! eventcode: {reg0}"),
-  ("str_msg_success", "SUCCESS: received Uid: {reg1} Gold: {reg2}"),
+  ("msg_success", "SUCCESS: received Uid: {reg1} Gold: {reg2}"),
   ("load_gold_error", "ERROR: Can't load player Id, player Id was invalid!"),
   ("save_gold_error", "ERROR: Can't save player gold, player Id was invalid!"),
   ("next_wave_incoming", "^######################^ Wave: {reg0} incoming! ^######################"),

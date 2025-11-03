@@ -50,22 +50,22 @@ if ($event == $event_get) {
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $gold_value = $row[$gold_col];
+        // Prevent SQL Injection
+        $gold_safe = $conn->real_escape_string($gold_value);
+        echo "$event_success|$user_id_safe|$gold_safe";
     }
-    echo "$event_success|$user_id_safe|$gold_safe";
 
 } elseif ($event == $event_set) {
     // EVENT: SAVE DATA (SET)
     if (isset($_GET[$gold_col])) {
-        $gold = $_GET[$gold_col];
+        $gold_value = $_GET[$gold_col];
         
         // Input Validation: Must be a non-negative integer
-        if (!ctype_digit($gold)) {
+        if (!ctype_digit($gold_value)) {
             die("$event_fail|0|0");
         }
-        
         // Prevent SQL Injection
-        $gold_safe = $conn->real_escape_string($gold);
-        
+        $gold_safe = $conn->real_escape_string($gold_value);
         // UPSERT logic: Insert or Update
         $sql = "INSERT INTO $db_table ($id_col, $gold_col) VALUES ('$user_id_safe', '$gold_safe')
                 ON DUPLICATE KEY UPDATE $gold_col = '$gold_safe'";

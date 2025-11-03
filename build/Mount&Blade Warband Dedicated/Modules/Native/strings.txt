@@ -1,5 +1,5 @@
 stringsfile version 1
-3411
+3415
 str_no_string NO_STRING!
 str_empty_string _
 str_yes Yes.
@@ -3401,8 +3401,12 @@ str_npc15_1 -Good_with_2h_and_bows^-Poor_with_crossbows_and_throwing
 str_npc16_1 -Good_with_throwing_and_1h^-Poor_with_2h_and_crossbows
 str_server_message_test Test
 str_reg0_debug reg0_is:_{reg0}
-str_database_error ERROR:_Database_Resultstring_does_not_match_format!
-str_load_gold_error ERROR:_Cant_load_Player_Id,_Id_was_invalid!
+str_msg_malformed ERROR:_Database_resultstring_does_not_match_expected_format!
+str_msg_error ERROR:_Database_communication_error!
+str_msg_event_error ERROR:_Database_eventcode_unknown!_eventcode:_{reg0}
+str_str_msg_success SUCCESS:_received_Uid:_{reg1}_Gold:_{reg2}
+str_load_gold_error ERROR:_Can't_load_player_Id,_player_Id_was_invalid!
+str_save_gold_error ERROR:_Can't_save_player_gold,_player_Id_was_invalid!
 str_next_wave_incoming ^######################^_Wave:_{reg0}_incoming!_^######################
 str_current_wave ^######################^_Current_Wave:_{reg0}/20_^######################
 str_you_loose_message ^######################^Game_Over___^Get_100_Bonus_Kills_if_you_win_next_time!^######################
