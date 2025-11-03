@@ -10,12 +10,19 @@ $db_table = "[DB_TABLE]";
 $event_var = "[VAR_EVENT_PARAM_NAME]";
 $event_get = "[VAR_EVENT_GET]";
 $event_set = "[VAR_EVENT_SET]";
+$event_fail = "[VAR_EVENT_FAIL]";
+$event_success = "[VAR_EVENT_SUCCESS]";
 $id_col = "[DB_ID_FIELD_NAME]";
 $gold_col = "[DB_GOLD_FIELD_NAME]";
 
 // Error handling: Ensure minimal GET parameters are present
 if (!isset($_GET[$event_var]) || !isset($_GET[$id_col])) {
     die("Error: Missing parameters.");
+}
+
+function return_error()
+{
+    echo "$event_fail|0|0";
 }
 
 // Retrieve parameters
@@ -32,23 +39,18 @@ if ($conn->connect_error) {
 $user_id_safe = $conn->real_escape_string($user_id);
 
 // --- Event Processing ---
-
 if ($event == $event_get) {
     // EVENT: RETRIEVE DATA (GET)
     $sql = "SELECT $gold_col FROM $db_table WHERE $id_col = '$user_id_safe' LIMIT 1";
     $result = $conn->query($sql);
-
+    
     $gold_value = "0";
-
+    
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $gold_value = $row[$gold_col];
     }
-    
-    // Response Format for Warband: key=value
-    echo "$id_col=" . $user_id_safe . "\n";
-    echo "$gold_col=" . $gold_value;
-
+    echo "$event_success|$user_id_safe|$gold_safe";
 
 } elseif ($event == $event_set) {
     // EVENT: SAVE DATA (SET)
@@ -62,23 +64,28 @@ if ($event == $event_get) {
         
         // Prevent SQL Injection
         $gold_safe = $conn->real_escape_string($gold);
-
+        
         // UPSERT logic: Insert or Update
         $sql = "INSERT INTO $db_table ($id_col, $gold_col) VALUES ('$user_id_safe', '$gold_safe')
                 ON DUPLICATE KEY UPDATE $gold_col = '$gold_safe'";
-
-        if ($conn->query($sql) === TRUE) {
-            // Confirmation response: key=value
-            echo "$id_col=" . $user_id_safe . "\n";
-            echo "$gold_col=" . $gold_safe;
-        } else {
-            echo "Error: " . $conn->error;
+        
+        try {
+            if ($conn->query($sql) === TRUE) {
+                // Confirmation response: key=value
+                echo "$event_success|$user_id_safe|$gold_safe";
+            } else {
+                return_error();
+            }
+        } catch (Exception $e) {
+            return_error();
         }
+        
     } else {
-        echo "Error: Missing gold parameter for SET event.";
+        return_error();
     }
+    
 } else {
-    echo "Error: Invalid event type.";
+    return_error();
 }
 
 $conn->close();

@@ -161,8 +161,8 @@ try {
             $null = $newDbBlockLinesList.Add($newLine)
         }
 
-        # Join lines using `n (LF) to prevent \r\n (CRLF) issues
-        $newDbBlock = $newDbBlockLinesList -join "`n"
+        
+        $newDbBlock = $newDbBlockLinesList -join "`r`n"
 
         # Reassemble the full file content
         $newContent = $content -replace [regex]::Escape($dbBlock), $newDbBlock
