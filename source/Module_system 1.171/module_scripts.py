@@ -9261,57 +9261,7 @@ scripts = [
       (assign, reg0, ":most_suitable_bot"),
     ]),
 
-  #script_game_receive_url_response
-  #response format should be like this:
-  #  [a number or a string]|[another number or a string]|[yet another number or a string] ...
-  # here is an example response:
-  # 12|Player|100|another string|142|323542|34454|yet another string
-  # INPUT: arg1 = num_integers, arg2 = num_strings
-  # reg0, reg1, reg2, ... up to 128 registers contain the integer values
-  # s0, s1, s2, ... up to 128 strings contain the string values
-##  ("game_receive_url_response",
-##   [
-##     #here is an example usage
-##      (store_script_param, ":num_integers", 1),
-##      (store_script_param, ":num_strings", 2),
-##      (try_begin),
-##        (gt, ":num_integers", 4),
-##        (display_message, "@{reg0}, {reg1}, {reg2}, {reg3}, {reg4}"),
-##      (try_end),
-##      (try_begin),
-##        (gt, ":num_strings", 4),
-##        (display_message, "@{s0}, {s1}, {s2}, {s3}, {s4}"),
-##      (try_end),
-##      ]),
-	  
-	("game_receive_url_response", 
-    [
-    (store_script_param, ":num_integers", 1),
-    (store_script_param, ":num_strings", 2),
-    (try_begin),
-      #check msg format
-      (neq, ":num_integers", 3),
-      (neq, ":num_strings", 0), 
-    (else_try), 
-      #process msg
-      (assign, ":event", reg0), #<VAR_EVENT_REG>
-      (try_begin),
-        (eq, ":event", -1), #<FAIL_EVENT_NO>
-      (else_try),
-        (eq, ":event", 1), #<SUCCESS_EVENT_NO>
-        (assign, ":unique_id", reg1), #<VAR_ID_REG>
-        (assign, ":gold", reg2), #<VAR_GOLD_REG>
-        #assign gold
-        (try_for_players, ":player_no", 1),
-          (player_is_active, ":player_no"),
-          (player_get_unique_id, ":player_unique_id", ":player_no"),
-          (eq, ":player_unique_id", ":unique_id"),
-          (player_set_gold, ":player_no", ":gold"),
-        (try_end),
-      (else_try),
-      (try_end),
-    (try_end),
-  ]),
+
       
   ("game_get_cheat_mode",
   [
@@ -51324,7 +51274,7 @@ scripts = [
 ]),
 
 
-#modded scripts
+
 
 ("send_server_message_to_players",
   [
@@ -51346,30 +51296,97 @@ scripts = [
      (server_add_message_to_log, ":string"),
   ]),   
   
-	 #Database Querys
-	 
-	 ("save_player_gold",[
-        (store_script_param_1, reg0),#reg0 = player_id
-       
-        (player_get_unique_id, reg1, reg0),
-        (player_get_gold, reg2, reg0),
-        (str_store_player_username, s0, reg0),
-        (send_message_to_url, "@http://skript3400.ddns.net/warband.php?unique_id={reg1}&local_id={reg0}&event=2&username={s0}&gold={reg2}"),
-    ]),
-   
-    ("load_player_gold",[
-		(store_script_param_1, reg0),#reg0 = player_id
-		(try_begin),
-			(neq, reg0,0),
-			(player_is_active, reg0),
-			(player_get_unique_id, reg1, reg0),
-			(str_store_player_username, s0, reg0),
-			(send_message_to_url, "@http://skript3400.ddns.net/warband.php?unique_id={reg1}&local_id={reg0}&event=1&username={s0}"),
-		(else_try),
-			(eq, reg0, 0),
-			(display_message, "str_load_gold_error"),#error will display in console window
-		(try_end),
-	]),
+
+  ("send_server_message_to_players",
+    [
+    (store_script_param_1, ":string"),
+    (try_for_players, ":player_no"), 
+      #(get_max_players,":max"),
+      #(try_for_range,":player",0,":max"),
+      (player_is_active,":player_no"),
+      (multiplayer_send_string_to_player,":player_no",multiplayer_event_show_server_message,":string"),  
+      (try_end),
+      (server_add_message_to_log, ":string"),
+  ]),
+
+  ("send_server_message_to_player",
+    [
+    (store_script_param_1, ":player_no"),
+    (store_script_param_2, ":string"),
+      (multiplayer_send_string_to_player,":player_no",multiplayer_event_show_server_message,":string"),  
+      (server_add_message_to_log, ":string"),
+  ]),   
+    
+    
+#<DATABASE_FUNCTIONS_START>
+
+  ("load_player_gold",[
+    (store_script_param_1, reg0),#reg0 = player_id
+    (try_begin),
+      (neq, reg0,0),
+      (player_is_active, reg0),#reg0 = player_id, integer
+      (player_get_unique_id, reg1, reg0),#reg1 = unique steam id
+      (send_message_to_url, "@http://localhost/webpage.php?unique_id={reg1}&event=1"), #<URL_GET_MARKER>
+    (else_try),
+      (le, reg0, 0), #player_id 0 = server entity/player
+      (display_message, "str_load_gold_error"),#error will display in console window
+    (try_end),
+  ]),
+
+  ("save_player_gold",[
+    (store_script_param_1, reg0),#reg0 = player_id, integer
+    (try_begin),
+      (player_get_unique_id, reg1, reg0),#reg1 = unique steam id
+      (player_get_gold, reg2, reg0),#reg2 = player gold amount
+      (send_message_to_url, "@http://localhost/webpage.php?unique_id={reg1}&gold={reg2}&event=2"), #<URL_SET_MARKER>
+    (else_try),
+      (le, reg0, 0),  #player_id 0 = server entity/player
+      (display_message, "str_save_gold_error"),#error will display in console window
+    (try_end),
+  ]),
+
+# load player's gold from database
+  # message template:
+  # event | unique_id | gold
+  # reg0  | reg1      | reg2
+  # event success: 1
+  # event failed: -1
+  # don't change the following <MARKERS>
+  ("game_receive_url_response", 
+    [
+    (store_script_param, ":num_integers", 1),
+    (store_script_param, ":num_strings", 2),
+    (try_begin),
+      #check msg format
+      (neq, ":num_integers", 3),
+      (neq, ":num_strings", 0), 
+      (display_message, "str_msg_malformed"),
+    (else_try), 
+      #process msg
+      (assign, ":event", reg0), #<VAR_EVENT_REG>
+      (try_begin),
+        (eq, ":event", -1), #<FAIL_EVENT_NO>
+          (display_message, "str_msg_error"),
+      (else_try),
+        (eq, ":event", 1), #<SUCCESS_EVENT_NO>
+        (assign, ":unique_id", reg1), #<VAR_ID_REG>
+        (assign, ":gold", reg2), #<VAR_GOLD_REG>
+        (display_message, "str_msg_success"),
+        #assign gold
+        (try_for_players, ":player_no", 1),
+          (player_is_active, ":player_no"),
+          (player_get_unique_id, ":player_unique_id", ":player_no"),
+          (eq, ":player_unique_id", ":unique_id"),
+          (player_set_gold, ":player_no", ":gold"),
+        (try_end),
+      (else_try),
+        (display_message, "str_msg_event_error"), 
+      (try_end),
+    (try_end),
+  ]),
+
+# don't change the following <MARKERS>
+#<DATABASE_FUNCTIONS_END>  
 	
 	
 	("set_num_bots",[
