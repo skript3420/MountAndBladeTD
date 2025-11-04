@@ -371,30 +371,18 @@ multiplayer_server_spawn_bots = (
       (try_end),
     
       (eq, ":rounded_game_first_round_time_limit_past", 1),
-	 
-	 #modded we dont need to spawn bots evenly for both teams
-      #(store_random_in_range, ":random_req", 0, ":total_req"),
-      #(val_sub, ":random_req", "$g_multiplayer_num_bots_required_team_1"),
-      #(try_begin),
-      #  (lt, ":random_req", 0),
-      #  #add to team 1
-      #  (assign, ":selected_team", 0),
-      #(else_try),
-      #  #add to team 2
-      #  (assign, ":selected_team", 1),
-      #(try_end),
-	  
-	  #instead tell if its king harlaus
-	  (try_begin),
-        (gt, "$g_multiplayer_num_bots_required_team_2", 0),
-        #add to team 2
-        (assign, ":selected_team", 1),
-      (else_try),
+    
+      (store_random_in_range, ":random_req", 0, ":total_req"),
+      (val_sub, ":random_req", "$g_multiplayer_num_bots_required_team_1"),
+      (try_begin),
+        (lt, ":random_req", 0),
         #add to team 1
         (assign, ":selected_team", 0),
+      (else_try),
+        #add to team 2
+        (assign, ":selected_team", 1),
       (try_end),
-	  
-	  
+
       (try_begin),
         (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle),
         (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy),
@@ -416,16 +404,16 @@ multiplayer_server_spawn_bots = (
       (assign, ":selected_troop", reg0),
       (assign, ":selected_group", reg1),
       #----------GTD--START----------
-	#modded store_sub instead of assign as all troops count no matter what faction
-    #  (team_get_faction, ":team_faction", ":selected_team"),
+	    #modded store_sub instead of assign as all troops count no matter what faction
+      #  (team_get_faction, ":team_faction", ":selected_team"),
       (store_sub, ":num_ai_troops",  multiplayer_ai_troops_begin, multiplayer_ai_troops_end),
-	#  (assign, ":num_ai_troops", 0),
-    #  (try_for_range, ":cur_ai_troop", multiplayer_ai_troops_begin, multiplayer_ai_troops_end),
-	#	(store_troop_faction, ":ai_troop_faction", ":cur_ai_troop"),
-    #    (eq, ":ai_troop_faction", ":team_faction"),
-    #    (val_add, ":num_ai_troops", 1),
-    #  (try_end),
-#----------GTD--END------------
+	    #  (assign, ":num_ai_troops", 0),
+      #  (try_for_range, ":cur_ai_troop", multiplayer_ai_troops_begin, multiplayer_ai_troops_end),
+	    #	(store_troop_faction, ":ai_troop_faction", ":cur_ai_troop"),
+      #    (eq, ":ai_troop_faction", ":team_faction"),
+      #    (val_add, ":num_ai_troops", 1),
+      #  (try_end),
+      #----------GTD--END------------
       (assign, ":number_of_active_players_wanted_bot", 0),
 
       (get_max_players, ":num_players"),
@@ -486,13 +474,12 @@ multiplayer_server_spawn_bots = (
           (else_try),
             (assign, reg0, 32),
           (try_end),
-        (else_try), 
+        (else_try),
           (call_script, "script_multiplayer_find_spawn_point", ":selected_team", 0, ":is_horseman"), 
         (try_end),
       
         (store_current_scene, ":cur_scene"),
         (modify_visitors_at_site, ":cur_scene"),
-        
         (add_visitors_to_current_scene, reg0, ":selected_troop", 1, ":selected_team", ":selected_group"),
         (assign, "$g_multiplayer_ready_for_spawning_agent", 0),
 
@@ -550,7 +537,8 @@ multiplayer_server_check_polls = (
       (call_script, "script_game_set_multiplayer_mission_end"),
     (try_end),
     ])
-    
+
+  #----------GTD--START----------
 multiplayer_server_check_end_map = ( 
   1, 0, 0, [],
   [
@@ -612,6 +600,7 @@ multiplayer_server_check_end_map = (
       (try_end),
     (try_end),
     ])
+  #----------GTD--END----------
 
 multiplayer_once_at_the_first_frame = (
   0, 0, ti_once, [], [
@@ -8164,8 +8153,8 @@ mission_templates = [
          ]),
       ],
   ),
-  
-     (
+
+    (
     "multiplayer_tdm",mtf_battle_mode,-1, #team_deathmatch mode
     "You lead your men to battle.",
     [
@@ -8241,9 +8230,10 @@ mission_templates = [
       (62,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
       (63,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
      ],
+      
+      #----------GTD--START----------
     [
-		###################################tdm #begin##########################################
-		
+        		
 #mod events
 		
 	##server messages
@@ -8515,19 +8505,19 @@ mission_templates = [
          (call_script, "script_multiplayer_server_player_joined_common", ":player_no"),
          ]),
 
-      (ti_before_mission_start, 0, 0, [], 
+      (ti_before_mission_start, 0, 0, [],
        [
+           #switch to battle mode-> bots dont respawn after death
          (assign, "$g_multiplayer_game_type", multiplayer_game_type_battle),
          (call_script, "script_multiplayer_server_before_mission_start_common"),
-		
+
          (call_script, "script_multiplayer_init_mission_variables"),
          (call_script, "script_multiplayer_remove_destroy_mod_targets"),
          (call_script, "script_multiplayer_remove_headquarters_flags"),
          ]),
 
-      (ti_after_mission_start, 0, 0, [],
-       [   
-	   
+      (ti_after_mission_start, 0, 0, [], 
+       [
          (set_spawn_effector_scene_prop_kind, 0, -1), #during this mission, agents of "team 0" will try to spawn around scene props with kind equal to -1(no effector for this mod)
          (set_spawn_effector_scene_prop_kind, 1, -1), #during this mission, agents of "team 1" will try to spawn around scene props with kind equal to -1(no effector for this mod)
 
@@ -8538,7 +8528,7 @@ mission_templates = [
          (assign, "$g_multiplayer_ready_for_spawning_agent", 1),
          ]),
 
-      (ti_on_multiplayer_mission_end, 0, 0, [], 
+      (ti_on_multiplayer_mission_end, 0, 0, [],
        [
 		#modded dont need this
          #GLORIOUS_MOTHER_FACTION achievement
@@ -8790,7 +8780,7 @@ mission_templates = [
          ]),
       ],
   ),
-    
+    #----------GTD--END----------
   (
     "multiplayer_hq", mtf_battle_mode,-1, #headquarters mode
     "You lead your men to battle.",
@@ -11199,14 +11189,14 @@ mission_templates = [
            (try_end),
 
            #(below lines added new at 25.11.09 after Armagan decided new money system)
-           #(try_begin),
-           #  (player_get_slot, ":old_items_value", ":player_no", slot_player_last_rounds_used_item_earnings),
-           #  (store_add, ":player_total_potential_gold", ":player_gold", ":old_items_value"),
-           #  (store_mul, ":minimum_gold", "$g_multiplayer_initial_gold_multiplier", 10),
-           #  (lt, ":player_total_potential_gold", ":minimum_gold"),
-           #  (store_sub, ":additional_gold", ":minimum_gold", ":player_total_potential_gold"),
-           #  (val_add, ":player_gold", ":additional_gold"),
-           #(try_end),
+           (try_begin),
+             (player_get_slot, ":old_items_value", ":player_no", slot_player_last_rounds_used_item_earnings),
+             (store_add, ":player_total_potential_gold", ":player_gold", ":old_items_value"),
+             (store_mul, ":minimum_gold", "$g_multiplayer_initial_gold_multiplier", 10),
+             (lt, ":player_total_potential_gold", ":minimum_gold"),
+             (store_sub, ":additional_gold", ":minimum_gold", ":player_total_potential_gold"),
+             (val_add, ":player_gold", ":additional_gold"),
+           (try_end),
            #new money system addition end
 
            (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
@@ -12449,14 +12439,14 @@ mission_templates = [
            (try_end),
 
            #(below lines added new at 25.11.09 after Armagan decided new money system)
-           #(try_begin),
-           #  (player_get_slot, ":old_items_value", ":player_no", slot_player_last_rounds_used_item_earnings),
-           #  (store_add, ":player_total_potential_gold", ":player_gold", ":old_items_value"),
-           #  (store_mul, ":minimum_gold", "$g_multiplayer_initial_gold_multiplier", 10),
-           #  (lt, ":player_total_potential_gold", ":minimum_gold"),
-           #  (store_sub, ":additional_gold", ":minimum_gold", ":player_total_potential_gold"),
-           #  (val_add, ":player_gold", ":additional_gold"),
-           #(try_end),
+           (try_begin),
+             (player_get_slot, ":old_items_value", ":player_no", slot_player_last_rounds_used_item_earnings),
+             (store_add, ":player_total_potential_gold", ":player_gold", ":old_items_value"),
+             (store_mul, ":minimum_gold", "$g_multiplayer_initial_gold_multiplier", 10),
+             (lt, ":player_total_potential_gold", ":minimum_gold"),
+             (store_sub, ":additional_gold", ":minimum_gold", ":player_total_potential_gold"),
+             (val_add, ":player_gold", ":additional_gold"),
+           (try_end),
            #new money system addition end
            #(get_max_players, ":num_players"),
 	       #(try_for_range, ":player_no", 0, ":num_players"),
@@ -13521,14 +13511,14 @@ mission_templates = [
            (try_end),
          
            #(below lines added new at 25.11.09 after Armagan decided new money system)
-           #(try_begin),
-           #  (player_get_slot, ":old_items_value", ":player_no", slot_player_last_rounds_used_item_earnings),
-           #  (store_add, ":player_total_potential_gold", ":player_gold", ":old_items_value"),
-           #  (store_mul, ":minimum_gold", "$g_multiplayer_initial_gold_multiplier", 10),
-           #  (lt, ":player_total_potential_gold", ":minimum_gold"),
-           #  (store_sub, ":additional_gold", ":minimum_gold", ":player_total_potential_gold"),
-           #  (val_add, ":player_gold", ":additional_gold"),
-           #(try_end),
+           (try_begin),
+             (player_get_slot, ":old_items_value", ":player_no", slot_player_last_rounds_used_item_earnings),
+             (store_add, ":player_total_potential_gold", ":player_gold", ":old_items_value"),
+             (store_mul, ":minimum_gold", "$g_multiplayer_initial_gold_multiplier", 10),
+             (lt, ":player_total_potential_gold", ":minimum_gold"),
+             (store_sub, ":additional_gold", ":minimum_gold", ":player_total_potential_gold"),
+             (val_add, ":player_gold", ":additional_gold"),
+           (try_end),
            #new money system addition end
 
            (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
