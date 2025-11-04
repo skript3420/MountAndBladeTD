@@ -8462,7 +8462,7 @@ mission_templates = [
        ]),
        
        
-      (1,0,0,[(eq, "$g_is_wave_active",2)],[ #despawn hired assassin and deal dmg near harlaus
+      (2,0,0,[(eq, "$g_is_wave_active",2)],[ #despawn hired assassin and deal dmg near harlaus
         (entry_point_get_position, pos1, 32), #harlaus spawn point (close enough)
         (try_for_agents, ":agent_no"),
             (agent_get_troop_id, ":agent_troop", ":agent_no"),
@@ -8475,40 +8475,47 @@ mission_templates = [
             (le, ":dist", 600), #within range
             (agent_get_horse, ":horse_agent", ":agent_no"),
             (neq, ":horse_agent", -1), #only if still on horseback
-            #init variables
-            (assign, ":harlaus_agent_id", -1),
-            (assign, ":harlaus_hp", -1),
-            #search for harlaus
-            (try_for_agents, ":agent_id"),
-              (agent_is_non_player, ":agent_id"),
-              (agent_get_team, ":agent_team", ":agent_id"),
-              (eq, ":agent_team", 1),
-              (assign, ":harlaus_agent_id", ":agent_id"),
-              (store_agent_hit_points, ":harlaus_hp", ":harlaus_agent_id",1),
-            (try_end),              
-            (val_sub, ":harlaus_hp", 10),
-            (agent_set_hit_points, ":harlaus_agent_id", ":harlaus_hp",1),# this sets dmg
-            (agent_deliver_damage_to_agent, ":agent_no", ":harlaus_agent_id", 0), #this refreshes dmg so he actually gets hurt (debug)
+            
             (remove_agent, ":agent_no"), #kill hired assassin
             (remove_agent, ":horse_agent"), #fade out horse
         (try_end),  
       ]),
 
-      (2,0,0,[(eq, "$g_is_wave_active",2)],[ #despawn horses near harlaus
+
+    (2,0,0,[(eq, "$g_is_wave_active",2)],[ #despawn horses near harlaus
       (entry_point_get_position, pos1, 32), #harlaus spawn point (close enough)
       (try_for_agents, ":agent_no"),
           (agent_is_alive, ":agent_no"),
           (agent_is_non_player, ":agent_no"),
-          (agent_get_team, ":agent_team", ":agent_no"),
-          (eq, ":agent_team",0), # alive enemy
           (agent_get_position, pos2, ":agent_no"),
           (get_distance_between_positions, ":dist", pos1, pos2),
-          (le, ":dist", 600), #within range
-          (agent_get_troop_id, ":agent_troop", ":agent_no"),
-          (neq, ":agent_troop", "trp_hired_assassin"), #if not hired assassin
-          (agent_get_horse, ":horse_agent", ":agent_no"),
-          (neq, ":horse_agent", -1), #only if still on horseback
-          (remove_agent, ":horse_agent"), #kill horse
+          (le, ":dist", 800), #within range
+          (neg|agent_is_human, ":agent_no"), #if horse
+          
+          (try_begin), #process hired assassin rider
+            (agent_get_rider, ":rider_agent", ":agent_no"),
+            (neq, ":rider_agent", -1), #has rider
+            (agent_get_troop_id, ":agent_troop", ":rider_agent"),
+            (eq, ":agent_troop", "trp_hired_assassin"), #if hired assassin rider
+            #init variables
+            (assign, ":harlaus_agent_id", -1),
+            (assign, ":harlaus_hp", -1),
+            #search for harlaus
+            (try_for_agents, ":agent_id"),
+              (agent_is_alive, ":agent_id"),
+              (agent_get_team, ":agent_team", ":agent_id"),
+              (eq, ":agent_team", 1),
+              (agent_is_non_player, ":agent_id"),
+              (assign, ":harlaus_agent_id", ":agent_id"),
+              (store_agent_hit_points, ":harlaus_hp", ":harlaus_agent_id",1),
+            (try_end),              
+            (val_sub, ":harlaus_hp", 10),
+            (agent_set_hit_points, ":harlaus_agent_id", ":harlaus_hp",1),# this sets dmg
+            (agent_deliver_damage_to_agent, ":rider_agent", ":harlaus_agent_id", 0), #this refreshes dmg so he actually gets hurt (debug)
+            (remove_agent, ":rider_agent"),
+          (try_end),
+
+          (remove_agent, ":agent_no"), #remove horse
       (try_end),  
     ]),
 
