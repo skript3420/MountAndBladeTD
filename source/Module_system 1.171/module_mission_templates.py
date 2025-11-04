@@ -371,18 +371,30 @@ multiplayer_server_spawn_bots = (
       (try_end),
     
       (eq, ":rounded_game_first_round_time_limit_past", 1),
-    
-      (store_random_in_range, ":random_req", 0, ":total_req"),
-      (val_sub, ":random_req", "$g_multiplayer_num_bots_required_team_1"),
-      (try_begin),
-        (lt, ":random_req", 0),
-        #add to team 1
-        (assign, ":selected_team", 0),
-      (else_try),
+	#----------GTD--START------------  
+	    #modded we dont need to spawn bots evenly for both teams
+      #(store_random_in_range, ":random_req", 0, ":total_req"),
+      #(val_sub, ":random_req", "$g_multiplayer_num_bots_required_team_1"),
+      #(try_begin),
+      #  (lt, ":random_req", 0),
+      #  #add to team 1
+      #  (assign, ":selected_team", 0),
+      #(else_try),
+      #  #add to team 2
+      #  (assign, ":selected_team", 1),
+      #(try_end),
+	  
+	  #instead tell if its king harlaus
+	  (try_begin),
+        (gt, "$g_multiplayer_num_bots_required_team_2", 0),
         #add to team 2
         (assign, ":selected_team", 1),
+      (else_try),
+        #add to team 1
+        (assign, ":selected_team", 0),
       (try_end),
-
+	#----------GTD--END------------ 
+    
       (try_begin),
         (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle),
         (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy),
