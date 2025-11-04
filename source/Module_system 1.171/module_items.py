@@ -353,7 +353,7 @@ items = [
         (try_begin),
 			(multiplayer_is_server),
 			(store_trigger_param_1, ":shooter"),
-			(particle_system_burst, "psys_pistol_smoke", pos1, 100),
+			(particle_system_burst, "psys_pistol_smoke", pos1, 60),
             (assign, ":count", 0),
 			(try_for_agents, ":agent"),
 				(agent_is_alive, ":agent"),
@@ -362,10 +362,10 @@ items = [
 				(agent_get_team, ":agent_team", ":agent"),
 				(agent_get_team, ":shooter_team", ":shooter"),
 				(try_begin),
-                    (lt, ":count", 4),
+                    (lt, ":count", 5), # max 5 agents can be poisoned
 					(lt, ":dist", 200),
 					(neq, ":shooter_team", ":agent_team"),
-                    (agent_set_slot, ":agent", slot_agent_is_poisoned, 1),
+                    (agent_set_slot, ":agent", slot_agent_is_poisoned, 3), # 5 times dmg over time
                     (agent_set_slot, ":agent", slot_agent_got_poisoned_by, ":shooter"),
                     (val_add, ":count", 1),
 				(try_end),

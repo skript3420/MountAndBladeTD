@@ -8243,7 +8243,7 @@ mission_templates = [
       (63,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
      ],
       
-      #----------GTD-START----------
+    #----------GTD-START----------
     [
     #mod events
 	  ##server messages
@@ -8253,10 +8253,10 @@ mission_templates = [
 	  		(call_script, "script_send_server_message_to_players", "str_announce_website"),
       ]),
 
-             (120, 0, 0, [], #send progress every 120 seconds
-       [
+    (120, 0, 0, [], #send progress every 120 seconds
+      [
          (call_script, "script_send_kills_until_upgrade_to_players"),
-       ]),
+      ]),
 		
 			  
 	##gold saving, database	 	
@@ -8290,50 +8290,55 @@ mission_templates = [
       #(try_end),
 	  #]),
       
+    ##handle knockdown and poison arrows and arrow chests
+    (1, 0, 0, [],[ 
+      (try_for_agents, ":agent_no"),
+        (try_begin), #knockdown
+          (agent_is_human, ":agent_no"),
+          (agent_get_slot, ":gets_agent_knocked_down", ":agent_no", slot_agent_got_knocked_down),
+          (eq, ":gets_agent_knocked_down", 1),
+          (agent_set_slot, ":agent_no", slot_agent_got_knocked_down, 0), #reset slot, execute effect
+          (store_agent_hit_points, ":agent_hp", ":agent_no"),
+          (gt, ":agent_hp", 0),
+          (agent_get_slot, ":shooter", ":agent_no", slot_agent_got_knocked_down_by),
+          (store_agent_hit_points, ":agent_hp", ":agent_no"),
+          (agent_set_no_death_knock_down_only, ":agent_no", 1), #set as unkillable
+          (agent_deliver_damage_to_agent, ":shooter", ":agent_no", 500), #knockdown because unkillable
+          (agent_set_hit_points, ":agent_no", ":agent_hp"), #reset hp
+          (agent_set_no_death_knock_down_only, ":agent_no", 0), #set as killable
+        (try_end),
 
-      
-    ##check poison arrows
-      (2, 0, 0, [], #time interval for regular server message
-      [
-        (try_for_agents, ":agent_no"), #get poison state
-            (agent_get_slot, ":poison_state", ":agent_no", slot_agent_is_poisoned),
-            (ge, ":poison_state", 1),            
-            (try_begin), #check if agent is already dead
-                (neg|agent_is_alive, ":agent_no"),
-                (agent_set_slot, ":agent_no", slot_agent_is_poisoned, 0),
-            (else_try),
-                (try_begin),
-                    (ge, ":poison_state", 6),
-                    (agent_set_slot, ":agent_no", slot_agent_is_poisoned, 0),
-                (else_try),
-                    (agent_get_slot, ":shooter", ":agent_no", slot_agent_got_poisoned_by),
-                    (agent_is_active, ":shooter"),
-                    (agent_deliver_damage_to_agent, ":shooter", ":agent_no", 5),
-                    (agent_play_sound, ":agent_no","snd_man_hit"),
-                    (val_add, ":poison_state", 1),
-                    (agent_set_slot, ":agent_no", slot_agent_is_poisoned, ":poison_state"),
-                (try_end),
+        (try_begin), #poison
+          (agent_get_slot, ":poison_state", ":agent_no", slot_agent_is_poisoned),
+          (ge, ":poison_state", 1),
+          (try_begin), #if agent is already dead, reset slot
+            (neg|agent_is_alive, ":agent_no"),
+            (agent_set_slot, ":agent_no", slot_agent_is_poisoned, 0),
+          (else_try),
+            #count down poison state, deliver dmg
+            (agent_get_slot, ":shooter", ":agent_no", slot_agent_got_poisoned_by),
+            (agent_is_active, ":shooter"),
+            (agent_deliver_damage_to_agent, ":shooter", ":agent_no", 8),
+            (agent_play_sound, ":agent_no","snd_man_hit"),
+            (val_sub, ":poison_state", 1),
+            (agent_set_slot, ":agent_no", slot_agent_is_poisoned, ":poison_state"),
+          (try_end),
+        (try_end),
+
+        (try_begin), #ammo chests
+          (neg|agent_is_non_player, ":agent_no"),
+          (agent_get_position, pos1, ":agent_no"),
+            (try_for_range, ":i_prop",0, "$g_num_ammo_chests"),
+                (scene_prop_get_instance, ":cur_prop", "spr_chest_b", ":i_prop"),
+                (prop_instance_get_position, pos2, ":cur_prop"),
+                (get_distance_between_positions, ":dist", pos1, pos2),
+                (lt, ":dist", 110),
+                (agent_refill_ammo, ":agent_no"),
             (try_end),
         (try_end),
-      ]),
-      
-    ##check knockdown arrows 
-    (0.2, 0, 0, [],[ 
-      (try_for_agents, ":agent_no"),
-        (agent_is_human, ":agent_no"),
-        (agent_get_slot, ":gets_agent_knocked_down", ":agent_no", slot_agent_got_knocked_down),
-        (eq, ":gets_agent_knocked_down", 1),
-        (agent_set_slot, ":agent_no", slot_agent_got_knocked_down, 0),
-        (store_agent_hit_points, ":agent_hp", ":agent_no"),
-        (gt, ":agent_hp", 0),
-        (agent_get_slot, ":shooter", ":agent_no", slot_agent_got_knocked_down_by),
-        (store_agent_hit_points, ":agent_hp", ":agent_no"),
-        (agent_set_no_death_knock_down_only, ":agent_no", 1), #set as unkillable
-        (agent_deliver_damage_to_agent, ":shooter", ":agent_no", 500), #kill
-        (agent_set_hit_points, ":agent_no", ":agent_hp"), #reset hp
-        (agent_set_no_death_knock_down_only, ":agent_no", 0), #set as killable  
-      (try_end),
+      (try_end),  
     ]),
+
     
 	  
 	##server initial settings and wave management
@@ -8445,41 +8450,6 @@ mission_templates = [
             (agent_force_rethink, ":agent_no"),
         (try_end),
        ]),
-       
-	   (0.1,0,0,[],[ #ammo chests
-        (try_for_agents, ":agent_id"),
-        (neg|agent_is_non_player, ":agent_id"),
-        (agent_get_position, pos1, ":agent_id"),
-            (try_for_range, ":i_prop",0, "$g_num_ammo_chests"),
-                (scene_prop_get_instance, ":cur_prop", "spr_chest_b", ":i_prop"),
-                (prop_instance_get_position, pos2, ":cur_prop"),
-                (get_distance_between_positions, ":dist", pos1, pos2),
-                (assign, reg0, ":dist"),
-                (lt, ":dist", 110),
-                (agent_refill_ammo, ":agent_id"),
-            (try_end),
-        (try_end),
-       ]),
-       
-       
-      (2,0,0,[(eq, "$g_is_wave_active",2)],[ #despawn hired assassin and deal dmg near harlaus
-        (entry_point_get_position, pos1, 32), #harlaus spawn point (close enough)
-        (try_for_agents, ":agent_no"),
-            (agent_get_troop_id, ":agent_troop", ":agent_no"),
-            (eq, ":agent_troop", "trp_hired_assassin"), #if hired assassin
-            (agent_is_alive, ":agent_no"),
-            (agent_get_team, ":agent_team", ":agent_no"),
-            (eq, ":agent_team",0), # alive enemy
-            (agent_get_position, pos2, ":agent_no"),
-            (get_distance_between_positions, ":dist", pos1, pos2),
-            (le, ":dist", 600), #within range
-            (agent_get_horse, ":horse_agent", ":agent_no"),
-            (neq, ":horse_agent", -1), #only if still on horseback
-            
-            (remove_agent, ":agent_no"), #kill hired assassin
-            (remove_agent, ":horse_agent"), #fade out horse
-        (try_end),  
-      ]),
 
 
     (2,0,0,[(eq, "$g_is_wave_active",2)],[ #despawn horses near harlaus
