@@ -631,8 +631,8 @@ script_set_team_score = 629
 script_send_bot_info_to_player = 630
 script_send_score_info_to_players = 631
 script_calculate_wave_bot_num = 632
-script_gtd_choose_player_troop = 633
-script_get_available_troops_for_round = 634
+script_get_available_troops_for_round = 633
+script_gtd_choose_player_troop = 634
 script_send_kills_until_upgrade_to_players = 635
 
 

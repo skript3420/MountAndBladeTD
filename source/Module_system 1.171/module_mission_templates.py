@@ -8370,11 +8370,10 @@ mission_templates = [
         (assign, ":are_there_players", 0),
         (try_for_players, ":player_no", 1),
             (player_get_team_no, ":player_team", ":player_no"),
-            (eq, ":player_team", 1), #if player in team 2 i think
+            (eq, ":player_team", 1), #if player exists in team 2
             (val_add, ":are_there_players", 1),
         (try_end),
-        (gt, ":are_there_players", 0), #this has to be true
-        
+        (gt, ":are_there_players", 0), #at least one player in team 2
 				(assign, ":bots_startnum", 15), #startvalue for 1st wave our c
 				(team_get_score, ":team_2_score", 1), #our x
 				(call_script, "script_calculate_wave_bot_num", ":team_2_score", ":bots_startnum"), #increase bot-amount formula
@@ -8428,6 +8427,7 @@ mission_templates = [
        (ti_on_agent_hit, 0,0, [],[ #announce harlaus %hp if hes hit
         (store_trigger_param_1, ":agent_id"),
         (agent_is_non_player, ":agent_id"),
+        (agent_is_human, ":agent_id"),
         (agent_get_team, ":agent_team",":agent_id"),
         (eq, ":agent_team",1),
         (store_agent_hit_points, ":harlaus_hp", ":agent_id",0), #0 is in percent
@@ -8463,43 +8463,57 @@ mission_templates = [
        
        
       (1,0,0,[(eq, "$g_is_wave_active",2)],[ #despawn hired assassin and deal dmg near harlaus
-      (entry_point_get_position, pos1, 32), #harlaus spawn position -> should be close enough
+        (entry_point_get_position, pos1, 32), #harlaus spawn point (close enough)
         (try_for_agents, ":agent_no"),
+            (agent_get_troop_id, ":agent_troop", ":agent_no"),
+            (eq, ":agent_troop", "trp_hired_assassin"), #if hired assassin
             (agent_is_alive, ":agent_no"),
-            (agent_is_human, ":agent_no"),
             (agent_get_team, ":agent_team", ":agent_no"),
-            (neq, ":agent_team", 1), #->team 0 = bot team
-            (agent_get_slot, ":has_is_horse", ":agent_no", ek_horse), 
-            (neq, ":has_is_horse", -1), #only for horses or troops with horses
+            (eq, ":agent_team",0), # alive enemy
             (agent_get_position, pos2, ":agent_no"),
             (get_distance_between_positions, ":dist", pos1, pos2),
             (le, ":dist", 600), #within range
-            (try_begin),
-              (agent_get_troop_id, ":agent_troop", ":agent_no"),
-              (agent_get_horse, ":horse_agent", ":agent_no"),
-              (neq, ":horse_agent", -1), #only if still on horseback
-              (try_begin),
-                  (eq, ":agent_troop", "trp_hired_assassin"), #if correct troop
-                  #Store current Harlaus HP 
-                  (assign, ":harlaus_agent_id", -1), #init to -1
-                  (assign, ":harlaus_hp", -1), #init to -1
-                  (try_for_agents, ":agent_no"),
-                        (agent_is_non_player, ":agent_no"),
-                        (agent_get_team, ":agent_team", ":agent_no"),
-                        (eq, ":agent_team", 1), # -> only one bot in team 1 -> King Harlaus
-                        (assign, ":harlaus_agent_id", ":agent_no"),
-                        (store_agent_hit_points, ":harlaus_hp", ":agent_no",1), # last parameter: 1 absolute hp, 0 relative hp
-                  (try_end),
-                  (val_sub, ":harlaus_hp", 5),
-                  (agent_set_hit_points, ":harlaus_agent_id", ":harlaus_hp",1),# this sets dmg -> ignore armor
-                  (agent_deliver_damage_to_agent, ":agent_no", ":harlaus_agent_id", 0), #this deals 0 dmg so his hp gets updated
-                  (remove_agent, ":agent_no"), # remove hired assassin
-              (else_try),
-                  (remove_agent, ":horse_agent"), #remove horse only
-              (try_end),        
-            (try_end),
-          (try_end),
-       ]),
+            (agent_get_horse, ":horse_agent", ":agent_no"),
+            (neq, ":horse_agent", -1), #only if still on horseback
+            #init variables
+            (assign, ":harlaus_agent_id", -1),
+            (assign, ":harlaus_hp", -1),
+            #search for harlaus
+            (try_for_agents, ":agent_id"),
+              (agent_is_non_player, ":agent_id"),
+              (agent_get_team, ":agent_team", ":agent_id"),
+              (eq, ":agent_team", 1),
+              (assign, ":harlaus_agent_id", ":agent_id"),
+              (store_agent_hit_points, ":harlaus_hp", ":harlaus_agent_id",1),
+            (try_end),              
+            (val_sub, ":harlaus_hp", 10),
+            (agent_set_hit_points, ":harlaus_agent_id", ":harlaus_hp",1),# this sets dmg
+            (agent_deliver_damage_to_agent, ":agent_no", ":harlaus_agent_id", 0), #this refreshes dmg so he actually gets hurt (debug)
+            (remove_agent, ":agent_no"), #kill hired assassin
+            (remove_agent, ":horse_agent"), #fade out horse
+        (try_end),  
+      ]),
+
+      (2,0,0,[(eq, "$g_is_wave_active",2)],[ #despawn horses near harlaus
+      (entry_point_get_position, pos1, 32), #harlaus spawn point (close enough)
+      (try_for_agents, ":agent_no"),
+          (agent_is_alive, ":agent_no"),
+          (agent_is_non_player, ":agent_no"),
+          (agent_get_team, ":agent_team", ":agent_no"),
+          (eq, ":agent_team",0), # alive enemy
+          (agent_get_position, pos2, ":agent_no"),
+          (get_distance_between_positions, ":dist", pos1, pos2),
+          (le, ":dist", 600), #within range
+          (agent_get_troop_id, ":agent_troop", ":agent_no"),
+          (neq, ":agent_troop", "trp_hired_assassin"), #if not hired assassin
+          (agent_get_horse, ":horse_agent", ":agent_no"),
+          (neq, ":horse_agent", -1), #only if still on horseback
+          (remove_agent, ":horse_agent"), #kill horse
+      (try_end),  
+    ]),
+
+
+      
        
 		
 #mod events end 
