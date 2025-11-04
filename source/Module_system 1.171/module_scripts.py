@@ -5503,7 +5503,7 @@ scripts = [
       (try_end),
       ]),
   #---------------GTD-START---------------
-  #money management modded 
+  #money_management_after_agent_death modded 
   ("money_management_after_agent_death",
    [
      (store_script_param, ":killer_agent_no", 1),
@@ -5519,251 +5519,245 @@ scripts = [
        (agent_get_player_id, ":player_no", ":killer_agent_no"),
        (player_is_active, ":player_no"),
        (player_get_gold, ":player_gold", ":player_no"),
-        (val_add, ":player_gold", 1),
-        (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
-		#update database
-		(call_script, "script_save_player_gold", ":player_no"),
+       (val_add, ":player_gold", 1),
+       (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
        (try_end),
    ]),
 
   #script_money_management_after_agent_death native
   # INPUT: arg1 = killer_agent_no, arg2 = dead_agent_no
   # OUTPUT: none
-  ("money_management_after_agent_death_native",
-   [
-     (store_script_param, ":killer_agent_no", 1),
-     (store_script_param, ":dead_agent_no", 2),
-
-     (assign, ":dead_agent_player_id", -1),
-
-     (try_begin),
-       (multiplayer_is_server),
-       (ge, ":killer_agent_no", 0),
-       (ge, ":dead_agent_no", 0),
-       (agent_is_human, ":dead_agent_no"), #if dead agent is not horse
-       (agent_is_human, ":killer_agent_no"), #if killer agent is not horse
-       (agent_get_team, ":killer_agent_team", ":killer_agent_no"),
-       (agent_get_team, ":dead_agent_team", ":dead_agent_no"),
-     
-       (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch),
-       (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_duel),
-       (neq, ":killer_agent_team", ":dead_agent_team"), #if these agents are enemies
-
-       (neq, ":dead_agent_no", ":killer_agent_no"), #if agents are different, do not remove it is needed because in deathmatch mod, self killing passes here because of this or next.
-     
-       (try_begin),
-         (neg|agent_is_non_player, ":dead_agent_no"), 
-         (agent_get_player_id, ":dead_player_no", ":dead_agent_no"),
-         (player_get_slot, ":dead_agent_equipment_value", ":dead_player_no", slot_player_total_equipment_value),             
-       (else_try),
-         (assign, ":dead_agent_equipment_value", 0),
-       (try_end),
-
-       (assign, ":dead_agent_team_human_players_count", 0),
-       (get_max_players, ":num_players"),
-       (try_for_range, ":player_no", 0, ":num_players"),
-         (player_is_active, ":player_no"),
-         (player_get_team_no, ":player_team", ":player_no"),
-         (eq, ":player_team", ":dead_agent_team"),
-         (val_add, ":dead_agent_team_human_players_count", 1),
-       (try_end),
-         
-       (try_for_range, ":player_no", 0, ":num_players"),
-         (player_is_active, ":player_no"),
-          
-         (try_begin), 
-           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle),
-           (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy),
-           (assign, ":one_spawn_per_round_game_type", 1),            
-         (else_try),
-           (assign, ":one_spawn_per_round_game_type", 0),
-         (try_end),
-         
-         (this_or_next|eq, ":one_spawn_per_round_game_type", 0),
-         (this_or_next|player_slot_eq, ":player_no", slot_player_spawned_this_round, 0),
-         (player_slot_eq, ":player_no", slot_player_spawned_this_round, 1),
-         
-         (player_get_agent_id, ":agent_no", ":player_no"),
-         (try_begin),
-           (eq, ":agent_no", ":dead_agent_no"), #if this agent is dead agent then get share from total loot. (20% of total equipment value)                 
-           (player_get_gold, ":player_gold", ":player_no"),
-
-           (assign, ":dead_agent_player_id", ":player_no"),
-          
-           #dead agent loot share (32%-48%-64%, norm : 48%)
-           (store_mul, ":share_of_dead_agent", ":dead_agent_equipment_value", multi_dead_agent_loot_percentage_share),
-           (val_div, ":share_of_dead_agent", 100),
-           (val_mul, ":share_of_dead_agent", "$g_multiplayer_battle_earnings_multiplier"),
-           (val_div, ":share_of_dead_agent", 100),
-           (try_begin),
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch), #(4/3x) share if current mod is deathmatch
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_duel), #(4/3x) share if current mod is duel
-             (eq, "$g_multiplayer_game_type", multiplayer_game_type_capture_the_flag), #(4/3x) share if current mod is capture the flag
-             #INVASION MODE START
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop), #(4/3x) share if current mod is captain coop
-             #INVASION MODE END
-             (eq, "$g_multiplayer_game_type", multiplayer_game_type_headquarters), #(4/3x) share if current mod is headquarters
-             (val_mul, ":share_of_dead_agent", 4),
-             (val_div, ":share_of_dead_agent", 3), 
-             (val_add, ":player_gold", ":share_of_dead_agent"), 
-           (else_try),
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle), #(2/3x) share if current mod is battle 
-             (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy), #(2/3x) share if current mod is fight and destroy
-             (val_mul, ":share_of_dead_agent", 2),
-             (val_div, ":share_of_dead_agent", 3),
-             (val_add, ":player_gold", ":share_of_dead_agent"),
-           (else_try),
-             (val_add, ":player_gold", ":share_of_dead_agent"), #(3/3x) share if current mod is siege #modded OR TDM, tdm was condition above (4/3)
-           (try_end),
-           (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
-		   #modded update database
-			(call_script, "script_save_player_gold", ":player_no"),
-		 (else_try),
-           (eq, ":agent_no", ":killer_agent_no"), #if this agent is killer agent then get share from total loot. (10% of total equipment value)
-           (player_get_gold, ":player_gold", ":player_no"),           
-
-           #killer agent standart money (100-150-200, norm : 150)
-           (assign, ":killer_agent_standard_money_addition", multi_killer_agent_standard_money_add),
-           (val_mul, ":killer_agent_standard_money_addition", "$g_multiplayer_battle_earnings_multiplier"),
-           (val_div, ":killer_agent_standard_money_addition", 100),
-           (try_begin),
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch), #(4/3x) share if current mod is deathmatch
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_duel), #(4/3x) share if current mod is duel
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_team_deathmatch), #(4/3x) share if current mod is team_deathmatch
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_capture_the_flag), #(4/3x) share if current mod is capture the flag
-             #INVASION MODE START
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop), #(4/3x) share if current mod is captain coop
-             #INVASION MODE END
-             (eq, "$g_multiplayer_game_type", multiplayer_game_type_headquarters), #(4/3x) share if current mod is headquarters
-             (val_mul, ":killer_agent_standard_money_addition", 4),
-             (val_div, ":killer_agent_standard_money_addition", 3),
-             (val_add, ":player_gold", ":killer_agent_standard_money_addition"), 
-           (else_try),
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle), #(2/3x) share if current mod is battle 
-             (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy), #(2/3x) share if current mod is fight and destroy
-             (val_mul, ":killer_agent_standard_money_addition", 2),
-             (val_div, ":killer_agent_standard_money_addition", 3),
-             (val_add, ":player_gold", ":killer_agent_standard_money_addition"),
-           (else_try),
-             (val_add, ":player_gold", ":killer_agent_standard_money_addition"), #(3/3x) share if current mod is siege
-           (try_end),
-
-           #killer agent loot share (8%-12%-16%, norm : 12%)
-           (store_mul, ":share_of_killer_agent", ":dead_agent_equipment_value", multi_killer_agent_loot_percentage_share),
-           (val_div, ":share_of_killer_agent", 100),
-           (val_mul, ":share_of_killer_agent", "$g_multiplayer_battle_earnings_multiplier"),
-           (val_div, ":share_of_killer_agent", 100),
-           (try_begin),
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch), #(4/3x) share if current mod is deathmatch
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_duel), #(4/3x) share if current mod is duel
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_team_deathmatch), #(4/3x) share if current mod is team_deathmatch
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_capture_the_flag), #(4/3x) share if current mod is capture the flag
-             #INVASION MODE START
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop), #(4/3x) share if current mod is captain coop
-             #INVASION MODE END
-             (eq, "$g_multiplayer_game_type", multiplayer_game_type_headquarters), #(4/3x) share if current mod is headquarters
-             (val_mul, ":share_of_killer_agent", 4),
-             (val_div, ":share_of_killer_agent", 3),
-             (val_add, ":player_gold", ":share_of_killer_agent"), 
-           (else_try),
-             (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle), #(2/3x) share if current mod is battle 
-             (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy), #(2/3x) share if current mod is fight and destroy
-             (val_mul, ":share_of_killer_agent", 2),
-             (val_div, ":share_of_killer_agent", 3),
-             (val_add, ":player_gold", ":share_of_killer_agent"),
-           (else_try),
-             (val_add, ":player_gold", ":share_of_killer_agent"), #(3/3x) share if current mod is siege
-           (try_end),
-           
-           #INVASION MODE START
-    	   (try_begin),
-             (eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop),
-             (player_get_gold, ":player_gold", ":player_no"),
-             (store_mul, ":share_of_killer_agent", "$g_multiplayer_ccoop_wave_no", 20),
-             (val_sub, ":share_of_killer_agent", 20),
-             (val_add, ":share_of_killer_agent", multi_killer_captain_coop_add),
-             (val_mul, ":share_of_killer_agent", "$g_multiplayer_battle_earnings_multiplier"),
-             (val_div, ":share_of_killer_agent", 100),
-             (val_add, ":player_gold", ":share_of_killer_agent"),
-    	   (try_end),
-           #INVASION MODE END
-           
-           (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
-		   #modded update database
-			(call_script, "script_save_player_gold", ":player_no"),
-         #INVASION MODE START
-         (else_try),
-           (agent_get_player_id, ":player_no", ":killer_agent_no"),
-           (eq, ":player_no", -1), #if killer agent is a bot
-           (eq, "$g_multiplayer_is_game_type_captain", 1),
-
-           (agent_get_group, ":agent_group", ":killer_agent_no"),
-           (player_is_active, ":agent_group"),
-
-           (player_get_gold, ":player_gold", ":agent_group"),
-           (try_begin),
-             (eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop),
-             (store_mul, ":share_of_killer_agent", "$g_multiplayer_ccoop_wave_no", 20),
-             (val_sub, ":share_of_killer_agent", 20),
-             (val_add, ":share_of_killer_agent", multi_killer_captain_coop_add),
-             (val_mul, ":share_of_killer_agent", "$g_multiplayer_battle_earnings_multiplier"),
-             (val_div, ":share_of_killer_agent", 100),
-             (val_add, ":player_gold", ":share_of_killer_agent"),
-           (else_try),
-             (val_add, ":player_gold", multi_killer_captain_add),
-           (try_end),
-           (player_set_gold, ":agent_group", ":player_gold", multi_max_gold_that_can_be_stored),
-         #INVASION MODE END
-         (try_end),
-       (try_end),
-     (try_end),
-
-     #(below lines added new at 25.11.09 after Armagan decided new money system)
-     #(try_begin),
-     #  (multiplayer_is_server),
-     #  (neq, "$g_multiplayer_game_type", multiplayer_game_type_battle),
-     #  (neq, "$g_multiplayer_game_type", multiplayer_game_type_destroy),
-	 #
-     #  (ge, ":dead_agent_no", 0),
-     #  (agent_is_human, ":dead_agent_no"), #if dead agent is not horse
-     #  (agent_get_player_id, ":dead_agent_player_id", ":dead_agent_no"),
-     #  (ge, ":dead_agent_player_id", 0),
-     # 
-     #  (player_get_gold, ":player_gold", ":dead_agent_player_id"),
-     #  (try_begin),
-     #    (store_mul, ":minimum_gold", "$g_multiplayer_initial_gold_multiplier", 10),
-     #    (lt, ":player_gold", ":minimum_gold"),
-     #    (assign, ":player_gold", ":minimum_gold"),
-     #  (try_end),
-     #  (player_set_gold, ":dead_agent_player_id", ":player_gold"),
-     #(try_end),
-     #new money system addition end          
-     #INVASION MODE START
-     (try_begin),
-       (multiplayer_is_server),
-       #we add gold to player if bot kill enemy
-       #multi_killer_captain_add
-       (eq, "$g_multiplayer_is_game_type_captain", 1),
-       #(store_script_param, ":killer_agent_no", 1),
-       #(store_script_param, ":dead_agent_no", 2),
-       (ge, ":killer_agent_no", 0),
-       (ge, ":dead_agent_no", 0),
-       (agent_is_human, ":killer_agent_no"),
-       (agent_is_non_player, ":killer_agent_no"),
-       (agent_get_group, ":agent_group", ":killer_agent_no"), # get the controlling player of this bot
-       (agent_get_team, ":killer_team", ":killer_agent_no"), 
-       (agent_get_team, ":dead_team", ":dead_agent_no"), 
-       (neq, ":killer_team", ":dead_team"), 
-       (player_is_active, ":agent_group"),
-       (player_get_gold, ":player_gold", ":agent_group"),
-	   (try_begin),
-		 (neq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop),
-		 (val_add, ":player_gold", multi_killer_captain_add),
-	   (try_end),
-	   (player_set_gold, ":agent_group", ":player_gold", multi_max_gold_that_can_be_stored),
-     (try_end), 
-     #INVASION MODE END
-     ]),
+  #("money_management_after_agent_death_native",
+  # [
+  #   (store_script_param, ":killer_agent_no", 1),
+  #   (store_script_param, ":dead_agent_no", 2),
+  #
+  #   (assign, ":dead_agent_player_id", -1),
+  #
+  #   (try_begin),
+  #     (multiplayer_is_server),
+  #     (ge, ":killer_agent_no", 0),
+  #     (ge, ":dead_agent_no", 0),
+  #     (agent_is_human, ":dead_agent_no"), #if dead agent is not horse
+  #     (agent_is_human, ":killer_agent_no"), #if killer agent is not horse
+  #     (agent_get_team, ":killer_agent_team", ":killer_agent_no"),
+  #     (agent_get_team, ":dead_agent_team", ":dead_agent_no"),
+  #   
+  #     (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch),
+  #     (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_duel),
+  #     (neq, ":killer_agent_team", ":dead_agent_team"), #if these agents are enemies
+  #
+  #     (neq, ":dead_agent_no", ":killer_agent_no"), #if agents are different, do not remove it is needed because in deathmatch mod, self killing passes here because of this or next.
+  #   
+  #     (try_begin),
+  #       (neg|agent_is_non_player, ":dead_agent_no"), 
+  #       (agent_get_player_id, ":dead_player_no", ":dead_agent_no"),
+  #       (player_get_slot, ":dead_agent_equipment_value", ":dead_player_no", slot_player_total_equipment_value),             
+  #     (else_try),
+  #       (assign, ":dead_agent_equipment_value", 0),
+  #     (try_end),
+  #
+  #     (assign, ":dead_agent_team_human_players_count", 0),
+  #     (get_max_players, ":num_players"),
+  #     (try_for_range, ":player_no", 0, ":num_players"),
+  #       (player_is_active, ":player_no"),
+  #       (player_get_team_no, ":player_team", ":player_no"),
+  #       (eq, ":player_team", ":dead_agent_team"),
+  #       (val_add, ":dead_agent_team_human_players_count", 1),
+  #     (try_end),
+  #       
+  #     (try_for_range, ":player_no", 0, ":num_players"),
+  #       (player_is_active, ":player_no"),
+  #        
+  #       (try_begin), 
+  #         (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle),
+  #         (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy),
+  #         (assign, ":one_spawn_per_round_game_type", 1),            
+  #       (else_try),
+  #         (assign, ":one_spawn_per_round_game_type", 0),
+  #       (try_end),
+  #       
+  #       (this_or_next|eq, ":one_spawn_per_round_game_type", 0),
+  #       (this_or_next|player_slot_eq, ":player_no", slot_player_spawned_this_round, 0),
+  #       (player_slot_eq, ":player_no", slot_player_spawned_this_round, 1),
+  #       
+  #       (player_get_agent_id, ":agent_no", ":player_no"),
+  #       (try_begin),
+  #         (eq, ":agent_no", ":dead_agent_no"), #if this agent is dead agent then get share from total loot. (20% of total equipment value)                 
+  #         (player_get_gold, ":player_gold", ":player_no"),
+  #
+  #         (assign, ":dead_agent_player_id", ":player_no"),
+  #        
+  #         #dead agent loot share (32%-48%-64%, norm : 48%)
+  #         (store_mul, ":share_of_dead_agent", ":dead_agent_equipment_value", multi_dead_agent_loot_percentage_share),
+  #         (val_div, ":share_of_dead_agent", 100),
+  #         (val_mul, ":share_of_dead_agent", "$g_multiplayer_battle_earnings_multiplier"),
+  #         (val_div, ":share_of_dead_agent", 100),
+  #         (try_begin),
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch), #(4/3x) share if current mod is deathmatch
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_duel), #(4/3x) share if current mod is duel
+  #           (eq, "$g_multiplayer_game_type", multiplayer_game_type_capture_the_flag), #(4/3x) share if current mod is capture the flag
+  #           #INVASION MODE START
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop), #(4/3x) share if current mod is captain coop
+  #           #INVASION MODE END
+  #           (eq, "$g_multiplayer_game_type", multiplayer_game_type_headquarters), #(4/3x) share if current mod is headquarters
+  #           (val_mul, ":share_of_dead_agent", 4),
+  #           (val_div, ":share_of_dead_agent", 3), 
+  #           (val_add, ":player_gold", ":share_of_dead_agent"), 
+  #         (else_try),
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle), #(2/3x) share if current mod is battle 
+  #           (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy), #(2/3x) share if current mod is fight and destroy
+  #           (val_mul, ":share_of_dead_agent", 2),
+  #           (val_div, ":share_of_dead_agent", 3),
+  #           (val_add, ":player_gold", ":share_of_dead_agent"),
+  #         (else_try),
+  #           (val_add, ":player_gold", ":share_of_dead_agent"), #(3/3x) share if current mod is siege, tdm was condition above (4/3)
+  #         (try_end),
+  #         (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
+	#	      (else_try),
+  #         (eq, ":agent_no", ":killer_agent_no"), #if this agent is killer agent then get share from total loot. (10% of total equipment value)
+  #         (player_get_gold, ":player_gold", ":player_no"),           
+  #
+  #         #killer agent standart money (100-150-200, norm : 150)
+  #         (assign, ":killer_agent_standard_money_addition", multi_killer_agent_standard_money_add),
+  #         (val_mul, ":killer_agent_standard_money_addition", "$g_multiplayer_battle_earnings_multiplier"),
+  #         (val_div, ":killer_agent_standard_money_addition", 100),
+  #         (try_begin),
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch), #(4/3x) share if current mod is deathmatch
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_duel), #(4/3x) share if current mod is duel
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_team_deathmatch), #(4/3x) share if current mod is team_deathmatch
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_capture_the_flag), #(4/3x) share if current mod is capture the flag
+  #           #INVASION MODE START
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop), #(4/3x) share if current mod is captain coop
+  #           #INVASION MODE END
+  #           (eq, "$g_multiplayer_game_type", multiplayer_game_type_headquarters), #(4/3x) share if current mod is headquarters
+  #           (val_mul, ":killer_agent_standard_money_addition", 4),
+  #           (val_div, ":killer_agent_standard_money_addition", 3),
+  #           (val_add, ":player_gold", ":killer_agent_standard_money_addition"), 
+  #         (else_try),
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle), #(2/3x) share if current mod is battle 
+  #           (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy), #(2/3x) share if current mod is fight and destroy
+  #           (val_mul, ":killer_agent_standard_money_addition", 2),
+  #           (val_div, ":killer_agent_standard_money_addition", 3),
+  #           (val_add, ":player_gold", ":killer_agent_standard_money_addition"),
+  #         (else_try),
+  #           (val_add, ":player_gold", ":killer_agent_standard_money_addition"), #(3/3x) share if current mod is siege
+  #         (try_end),
+  #
+  #         #killer agent loot share (8%-12%-16%, norm : 12%)
+  #         (store_mul, ":share_of_killer_agent", ":dead_agent_equipment_value", multi_killer_agent_loot_percentage_share),
+  #         (val_div, ":share_of_killer_agent", 100),
+  #         (val_mul, ":share_of_killer_agent", "$g_multiplayer_battle_earnings_multiplier"),
+  #         (val_div, ":share_of_killer_agent", 100),
+  #         (try_begin),
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch), #(4/3x) share if current mod is deathmatch
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_duel), #(4/3x) share if current mod is duel
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_team_deathmatch), #(4/3x) share if current mod is team_deathmatch
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_capture_the_flag), #(4/3x) share if current mod is capture the flag
+  #           #INVASION MODE START
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop), #(4/3x) share if current mod is captain coop
+  #           #INVASION MODE END
+  #           (eq, "$g_multiplayer_game_type", multiplayer_game_type_headquarters), #(4/3x) share if current mod is headquarters
+  #           (val_mul, ":share_of_killer_agent", 4),
+  #           (val_div, ":share_of_killer_agent", 3),
+  #           (val_add, ":player_gold", ":share_of_killer_agent"), 
+  #         (else_try),
+  #           (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle), #(2/3x) share if current mod is battle 
+  #           (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy), #(2/3x) share if current mod is fight and destroy
+  #           (val_mul, ":share_of_killer_agent", 2),
+  #           (val_div, ":share_of_killer_agent", 3),
+  #           (val_add, ":player_gold", ":share_of_killer_agent"),
+  #         (else_try),
+  #           (val_add, ":player_gold", ":share_of_killer_agent"), #(3/3x) share if current mod is siege
+  #         (try_end),
+  #         
+  #         #INVASION MODE START
+  #  	   (try_begin),
+  #           (eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop),
+  #           (player_get_gold, ":player_gold", ":player_no"),
+  #           (store_mul, ":share_of_killer_agent", "$g_multiplayer_ccoop_wave_no", 20),
+  #           (val_sub, ":share_of_killer_agent", 20),
+  #           (val_add, ":share_of_killer_agent", multi_killer_captain_coop_add),
+  #           (val_mul, ":share_of_killer_agent", "$g_multiplayer_battle_earnings_multiplier"),
+  #           (val_div, ":share_of_killer_agent", 100),
+  #           (val_add, ":player_gold", ":share_of_killer_agent"),
+  #  	   (try_end),
+  #         #INVASION MODE END
+  #         
+  #         (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
+  #       #INVASION MODE START
+  #       (else_try),
+  #         (agent_get_player_id, ":player_no", ":killer_agent_no"),
+  #         (eq, ":player_no", -1), #if killer agent is a bot
+  #         (eq, "$g_multiplayer_is_game_type_captain", 1),
+  #
+  #         (agent_get_group, ":agent_group", ":killer_agent_no"),
+  #         (player_is_active, ":agent_group"),
+  #
+  #         (player_get_gold, ":player_gold", ":agent_group"),
+  #         (try_begin),
+  #           (eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop),
+  #           (store_mul, ":share_of_killer_agent", "$g_multiplayer_ccoop_wave_no", 20),
+  #           (val_sub, ":share_of_killer_agent", 20),
+  #           (val_add, ":share_of_killer_agent", multi_killer_captain_coop_add),
+  #           (val_mul, ":share_of_killer_agent", "$g_multiplayer_battle_earnings_multiplier"),
+  #           (val_div, ":share_of_killer_agent", 100),
+  #           (val_add, ":player_gold", ":share_of_killer_agent"),
+  #         (else_try),
+  #           (val_add, ":player_gold", multi_killer_captain_add),
+  #         (try_end),
+  #         (player_set_gold, ":agent_group", ":player_gold", multi_max_gold_that_can_be_stored),
+  #       #INVASION MODE END
+  #       (try_end),
+  #     (try_end),
+  #   (try_end),
+  #
+  #   #(below lines added new at 25.11.09 after Armagan decided new money system)
+  #   #(try_begin),
+  #   #  (multiplayer_is_server),
+  #   #  (neq, "$g_multiplayer_game_type", multiplayer_game_type_battle),
+  #   #  (neq, "$g_multiplayer_game_type", multiplayer_game_type_destroy),
+	# #
+  #   #  (ge, ":dead_agent_no", 0),
+  #   #  (agent_is_human, ":dead_agent_no"), #if dead agent is not horse
+  #   #  (agent_get_player_id, ":dead_agent_player_id", ":dead_agent_no"),
+  #   #  (ge, ":dead_agent_player_id", 0),
+  #   # 
+  #   #  (player_get_gold, ":player_gold", ":dead_agent_player_id"),
+  #   #  (try_begin),
+  #   #    (store_mul, ":minimum_gold", "$g_multiplayer_initial_gold_multiplier", 10),
+  #   #    (lt, ":player_gold", ":minimum_gold"),
+  #   #    (assign, ":player_gold", ":minimum_gold"),
+  #   #  (try_end),
+  #   #  (player_set_gold, ":dead_agent_player_id", ":player_gold"),
+  #   #(try_end),
+  #   #new money system addition end          
+  #   #INVASION MODE START
+  #   (try_begin),
+  #     (multiplayer_is_server),
+  #     #we add gold to player if bot kill enemy
+  #     #multi_killer_captain_add
+  #     (eq, "$g_multiplayer_is_game_type_captain", 1),
+  #     #(store_script_param, ":killer_agent_no", 1),
+  #     #(store_script_param, ":dead_agent_no", 2),
+  #     (ge, ":killer_agent_no", 0),
+  #     (ge, ":dead_agent_no", 0),
+  #     (agent_is_human, ":killer_agent_no"),
+  #     (agent_is_non_player, ":killer_agent_no"),
+  #     (agent_get_group, ":agent_group", ":killer_agent_no"), # get the controlling player of this bot
+  #     (agent_get_team, ":killer_team", ":killer_agent_no"), 
+  #     (agent_get_team, ":dead_team", ":dead_agent_no"), 
+  #     (neq, ":killer_team", ":dead_team"), 
+  #     (player_is_active, ":agent_group"),
+  #     (player_get_gold, ":player_gold", ":agent_group"),
+	#   (try_begin),
+	#	 (neq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop),
+	#	 (val_add, ":player_gold", multi_killer_captain_add),
+	#   (try_end),
+	#   (player_set_gold, ":agent_group", ":player_gold", multi_max_gold_that_can_be_stored),
+  #   (try_end), 
+  #   #INVASION MODE END
+  #   ]),
     #---------------GTD-END---------------
 
 	("initialize_aristocracy",
@@ -8320,6 +8314,7 @@ scripts = [
          (try_begin),
            (neq, ":killer_agent_team", ":dead_agent_team"),
            (val_add, ":killer_agent_player_score", 1),
+           
          (else_try),
            (val_add, ":killer_agent_player_score", -1),
          (try_end),
@@ -9366,12 +9361,12 @@ scripts = [
             #reset troop_id to -1
             (player_set_troop_id, ":player_no", -1),
             #modded(player_set_team_no, ":player_no", ":value"),
-			##players are always team  (team 2 is spectator)
+			      ##players are always team  (team 2 is spectator)
             
-			(neq, ":value", 0),
-			(player_set_team_no, ":player_no", ":value"),
+			      (neq, ":value", 0),
+			      (player_set_team_no, ":player_no", ":value"),
 			
-			(try_begin),
+			      (try_begin),
               (neq, ":value", multi_team_spectator),
               (neq, ":value", multi_team_unassigned),
       
@@ -9402,79 +9397,7 @@ scripts = [
           #(eq, ":new_troop_faction", ":team_faction"),
 		  
 		   #modded select troop based on gold:
-		  (player_get_gold, ":player_gold", ":player_no"),
-		  (try_begin),
-			(is_between, ":player_gold", 0,5),
-			(player_set_troop_id, ":player_no", "trp_rhodok_spearman"),
-		  (else_try),
-			(is_between, ":player_gold", 5,20),
-			(player_set_troop_id, ":player_no", "trp_rhodok_spearman"),
-		  (else_try),
-			(is_between, ":player_gold", 20,45),
-			(player_set_troop_id, ":player_no", "trp_rhodok_trained_spearman"),
-		  (else_try),
-			(is_between, ":player_gold", 45,75),
-			(player_set_troop_id, ":player_no", "trp_rhodok_veteran_spearman"),
-		  (else_try),
-			(is_between, ":player_gold", 75,110),
-			(player_set_troop_id, ":player_no", "trp_nord_warrior"),
-		  (else_try),
-			(is_between, ":player_gold", 110,175),
-			(player_set_troop_id, ":player_no", "trp_nord_veteran"),
-		  (else_try),
-          	(is_between, ":player_gold", 175,250),
-			(player_set_troop_id, ":player_no", "trp_rhodok_sergeant"),
-		  (else_try),
-          	(is_between, ":player_gold", 250,500),
-			(player_set_troop_id, ":player_no", "trp_swadian_skirmisher"),
-		  (else_try),
-          (is_between, ":player_gold", 500,800),
-			(player_set_troop_id, ":player_no", "trp_nord_huntsman"),
-		  (else_try),
-          (is_between, ":player_gold", 800,1100),
-			(player_set_troop_id, ":player_no", "trp_rhodok_trained_crossbowman"),
-		  (else_try),
-          (is_between, ":player_gold", 1100,1600),
-			(player_set_troop_id, ":player_no", "trp_sarranid_archer"),
-		  (else_try),
-          (is_between, ":player_gold", 1600,2100),
-			(player_set_troop_id, ":player_no", "trp_swadian_sharpshooter"),
-		  (else_try),
-          (is_between, ":player_gold", 2100,3000),
-			(player_set_troop_id, ":player_no", "trp_nord_veteran_archer"),
-		  (else_try),
-          (is_between, ":player_gold", 3000,3900),
-			(player_set_troop_id, ":player_no", "trp_rhodok_sharpshooter"),
-		  (else_try),
-          (is_between, ":player_gold", 3900,5000),
-			(player_set_troop_id, ":player_no", "trp_khergit_veteran_horse_archer"),
-		  (else_try),
-          (is_between, ":player_gold", 5000,6500),
-			(player_set_troop_id, ":player_no", "trp_rhodok_sharpshooter"),
-		  (else_try),
-          (is_between, ":player_gold", 6500,8000),
-			(player_set_troop_id, ":player_no", "trp_sarranid_master_archer"),
-		  (else_try),
-          (is_between, ":player_gold", 8000,10500),
-			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		  (else_try),
-          (is_between, ":player_gold", 10500,14500),
-			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		  (else_try),
-          (is_between, ":player_gold", 14500,18500),
-			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		  (else_try),
-          (is_between, ":player_gold", 18500,25000),
-			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		  (else_try),
-          (is_between, ":player_gold", 25000,35000),
-			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		  (else_try),         
-			(ge, ":player_gold", 35000),
-			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
-		  (else_try), #default error troop
-			(player_set_troop_id, ":player_no", 0),
-		  (try_end),
+       (call_script, "script_gtd_choose_player_troop", ":player_no"),
 		  
           
           (call_script, "script_multiplayer_clear_player_selected_items", ":player_no"),
@@ -11494,6 +11417,8 @@ scripts = [
   # script_cf_multiplayer_team_is_available
   # Input: arg1 = player_no, arg2 = team_no
   # Output: none, true or false 
+  #----------------GTD-START--------------
+  #disable first team permanently
   ("cf_multiplayer_team_is_available",
    [
      (store_script_param, ":player_no", 1),
@@ -11555,6 +11480,7 @@ scripts = [
      (try_end),
      (eq, ":continue_change_team", 1),
      ]),
+  #----------------GTD-END----------------
 
   # script_find_number_of_agents_constant
   # Input: none
@@ -13711,14 +13637,14 @@ scripts = [
 		(player_add_spawn_item, ":player_no", ek_item_0, "itm_stones"),
 		(player_add_spawn_item, ":player_no", ek_item_1, "itm_stones"),
 		(player_add_spawn_item, ":player_no", ek_item_2, "itm_stones"),
-        (player_add_spawn_item, ":player_no", ek_item_3, "itm_stones"),
+    (player_add_spawn_item, ":player_no", ek_item_3, "itm_stones"),
 		(player_add_spawn_item, ":player_no", ek_head, "itm_arming_cap"),
 		(player_add_spawn_item, ":player_no", ek_body, "itm_shirt"),
 		(player_add_spawn_item, ":player_no", ek_foot, "itm_no_item"),
 		(player_add_spawn_item, ":player_no", ek_gloves, "itm_no_item"),
 		(player_add_spawn_item, ":player_no", ek_horse, "itm_no_item"),
 	(else_try),
-        (is_between,":player_gold", lvl1_limit,lvl2_limit),
+    (is_between,":player_gold", lvl1_limit,lvl2_limit),
 		(player_add_spawn_item, ":player_no", ek_item_0, "itm_throwing_knives"),
 		(player_add_spawn_item, ":player_no", ek_item_1, "itm_throwing_knives"),
 		(player_add_spawn_item, ":player_no", ek_item_2, "itm_throwing_knives"),
@@ -13729,7 +13655,7 @@ scripts = [
 		(player_add_spawn_item, ":player_no", ek_gloves, "itm_no_item"),
 		(player_add_spawn_item, ":player_no", ek_horse, "itm_no_item"),
     (else_try),
-        (is_between,":player_gold", lvl2_limit,lvl3_limit),
+    (is_between,":player_gold", lvl2_limit,lvl3_limit),
 		(player_add_spawn_item, ":player_no", ek_item_0, "itm_darts"),
 		(player_add_spawn_item, ":player_no", ek_item_1, "itm_darts"),
 		(player_add_spawn_item, ":player_no", ek_item_2, "itm_darts"),
@@ -13740,7 +13666,7 @@ scripts = [
 		(player_add_spawn_item, ":player_no", ek_gloves, "itm_no_item"),
 		(player_add_spawn_item, ":player_no", ek_horse, "itm_no_item"),
     (else_try),
-        (is_between,":player_gold", lvl3_limit,lvl4_limit),
+    (is_between,":player_gold", lvl3_limit,lvl4_limit),
 		(player_add_spawn_item, ":player_no", ek_item_0, "itm_throwing_daggers"),
 		(player_add_spawn_item, ":player_no", ek_item_1, "itm_throwing_daggers"),
 		(player_add_spawn_item, ":player_no", ek_item_2, "itm_throwing_daggers"),
@@ -13751,7 +13677,7 @@ scripts = [
 		(player_add_spawn_item, ":player_no", ek_gloves, "itm_no_item"),
 		(player_add_spawn_item, ":player_no", ek_horse, "itm_no_item"),
     (else_try),
-        (is_between,":player_gold", lvl4_limit,lvl5_limit),
+    (is_between,":player_gold", lvl4_limit,lvl5_limit),
 		(player_add_spawn_item, ":player_no", ek_item_0, "itm_war_darts"),
 		(player_add_spawn_item, ":player_no", ek_item_1, "itm_war_darts"),
 		(player_add_spawn_item, ":player_no", ek_item_2, "itm_war_darts"),
@@ -13762,7 +13688,7 @@ scripts = [
 		(player_add_spawn_item, ":player_no", ek_gloves, "itm_no_item"),
 		(player_add_spawn_item, ":player_no", ek_horse, "itm_no_item"),
     (else_try),
-        (is_between,":player_gold", lvl5_limit,lvl6_limit),
+    (is_between,":player_gold", lvl5_limit,lvl6_limit),
 		(player_add_spawn_item, ":player_no", ek_item_0, "itm_javelin"),
 		(player_add_spawn_item, ":player_no", ek_item_1, "itm_javelin"),
 		(player_add_spawn_item, ":player_no", ek_item_2, "itm_javelin"),
@@ -13773,7 +13699,7 @@ scripts = [
 		(player_add_spawn_item, ":player_no", ek_gloves, "itm_no_item"),
 		(player_add_spawn_item, ":player_no", ek_horse, "itm_no_item"),
     (else_try),
-        (is_between,":player_gold", lvl6_limit,lvl7_limit),
+    (is_between,":player_gold", lvl6_limit,lvl7_limit),
 		(player_add_spawn_item, ":player_no", ek_item_0, "itm_jarid"),
 		(player_add_spawn_item, ":player_no", ek_item_1, "itm_jarid"),
 		(player_add_spawn_item, ":player_no", ek_item_2, "itm_jarid"),
@@ -13784,7 +13710,7 @@ scripts = [
 		(player_add_spawn_item, ":player_no", ek_gloves, "itm_no_item"),
 		(player_add_spawn_item, ":player_no", ek_horse, "itm_no_item"),
     (else_try),
-        (is_between,":player_gold", lvl7_limit,lvl8_limit),
+    (is_between,":player_gold", lvl7_limit,lvl8_limit),
 		(player_add_spawn_item, ":player_no", ek_item_0, "itm_hunting_crossbow"),
 		(player_add_spawn_item, ":player_no", ek_item_1, "itm_bolts"),
 		(player_add_spawn_item, ":player_no", ek_item_2, "itm_bolts"),
@@ -51467,21 +51393,97 @@ scripts = [
     
     ("calculate_wave_bot_num",[
 		(store_script_param_1, ":x"),
-        (store_script_param_2, ":c"),
-        (val_mul, ":c", 100),
-        (store_mul,":ax", ":x", ":x"),
-        (val_mul,":ax", 17),
-        (store_mul, ":bx", ":x", 170),
-        (store_add, ":ax_bx", ":ax", ":bx"),
-        (val_add, ":ax_bx", ":c"),
-        (val_div, ":ax_bx", 100),
-        (assign, reg30, ":ax_bx"),
-        (assign, reg0, ":ax"),
-        (call_script, "script_send_server_message_to_players", "str_reg0_debug"),
+        #(store_script_param_2, ":c"),
+        #(val_mul, ":c", 100),
+        #(store_mul,":ax", ":x", ":x"),
+        #(val_mul,":ax", 17),
+        #(store_mul, ":bx", ":x", 170),
+        #(store_add, ":ax_bx", ":ax", ":bx"),
+        #(val_add, ":ax_bx", ":c"),
+        #(val_div, ":ax_bx", 100),
+        #(assign, reg30, ":ax_bx"),
+        #(assign, reg0, ":ax"),
+        (assign, reg30, 30),
+        #(call_script, "script_send_server_message_to_players", "str_reg0_debug"),
 	]),
     
     
-	
+  ("gtd_choose_player_troop", [
+     (store_script_param_1, ":player_no"),
+     	(player_get_gold, ":player_gold", ":player_no"),
+		  (try_begin),
+			(is_between, ":player_gold", 0,5),
+			(player_set_troop_id, ":player_no", "trp_rhodok_spearman"),
+		  (else_try),
+			(is_between, ":player_gold", 5,20),
+			(player_set_troop_id, ":player_no", "trp_rhodok_spearman"),
+		  (else_try),
+			(is_between, ":player_gold", 20,45),
+			(player_set_troop_id, ":player_no", "trp_rhodok_trained_spearman"),
+		  (else_try),
+			(is_between, ":player_gold", 45,75),
+			(player_set_troop_id, ":player_no", "trp_rhodok_veteran_spearman"),
+		  (else_try),
+			(is_between, ":player_gold", 75,110),
+			(player_set_troop_id, ":player_no", "trp_nord_warrior"),
+		  (else_try),
+			(is_between, ":player_gold", 110,175),
+			(player_set_troop_id, ":player_no", "trp_nord_veteran"),
+		  (else_try),
+          	(is_between, ":player_gold", 175,250),
+			(player_set_troop_id, ":player_no", "trp_rhodok_sergeant"),
+		  (else_try),
+          	(is_between, ":player_gold", 250,500),
+			(player_set_troop_id, ":player_no", "trp_swadian_skirmisher"),
+		  (else_try),
+          (is_between, ":player_gold", 500,800),
+			(player_set_troop_id, ":player_no", "trp_nord_huntsman"),
+		  (else_try),
+          (is_between, ":player_gold", 800,1100),
+			(player_set_troop_id, ":player_no", "trp_rhodok_trained_crossbowman"),
+		  (else_try),
+          (is_between, ":player_gold", 1100,1600),
+			(player_set_troop_id, ":player_no", "trp_sarranid_archer"),
+		  (else_try),
+          (is_between, ":player_gold", 1600,2100),
+			(player_set_troop_id, ":player_no", "trp_swadian_sharpshooter"),
+		  (else_try),
+          (is_between, ":player_gold", 2100,3000),
+			(player_set_troop_id, ":player_no", "trp_nord_veteran_archer"),
+		  (else_try),
+          (is_between, ":player_gold", 3000,3900),
+			(player_set_troop_id, ":player_no", "trp_rhodok_sharpshooter"),
+		  (else_try),
+          (is_between, ":player_gold", 3900,5000),
+			(player_set_troop_id, ":player_no", "trp_khergit_veteran_horse_archer"),
+		  (else_try),
+          (is_between, ":player_gold", 5000,6500),
+			(player_set_troop_id, ":player_no", "trp_rhodok_sharpshooter"),
+		  (else_try),
+          (is_between, ":player_gold", 6500,8000),
+			(player_set_troop_id, ":player_no", "trp_sarranid_master_archer"),
+		  (else_try),
+          (is_between, ":player_gold", 8000,10500),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try),
+          (is_between, ":player_gold", 10500,14500),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try),
+          (is_between, ":player_gold", 14500,18500),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try),
+          (is_between, ":player_gold", 18500,25000),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try),
+          (is_between, ":player_gold", 25000,35000),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try),         
+			(ge, ":player_gold", 35000),
+			(player_set_troop_id, ":player_no", "trp_vaegir_marksman"),
+		  (else_try), #default error troop
+			(player_set_troop_id, ":player_no", 0),
+		  (try_end),
+  ]),
 
 	
 	 ("get_available_troops_for_round",[ 
@@ -51492,11 +51494,11 @@ scripts = [
             (store_random_in_range,":random",0,5),
             (assign, ":troop", -1),
             (try_begin),
-            (eq, ":random", 0),
-            (assign, ":troop", "trp_looter"),
+            (ge, ":random", 0),
+            (assign, ":troop", "trp_slave_driver"),
             (else_try),
             (eq, ":random", 1),
-            (assign, ":troop", "trp_looter"),
+            (assign, ":troop", "trp_slave_driver"),
             (else_try),
             (eq, ":random", 2),
             (assign, ":troop", "trp_looter"),
@@ -51926,7 +51928,6 @@ scripts = [
     ]),
     
     ("send_kills_until_upgrade_to_players", [
-    
     (try_for_players, ":player_no", 1),
          (player_is_active, ":player_no"),
          (player_get_gold, ":player_gold", ":player_no"),
@@ -52022,8 +52023,6 @@ scripts = [
          
          (call_script, "script_send_server_message_to_player", ":player_no", "str_next_upgrade_status"),
          (try_end),
-    
-    
     ]),
 
         #---------------GTD-END---------------

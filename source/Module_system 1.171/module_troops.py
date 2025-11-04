@@ -2673,6 +2673,7 @@ troops = [
    ["coop_companion_equipment_sets_end","{!}multiplayer_end","{!}multiplayer_end", 0, 0, 0, fac_kingdom_5, [], 0, 0, 0, 0, 0],
 
   
+  
 ]
 
 
