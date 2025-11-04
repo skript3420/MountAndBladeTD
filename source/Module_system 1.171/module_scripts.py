@@ -5502,7 +5502,7 @@ scripts = [
         (try_end),
       (try_end),
       ]),
-      
+  #---------------GTD-START---------------
   #money management modded 
   ("money_management_after_agent_death",
    [
@@ -5534,6 +5534,7 @@ scripts = [
      (store_script_param, ":killer_agent_no", 1),
      (store_script_param, ":dead_agent_no", 2),
 
+     (assign, ":dead_agent_player_id", -1),
 
      (try_begin),
        (multiplayer_is_server),
@@ -5544,7 +5545,8 @@ scripts = [
        (agent_get_team, ":killer_agent_team", ":killer_agent_no"),
        (agent_get_team, ":dead_agent_team", ":dead_agent_no"),
      
- 
+       (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch),
+       (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_duel),
        (neq, ":killer_agent_team", ":dead_agent_team"), #if these agents are enemies
 
        (neq, ":dead_agent_no", ":killer_agent_no"), #if agents are different, do not remove it is needed because in deathmatch mod, self killing passes here because of this or next.
@@ -5586,6 +5588,7 @@ scripts = [
            (eq, ":agent_no", ":dead_agent_no"), #if this agent is dead agent then get share from total loot. (20% of total equipment value)                 
            (player_get_gold, ":player_gold", ":player_no"),
 
+           (assign, ":dead_agent_player_id", ":player_no"),
           
            #dead agent loot share (32%-48%-64%, norm : 48%)
            (store_mul, ":share_of_dead_agent", ":dead_agent_equipment_value", multi_dead_agent_loot_percentage_share),
@@ -5761,6 +5764,7 @@ scripts = [
      (try_end), 
      #INVASION MODE END
      ]),
+    #---------------GTD-END---------------
 
 	("initialize_aristocracy",
 	[
@@ -7420,7 +7424,6 @@ scripts = [
        (else_try),  
          (display_message, "@{s7} closed the gate"),
        (try_end),
-       
      (try_end),  
 
      (prop_instance_get_scene_prop_kind, ":scene_prop_id", ":instance_id"),
@@ -9101,9 +9104,9 @@ scripts = [
       (store_mission_timer_a, "$g_round_finish_time"),
         
       (team_get_faction, ":faction_of_winner_team", 0),
-      (team_get_score, ":team1_score", 0),
-      (val_add, ":team1_score", 1),
-      (team_set_score, 0, ":team1_score"),
+      (team_get_score, ":team_1_score", 0),
+      (val_add, ":team_1_score", 1),
+      (team_set_score, 0, ":team_1_score"),
       (assign, "$g_winner_team", 0),
       (str_store_faction_name, s1, ":faction_of_winner_team"),
 
@@ -9122,9 +9125,9 @@ scripts = [
       (store_mission_timer_a, "$g_round_finish_time"),
   
       (team_get_faction, ":faction_of_winner_team", 1),
-      (team_get_score, ":team2_score", 1),
-      (val_add, ":team2_score", 1),
-      (team_set_score, 1, ":team2_score"),
+      (team_get_score, ":team_2_score", 1),
+      (val_add, ":team_2_score", 1),
+      (team_set_score, 1, ":team_2_score"),
       (assign, "$g_winner_team", 1),
       (str_store_faction_name, s1, ":faction_of_winner_team"),
 
@@ -9261,7 +9264,28 @@ scripts = [
       (assign, reg0, ":most_suitable_bot"),
     ]),
 
-
+  #script_game_receive_url_response
+  #response format should be like this:
+  #  [a number or a string]|[another number or a string]|[yet another number or a string] ...
+  # here is an example response:
+  # 12|Player|100|another string|142|323542|34454|yet another string
+  # INPUT: arg1 = num_integers, arg2 = num_strings
+  # reg0, reg1, reg2, ... up to 128 registers contain the integer values
+  # s0, s1, s2, ... up to 128 strings contain the string values
+  #("game_receive_url_response",
+    #[
+    ##here is an example usage
+    #  (store_script_param, ":num_integers", 1),
+    #  (store_script_param, ":num_strings", 2),
+    #  (try_begin),
+    #    (gt, ":num_integers", 4),
+    #    (display_message, "@{reg0}, {reg1}, {reg2}, {reg3}, {reg4}"),
+    #  (try_end),
+    #  (try_begin),
+    #    (gt, ":num_strings", 4),
+    #    (display_message, "@{s0}, {s1}, {s2}, {s3}, {s4}"),
+    #  (try_end),
+    #]),
       
   ("game_get_cheat_mode",
   [
@@ -9334,6 +9358,7 @@ scripts = [
           #validity check
           (player_get_team_no, ":player_team", ":player_no"),
           (neq, ":player_team", ":value"),
+
           #condition checks are done
           (try_begin),
             #check if available
@@ -9354,7 +9379,6 @@ scripts = [
               (player_set_slot, ":player_no", slot_player_last_team_select_time, ":player_last_team_select_time"),
       
               (multiplayer_send_message_to_player, ":player_no", multiplayer_event_return_confirmation),
-			  
             (try_end),
           (else_try),
             #reject request
@@ -12990,7 +13014,7 @@ scripts = [
       (try_end),
       (assign, reg0, ":result_leader"),
       ]),
-
+    #---------------GTD-START---------------
   # script_multiplayer_find_bot_troop_and_group_for_spawn_native
   # Input: arg1 = team_no
   # Output: reg0 = troop_id, reg1 = group_id
@@ -13008,7 +13032,7 @@ scripts = [
 
       (try_for_range, ":troop_no", multiplayer_ai_troops_begin, multiplayer_ai_troops_end),
         (store_troop_faction, ":troop_faction", ":troop_no"),
-       (eq, ":troop_faction", ":team_faction_no"),
+        (eq, ":troop_faction", ":team_faction_no"),
         (store_add, ":wanted_slot", slot_player_bot_type_1_wanted, ":available_troops_in_faction"),
         (val_add, ":available_troops_in_faction", 1),
         (try_begin),
@@ -13062,7 +13086,8 @@ scripts = [
 		(assign, reg0, ":troop_to_spawn"),
 		(assign, reg1, ":leader_player"),
 	  (try_end),
-    ]),		  
+    ]),
+      #---------------GTD-END---------------		  
 
   # script_multiplayer_change_leader_of_bot
   # Input: arg1 = agent_no
@@ -13076,7 +13101,7 @@ scripts = [
       (agent_set_group, ":agent_no", ":leader_player"),
       ]),
       
- 
+   #---------------GTD-START---------------
     #modded version script_multiplayer_find_spawn_point_modded just needed for players, bots always spawn at 0/32 see in multiplayer_server_spawn_bots
  ("multiplayer_find_spawn_point",
   [
@@ -13174,6 +13199,7 @@ scripts = [
 
      (multiplayer_find_spawn_point, reg0, ":team_no", ":flags"),
   ]),
+    #---------------GTD-END---------------
     
   # script_multiplayer_find_spawn_point_2
   # Input: arg1 = team_no, arg2 = examine_all_spawn_points, arg3 = is_horseman
@@ -13675,7 +13701,7 @@ scripts = [
      (try_end),
      (assign, reg0, ":best_entry_point"), 
      ]),
-	 
+	   #---------------GTD-START---------------
   ##script_multiplayer_buy_agent_equipment_modded
   ("multiplayer_buy_agent_equipment",[
 	(store_script_param, ":player_no", 1),
@@ -13935,6 +13961,7 @@ scripts = [
 		(player_add_spawn_item, ":player_no", ek_horse, "itm_no_item"),
 	(try_end),
   ]),
+
   
   #script_multiplayer_buy_agent_equipment_native
   # Input: arg1 = player_no
@@ -14062,9 +14089,8 @@ scripts = [
          (player_set_slot, ":player_no", ":max_cost_value_index", ":item_id"),
        (else_try),
          (assign, ":end_cond", 0),
-         #modded: commenting this out, dont want player to loose gold for buying
-		 #(val_sub, ":player_gold", ":total_cost"),
-         #(player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
+         (val_sub, ":player_gold", ":total_cost"),
+         (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
          (try_for_range, ":i_item", slot_player_cur_selected_item_indices_begin, slot_player_cur_selected_item_indices_end),
            (player_get_slot, ":item_id", ":player_no", ":i_item"),
            #checking if different class default item replace is needed for weapons
@@ -14136,6 +14162,8 @@ scripts = [
        (try_end),
      (try_end),
      ]),
+
+         #---------------GTD-END---------------
   
   # script_party_get_ideal_size @used for NPC parties.
   # Input: arg1 = party_no
@@ -51168,7 +51196,7 @@ scripts = [
     ]),
    #INVASION MODE END
    
-   
+       #---------------WSE-BEGIN---------------
    
    #script_wse_multiplayer_message_received
 # Called each time a composite multiplayer message is received
@@ -51273,7 +51301,9 @@ scripts = [
 ("wse_get_server_info", [
 ]),
 
+    #---------------WSE-END---------------
 
+    #---------------GTD-START---------------
 
 
 ("send_server_message_to_players",
@@ -51995,5 +52025,7 @@ scripts = [
     
     
     ]),
+
+        #---------------GTD-END---------------
      
 ]
