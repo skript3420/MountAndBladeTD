@@ -51413,7 +51413,7 @@ scripts = [
             (assign, ":troop", -1),
             (try_begin),
             (ge, ":random", 0),
-            (assign, ":troop", "trp_slave_driver"),
+            (assign, ":troop", "trp_hired_assassin"),
             (else_try),
             (eq, ":random", 1),
             (assign, ":troop", "trp_slave_driver"),

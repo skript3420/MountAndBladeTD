@@ -8271,6 +8271,18 @@ mission_templates = [
           (agent_get_troop_id, ":agent_trp_id", ":agent_no"),
           (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
           (agent_is_alive, ":agent_no"),
+          #keep harlaus from moving
+          #last two parameters: [auto_set_z_to_ground_level],[no_rethink] 
+          #(agent_set_scripted_destination, ":agent_no", "$g_harlaus_spawn_position", 1, 0),
+          #handle special damage to harlaus
+          (gt, "$g_special_dmg_harlaus", 0),
+          (assign, reg0, "$g_special_dmg_harlaus"), #for debug display
+          (display_message, "@sd: {reg0}"),
+          (store_agent_hit_points, ":harlaus_hp", ":agent_no",1), #0: relative, 1: absolute
+          (val_sub, ":harlaus_hp", "$g_special_dmg_harlaus"), #apply special dmg
+          (agent_set_hit_points, ":agent_no", ":harlaus_hp",1), #set dmg
+          (agent_deliver_damage_to_agent, ":agent_no", ":agent_no", 0), #update health
+          (assign, "$g_special_dmg_harlaus", 0), #reset special dmg
         (try_end),
 
       (try_end),
@@ -8279,17 +8291,6 @@ mission_templates = [
       (team_set_slot, 0, slot_team_num_bots_alive, ":num_bots_alive"),  
     ]),
 
-
-      (1, 0,0, [],[  #find harlaus and set him to not alarmed
-        (entry_point_get_position, pos1, 32),
-        (try_for_agents, ":agent_no"),
-        (agent_get_troop_id, ":agent_trp_id", ":agent_no"),
-        (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
-        (agent_set_scripted_destination, ":agent_no", pos1, 1, 0),
-        (agent_force_rethink, ":agent_no"),
-        (try_end),
-      ]),
-
     
     #server initial settings   
     (ti_before_mission_start ,0,0,[],[ #set bot count at beginning 
@@ -8297,6 +8298,11 @@ mission_templates = [
 			(assign, "$g_is_wave_active", 0), #and set wave as inactive
             (assign, "$g_game_end_timestamp", 0),
             (assign, "$g_delay_before_restart", 15),
+            (assign, "$g_special_dmg_harlaus", 0),
+            #find harlaus spawn point 
+            (entry_point_get_position, pos1, 32), #entry point 32 is harlaus spawn point
+            (assign, "$g_harlaus_spawn_position", pos1),
+            #count ammo chests on map
             (scene_prop_get_num_instances, "$g_num_ammo_chests", "spr_chest_b"),
             
 	  ]),
@@ -8320,7 +8326,7 @@ mission_templates = [
     ]),
 
     #server catch game ending, if all bots dead
-   #multiplayer_server_check_end_map function (modded) handles end map, 
+    #multiplayer_server_check_end_map function (modded) handles end map, 
     #when player team score > max score 
     (1, 0, 0, [(eq, "$g_is_wave_active", 2)], 
     [
@@ -8384,21 +8390,13 @@ mission_templates = [
 				(assign, "$g_is_wave_active", 1),
 	   ]),
        
-      #check if spawned number of bots (above) reached -> if so start wave 
+      #check if full wave spawned, then switch gamestate to wave started
       (1,0,0, [(eq, "$g_is_wave_active",1)], [ 
-			(assign, ":num_bots_t_1"),
-			(try_for_agents, ":agent_no"),
-				(agent_is_non_player, ":agent_no"),
-				(agent_is_alive, ":agent_no"),
-				(agent_is_human, ":agent_no"),
-				(agent_get_team, ":agent_team_no", ":agent_no"),
-				(eq, ":agent_team_no", 0),
-				(val_add, ":num_bots_t_1", 1),
-			(try_end),
-			(ge, ":num_bots_t_1", "$g_multiplayer_num_bots_team_1"),
-      #switch gamestate from wave spawn(1) to wave started(2)
-      (assign, "$g_is_wave_active", 2),
-	   ]),
+        (team_get_slot, ":num_bots_alive", 0, slot_team_num_bots_alive),
+        (ge, ":num_bots_alive", "$g_multiplayer_num_bots_team_1"),
+        #switch gamestate from wave spawn(1) to wave started(2)
+        (assign, "$g_is_wave_active", 2),
+	    ]),
        
       (ti_once, 0,0, [(eq, "$g_is_wave_active", 2)],[  #find harlaus and set max hp
         (try_for_agents, ":agent_no"),
@@ -8414,7 +8412,7 @@ mission_templates = [
        
       
        
-       (ti_on_agent_hit, 0,0, [],[ #announce harlaus %hp if hes hit
+       (ti_on_agent_hit, 0,1, [],[ #announce harlaus %hp if hes hit
         (store_trigger_param_1, ":agent_id"),
         (agent_get_troop_id, ":agent_trp_id", ":agent_id"),
         (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
@@ -8431,7 +8429,6 @@ mission_templates = [
             (agent_get_team, ":agent_team", ":agent_no"),
             (neq, ":agent_team", 1),
             (agent_set_scripted_destination, ":agent_no", pos1,1,0), #first 1 is for z to set to ground level, second is no rethink true/false
-            (agent_force_rethink, ":agent_no"),
         (try_end),
        ]),
 
@@ -8452,24 +8449,8 @@ mission_templates = [
             (neq, ":rider_agent", -1), #has rider
             (agent_get_troop_id, ":agent_troop", ":rider_agent"),
             (eq, ":agent_troop", "trp_hired_assassin"), #if hired assassin rider
-            #init variables
-            (assign, ":harlaus_agent_id", -1),
-            (assign, ":harlaus_hp", -1),
-            #search for harlaus, store his hp
-            (try_for_agents, ":agent_id"),
-              (agent_is_alive, ":agent_id"),
-              (agent_get_team, ":agent_team", ":agent_id"),
-              (eq, ":agent_team", 1),
-              (agent_is_non_player, ":agent_id"),
-              (assign, ":harlaus_agent_id", ":agent_id"),
-              (store_agent_hit_points, ":harlaus_hp", ":harlaus_agent_id",1),
-            (try_end),
-            #only if harlaus found
-            (neq, ":harlaus_agent_id", -1),              
-            (val_sub, ":harlaus_hp", 10),
-            (agent_set_hit_points, ":harlaus_agent_id", ":harlaus_hp",1),# this sets dmg
-            (agent_deliver_damage_to_agent, ":rider_agent", ":harlaus_agent_id", 0), #this refreshes dmg so he actually gets hurt (debug)
-            (remove_agent, ":rider_agent"),
+            (val_add, "$g_special_dmg_harlaus", 10), #increase special dmg amount
+            (remove_agent, ":rider_agent"), #remove assassin
           (try_end),
           
           #remove horse
@@ -8489,8 +8470,8 @@ mission_templates = [
 
       
       multiplayer_server_check_polls,
-      multiplayer_server_spawn_bots,
-      multiplayer_server_manage_bots,
+      multiplayer_server_spawn_bots, #modded
+      #multiplayer_server_manage_bots, #bots are npc, no leader, not needed
       multiplayer_server_check_end_map, #modded
       multiplayer_once_at_the_first_frame,
       multiplayer_battle_window_opened,
