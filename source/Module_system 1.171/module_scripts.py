@@ -12948,7 +12948,6 @@ scripts = [
     [
       (store_script_param, ":team_no", 1),
       (store_script_param, ":look_only_actives", 2),
-
       (call_script, "script_multiplayer_find_player_leader_for_bot", ":team_no", ":look_only_actives"),
       (assign, ":leader_player", reg0),
 
@@ -12990,28 +12989,23 @@ scripts = [
 
 # script_multiplayer_find_bot_troop_and_group_for_spawn_modded
   # Input: arg1 = team_no
-  # Output: reg0 = troop_id, reg1 = group_id
+  # Output: reg0 = troop_id
 ("multiplayer_find_bot_troop_and_group_for_spawn",
     [
       (store_script_param, ":team_no", 1),
-      (store_script_param, ":look_only_actives", 2),
-
-      (call_script, "script_multiplayer_find_player_leader_for_bot", ":team_no", ":look_only_actives"),
-      (assign, ":leader_player", reg0),
-	  (try_begin),
-		(eq, ":team_no", 1), #if king harlaus has to spawn:
-		(assign, reg0, "trp_kingdom_1_lord"),
-		(assign, reg1, -1),
-	  (else_try),
-		#get current round
-		(team_get_score, ":team1_score", 0),
-		(team_get_score, ":team2_score", 1),
-		(store_add, ":curr_wave", ":team1_score", ":team2_score"),
-		(call_script, "script_get_available_troops_for_round", ":curr_wave"),
-		(assign, ":troop_to_spawn", reg0), #result from script above
-		(assign, reg0, ":troop_to_spawn"),
-		(assign, reg1, ":leader_player"),
-	  (try_end),
+      (try_begin),
+        (eq, ":team_no", 1), #if king harlaus has to spawn:
+        (assign, reg0, "trp_kingdom_1_lord"),
+        (assign, reg1, -1),
+      (else_try),
+        #get current round
+        (team_get_score, ":team1_score", 0),
+        (team_get_score, ":team2_score", 1),
+        (store_add, ":curr_wave", ":team1_score", ":team2_score"),
+        (call_script, "script_get_available_troops_for_round", ":curr_wave"),
+        (assign, ":troop_to_spawn", reg0), #result from script above
+        (assign, reg0, ":troop_to_spawn"),
+      (try_end),
     ]),
       #---------------GTD-END---------------		  
 
@@ -51406,7 +51400,7 @@ scripts = [
         #(val_div, ":ax_bx", 100),
         #(assign, reg30, ":ax_bx"),
         #(assign, reg0, ":ax"),
-        (assign, reg30, 1),
+        (assign, reg30, 10),
         #(call_script, "script_send_server_message_to_players", "str_reg0_debug"),
 	]),
 	
@@ -51419,7 +51413,7 @@ scripts = [
             (assign, ":troop", -1),
             (try_begin),
             (ge, ":random", 0),
-            (assign, ":troop", "trp_farmer"),
+            (assign, ":troop", "trp_slave_driver"),
             (else_try),
             (eq, ":random", 1),
             (assign, ":troop", "trp_slave_driver"),
