@@ -1313,7 +1313,7 @@ scene_props = [
   ("chandelier_tavern",0,"chandelier_tavern","0", []),
   ("chest_gothic",0,"chest_gothic","bochest_gothic", []),
   #------------GTD-START----------------
-  # "chest_b" is used accessed by ammo-refill script, 
+  # "chest_b" is used accessed by ammo-refill script,
   # place this version in using the map editor to place refill chests
   #------------GTD-END------------------
   ("chest_b",0,"chest_b","bo_chest_b", []),

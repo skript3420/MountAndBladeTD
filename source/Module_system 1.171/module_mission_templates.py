@@ -8248,46 +8248,40 @@ mission_templates = [
     #mod events
 	  ##server messages
 	  (120, 0, 0, [], #time interval for regular server message
-      [
-            
-	  		(call_script, "script_send_server_message_to_players", "str_announce_website"),
-      ]),
-
+    [        
+	  	(call_script, "script_send_server_message_to_players", "str_announce_website"),
+    ]),
     (120, 0, 0, [], #send progress every 120 seconds
-      [
-         (call_script, "script_send_kills_until_upgrade_to_players"),
-      ]),
+    [
+      (call_script, "script_send_kills_until_upgrade_to_players"),
+    ]),
 		
 			  
-	##gold saving, database	 	
-	   (ti_server_player_joined, 0, 0, [], #load player gold when player joined
-       [
-         (store_trigger_param_1, ":player_no"),
-         (call_script, "script_load_player_gold", ":player_no"),
-       ]),
-
-       (ti_on_multiplayer_mission_end, 0, 0, [], #save player gold when mission ends
-       [
-         (try_for_players, ":player_no"),
-            (player_is_active, ":player_no"),
-            (call_script, "script_save_player_gold", ":player_no"),
-         (try_end),
-       ]),
-
-       (ti_on_player_exit, 0, 0, [], #load player gold when player leaves
-       [
+	  #communication events with database to save/load player gold	 	
+	  (ti_server_player_joined, 0, 0, [], #load player gold when player joined
+    [
+      (store_trigger_param_1, ":player_no"),
+      (call_script, "script_load_player_gold", ":player_no"),
+    ]),
+    (ti_on_multiplayer_mission_end, 0, 0, [], #save player gold when mission ends
+    [
+      (try_for_players, ":player_no"),
+        (player_is_active, ":player_no"),
+        (call_script, "script_save_player_gold", ":player_no"),
+      (try_end),
+    ]),
+    (ti_on_player_exit, 0, 0, [], #load player gold when player leaves
+    [
          (store_trigger_param_1, ":player_no"),
          (call_script, "script_save_player_gold", ":player_no"),
-       ]),
-      
-       
+    ]),     
 		 
 	  #(0, 0, 0, [(eq, 1,2)], #placeholder to load manually player gold
 	  #[
-      #(try_for_players, ":player", 1),
-	  #	    (player_is_active, ":player"),
-	  #     (call_script, "script_load_player_gold", ":player"),
-      #(try_end),
+    # (try_for_players, ":player", 1),
+	  #	  (player_is_active, ":player"),
+	  #   (call_script, "script_load_player_gold", ":player"),
+    # (try_end),
 	  #]),
       
     ##handle knockdown and poison arrows and arrow chests
@@ -8340,8 +8334,17 @@ mission_templates = [
     ]),
 
     
-	  
-	##server initial settings and wave management
+    #server initial settings   
+    (ti_before_mission_start ,0,0,[],[ #set bot count at beginning 
+			(call_script, "script_set_num_bots", 1, 1),
+			(assign, "$g_is_wave_active", 0), #and set wave as inactive
+            (assign, "$g_game_end_timestamp", 0),
+            (assign, "$g_delay_before_restart", 15),
+            (scene_prop_get_num_instances, "$g_num_ammo_chests", "spr_chest_b"),
+            
+	  ]),
+      
+    #server begin game condition on new map
 	   (ti_server_player_joined, 0, 0, [], #set start wave when, first player joined, todo fix this so that it works before mission start
         [
 		 (store_trigger_param_1, ":player_no"),
@@ -8356,18 +8359,25 @@ mission_templates = [
 		 (call_script, "script_send_bot_info_to_player", ":player_no"),
 		 #send current wave
 		 (assign, reg0, ":team_2_score"),
-		 (call_script, "script_send_server_message_to_player", ":player_no", "str_current_wave"),
-         
+		 (call_script, "script_send_server_message_to_player", ":player_no", "str_current_wave"),     
+    ]),
+
+      #server catch game ending, if harlaus died
+      (ti_on_agent_killed_or_wounded, 0, 0, [], 
+       [
+        (store_trigger_param_1, ":dead_agent_no"), 
+        (store_trigger_param_2, ":killer_agent_no"),
+        #mandatory function call native 
+        (call_script, "script_multiplayer_server_on_agent_killed_or_wounded_common", ":dead_agent_no", ":killer_agent_no"),	
+        #check if harlaus died
+        (agent_get_troop_id, ":agent_trp_id", ":dead_agent_no"),
+        (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
+        #end round, game over
+        (assign, "$g_is_wave_active", 3),
+			  (call_script, "script_set_team_score", 0, 1),
       ]),
-	   
-       (ti_before_mission_start ,0,0,[],[ #set bot count at beginning 
-			(call_script, "script_set_num_bots", 1, 1),
-			(assign, "$g_is_wave_active", 0), #and set wave as inactive
-            (assign, "$g_game_end_timestamp", 0),
-            (assign, "$g_delay_before_restart", 15),
-            (scene_prop_get_num_instances, "$g_num_ammo_chests", "spr_chest_b"),
-            
-	    ]),
+
+
 	   
 	   
 	   (1,5,0, [(eq, "$g_is_wave_active",0)],[ #increase bot count  if wave is over and there are players in team 2
@@ -8495,7 +8505,7 @@ mission_templates = [
 		
 #mod events end 
 
-	 common_battle_init_banner,
+	    common_battle_init_banner,
 
       multiplayer_server_check_polls,
 
@@ -8532,12 +8542,12 @@ mission_templates = [
          (call_script, "script_multiplayer_move_moveable_objects_initial_positions"),
 
          (assign, "$g_multiplayer_ready_for_spawning_agent", 1),
-         ]),
+      ]),
 
       (ti_on_multiplayer_mission_end, 0, 0, [],
        [
-		#modded dont need this
-         #GLORIOUS_MOTHER_FACTION achievement
+		    #GTD: don't need this
+        #GLORIOUS_MOTHER_FACTION achievement
         # (try_begin),
         #   (multiplayer_get_my_player, ":my_player_no"),
         #   (is_between, ":my_player_no", 0, multiplayer_max_possible_player_id),
@@ -8566,78 +8576,69 @@ mission_templates = [
          (start_presentation, "prsnt_multiplayer_stats_chart"),
          ]),
 
-      (ti_on_agent_killed_or_wounded, 0, 0, [], #Setting the scores for both teams !! bug if horse is killed it before round 1 it counts, too!!
-       [
-         (store_trigger_param_1, ":dead_agent_no"), 
-         (store_trigger_param_2, ":killer_agent_no"), 
-         (call_script, "script_multiplayer_server_on_agent_killed_or_wounded_common", ":dead_agent_no", ":killer_agent_no"),	
-		 #modded test, if all bots are dead and if so, set wave as inactive	
-			
-        #test if there are players in team_2, if it was suicide and bots didnt spawn jet it would count as win
-		(assign, ":are_there_players", 0),
-		(try_for_players, ":player_no", 1),
-            (player_get_team_no, ":player_team", ":player_no"),
-			(eq, ":player_team", 1), #if player in team 2 
-			(val_add, ":are_there_players", 1),
-		(try_end),
-        (gt, ":are_there_players", 0), #this has to be true   
-            
-        #check if it was king harlaus 
-		(try_begin),
-            (agent_is_active, ":dead_agent_no"),
-			(agent_get_team, ":dead_agent_team", ":dead_agent_no"),
-            (agent_is_human, ":dead_agent_no"),
-            (agent_is_non_player, ":dead_agent_no"),
-            (eq, ":dead_agent_team", 1),
-            #if its harlaus set team 1 score to 1
-			(team_get_score, ":team1_score", 0),
-			(assign, ":team1_score", 1),
-			(call_script, "script_set_team_score", 0, ":team1_score"),
-			(assign, "$g_is_wave_active", 3), #game is over dont set g_is_wave_active to 0 at end of this function (bugfix)
-		(try_end),
-		(neq, "$g_is_wave_active", 3), #only if game goes on	    
-       
-        (assign, ":is_wave_over", 1),
-		(assign, ":max_agents_end_cond", 1000), #there should be not more than 1000 agents on 	
-        
-        (try_for_range, ":agent_no", 1, ":max_agents_end_cond"), #check if no agent team1 is alive #starting from 1 maybe wrong but opcode error message when try human with id 0
-			(agent_is_active, ":agent_no"),
-            (agent_get_team, ":agent_team", ":agent_no"),
-			(eq, ":agent_team", 0),
-			(agent_is_human, ":agent_no"),
-			(agent_is_non_player, ":agent_no"),
-			(agent_is_alive, ":agent_no"),
-			(val_sub, ":is_wave_over", 1),
-			#if one player is still alive, stop the loop, wave is still active
-			(try_begin),
-                (lt, ":is_wave_over", 1),
-                (assign, ":max_agents_end_cond", ":agent_no"),
-            (try_end),
-		(try_end),
-            
-		(try_begin),
-			(eq, ":is_wave_over", 1),
-            (eq, "$g_is_wave_active", 2), 
-			(team_get_score, ":team2_score", 1),
-			(val_add, ":team2_score", 1),
-			(call_script, "script_set_team_score", 1, ":team2_score"),
-            (team_get_score, ":team2_score", 1),#new score
-            (try_begin),
-                (ge, ":team2_score", "$g_multiplayer_game_max_points"), #if game is over
-                (assign, "$g_is_wave_active", 3), #game is over dont set g_is_wave_active to 0 at end of this function (bugfix)
-            (try_end),
-            (neq, "$g_is_wave_active", 3),# if game is not over
-			(assign, "$g_is_wave_active", 0),
-            (neq, ":team2_score", 21), #if its not the last round announce round end
-            (store_sub, reg0, ":team2_score", 1), 
-            (call_script, "script_send_server_message_to_players", "str_announce_round_over"),
-		(else_try), #do anyway if wave is not over and agent is killed:
-            (call_script, "script_send_score_info_to_players"),
-        (try_end),
-        
-        ]),
+        #modded test, if all bots are dead and if so, set wave as inactive	
+#			
+#       #test if there are players in team_2, if it was suicide and bots didnt spawn jet it would count as win
+#		    (assign, ":are_there_players", 0),
+#		    (try_for_players, ":player_no", 1),
+#         (player_get_team_no, ":player_team", ":player_no"),
+#			    (eq, ":player_team", 1), #if player in team 2 
+#			    (val_add, ":are_there_players", 1),
+#		    (try_end),
+#       (gt, ":are_there_players", 0), #this has to be true       
+#        #check if it was king harlaus 
+#		    (try_begin),
+#         (agent_is_active, ":dead_agent_no"),
+#			    (agent_get_team, ":dead_agent_team", ":dead_agent_no"),
+#         (agent_is_human, ":dead_agent_no"),
+#         (agent_is_non_player, ":dead_agent_no"),
+#         (eq, ":dead_agent_team", 1),
+#         #if its harlaus set team 1 score to 1
+#			    (team_get_score, ":team1_score", 0),
+#			    (assign, ":team1_score", 1),
+#			    (call_script, "script_set_team_score", 0, ":team1_score"),
+#			    (assign, "$g_is_wave_active", 3), #game is over dont set g_is_wave_active to 0 at end of this function (bugfix)
+#		    (try_end),
+#		    (neq, "$g_is_wave_active", 3), #only if game goes on	    
+#       
+#       (assign, ":is_wave_over", 1),
+#		    (assign, ":max_agents_end_cond", 1000), #there should be not more than 1000 agents on 	 
+#       (try_for_range, ":agent_no", 1, ":max_agents_end_cond"), #check if no agent team1 is alive #starting from 1 maybe wrong but opcode error message when try human with id 0
+#			    (agent_is_active, ":agent_no"),
+#         (agent_get_team, ":agent_team", ":agent_no"),
+#			    (eq, ":agent_team", 0),
+#			    (agent_is_human, ":agent_no"),
+#			    (agent_is_non_player, ":agent_no"),
+#			    (agent_is_alive, ":agent_no"),
+#			    (val_sub, ":is_wave_over", 1),
+#			    #if one player is still alive, stop the loop, wave is still active
+#			    (try_begin),
+#           (lt, ":is_wave_over", 1),
+#           (assign, ":max_agents_end_cond", ":agent_no"),
+#         (try_end),
+#		    (try_end),         
+#		    (try_begin),
+#			    (eq, ":is_wave_over", 1),
+#         (eq, "$g_is_wave_active", 2), 
+#			    (team_get_score, ":team2_score", 1),
+#			    (val_add, ":team2_score", 1),
+#			    (call_script, "script_set_team_score", 1, ":team2_score"),
+#         (team_get_score, ":team2_score", 1),#new score
+#         (try_begin),
+#           (ge, ":team2_score", "$g_multiplayer_game_max_points"), #if game is over
+#           (assign, "$g_is_wave_active", 3), #game is over dont set g_is_wave_active to 0 at end of this function (bugfix)
+#         (try_end),
+#         (neq, "$g_is_wave_active", 3),# if game is not over
+#			    (assign, "$g_is_wave_active", 0),
+#         (neq, ":team2_score", 21), #if its not the last round announce round end
+#         (store_sub, reg0, ":team2_score", 1), 
+#         (call_script, "script_send_server_message_to_players", "str_announce_round_over"),
+#		      (else_try), #do anyway if wave is not over and agent is killed:
+#         (call_script, "script_send_score_info_to_players"),
+#       (try_end),
 
-      (1, 0, 0, [], #spawns player
+      #respawn players
+      (1, 0, 0, [],
        [
          (multiplayer_is_server),
          (get_max_players, ":num_players"),
@@ -8681,12 +8682,13 @@ mission_templates = [
            (else_try),
              (assign, ":is_horseman", 0),
            (try_end),
-            #modded
-           (call_script, "script_multiplayer_find_spawn_point", ":player_team", 1, ":is_horseman"), #this is modded
+            #GTD:  #this script is modded
+           (call_script, "script_multiplayer_find_spawn_point", ":player_team", 1, ":is_horseman"),
            (player_spawn_new_agent, ":player_no", reg0),
          (try_end),
          ]),
 
+      #(re)spawn bots
       (1, 0, 0, [], #do this in every new frame, but not at the same time
        [
          (multiplayer_is_server),         

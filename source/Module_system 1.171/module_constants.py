@@ -1140,9 +1140,6 @@ scene_prop_ccoop_item_drop_start    = 7 #For keeping track of who has opened dro
 scene_prop_ccoop_item_drop_end      = scene_prop_ccoop_item_drop_start + 10
 #INVASION MODE END
 
-#------------GTD-BEGIN----------------
-scene_prop_position = 20
-#------------GTD-END----------------
 
 ########################################################
 rel_enemy   = 0
