@@ -51403,6 +51403,12 @@ scripts = [
         (assign, reg30, 10),
         #(call_script, "script_send_server_message_to_players", "str_reg0_debug"),
 	]),
+
+  ("announce_harlaus_hp",[
+      (store_script_param_1, ":harlaus_hp"),
+      (assign, reg0, ":harlaus_hp"),
+      (call_script, "script_send_server_message_to_players", "str_announce_harlaus_hp"),
+  ]),
 	
 	 ("get_available_troops_for_round",[ 
         (store_script_param_1, ":curr_wave"), 
@@ -51413,7 +51419,7 @@ scripts = [
             (assign, ":troop", -1),
             (try_begin),
             (ge, ":random", 0),
-            (assign, ":troop", "trp_hired_assassin"),
+            (assign, ":troop", "trp_farmer"),
             (else_try),
             (eq, ":random", 1),
             (assign, ":troop", "trp_slave_driver"),
