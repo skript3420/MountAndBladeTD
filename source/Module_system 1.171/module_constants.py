@@ -1014,6 +1014,12 @@ slot_player_coop_opened_chests_end             = slot_player_coop_opened_chests_
 
 slot_team_flag_situation                       = 0
 
+#------------GTD-BEGIN----------------
+slot_team_harlaus_alive					 	   = 1
+slot_team_num_bots_alive				   	   = 2
+slot_team_special_dmg_harlaus				   = 3
+#------------GTD-END------------------
+
 
 
 

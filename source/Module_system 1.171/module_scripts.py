@@ -51406,7 +51406,7 @@ scripts = [
         #(val_div, ":ax_bx", 100),
         #(assign, reg30, ":ax_bx"),
         #(assign, reg0, ":ax"),
-        (assign, reg30, 20),
+        (assign, reg30, 1),
         #(call_script, "script_send_server_message_to_players", "str_reg0_debug"),
 	]),
 	
@@ -51419,7 +51419,7 @@ scripts = [
             (assign, ":troop", -1),
             (try_begin),
             (ge, ":random", 0),
-            (assign, ":troop", "trp_hired_assassin"),
+            (assign, ":troop", "trp_farmer"),
             (else_try),
             (eq, ":random", 1),
             (assign, ":troop", "trp_slave_driver"),
