@@ -1014,12 +1014,6 @@ slot_player_coop_opened_chests_end             = slot_player_coop_opened_chests_
 
 slot_team_flag_situation                       = 0
 
-#------------GTD-BEGIN----------------
-slot_team_num_bots							   = 1
-slot_team_num_bots_alive				   	   = 2
-#------------GTD-END------------------
-
-
 
 
 #Rebellion changes end

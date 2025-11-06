@@ -51400,7 +51400,7 @@ scripts = [
         #(val_div, ":ax_bx", 100),
         #(assign, reg30, ":ax_bx"),
         #(assign, reg0, ":ax"),
-        (assign, reg30, 10),
+        (assign, reg30, 500),
         #(call_script, "script_send_server_message_to_players", "str_reg0_debug"),
 	]),
 
