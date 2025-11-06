@@ -11428,7 +11428,7 @@ scripts = [
      #INVASION MODE START
 	   # second faction is always disabled in captain coop
 	   (eq, "$g_multiplayer_game_type", multiplayer_game_type_captain_coop),
-	   (eq, ":team_no", 1),
+	   (eq, ":team_no", 1), #only lower team can be selected
 	   (assign, ":continue_change_team", 0),
 	 (else_try),
 	   # first faction is always available in captain coop
@@ -11847,6 +11847,8 @@ scripts = [
      (try_end),
      ]),
 
+     
+  #----------------GTD-START---------------
   #script_multiplayer_send_initial_information
   # Input: arg1 = player_no
   # Output: none
@@ -11856,7 +11858,7 @@ scripts = [
           
      (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 1, "$g_multiplayer_num_bots_team_1"),
      (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 2, "$g_multiplayer_num_bots_team_2"),
-     (multiplayer_send_int_to_player, ":player_no", multiplayer_event_return_auto_team_balance_limit, "$g_multiplayer_auto_team_balance_limit"),
+     (multiplayer_send_int_to_player, ":player_no", multiplayer_event_return_auto_team_balance_limit, 0),
      (multiplayer_send_int_to_player, ":player_no", multiplayer_event_return_num_bots_voteable, "$g_multiplayer_num_bots_voteable"),
      (multiplayer_send_int_to_player, ":player_no", multiplayer_event_return_factions_voteable, "$g_multiplayer_factions_voteable"),
      (multiplayer_send_int_to_player, ":player_no", multiplayer_event_return_maps_voteable, "$g_multiplayer_maps_voteable"),
@@ -11972,6 +11974,8 @@ scripts = [
 
      #(multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_set_day_time, "$g_round_day_time"),
     ]),
+
+  #----------------GTD-END-----------------
 
   #script_multiplayer_remove_headquarters_flags
   # Input: none
