@@ -3188,7 +3188,6 @@ presentations = [
       (team_get_faction, ":faction_no", 0),
       (str_store_faction_name, s0, ":faction_no"),
       (create_button_overlay, "$g_presentation_obj_team_select_1", s0, 0),
-      (player_get_team_no, ":my_team", ":my_player_no"),
       (try_begin),
         (call_script, "script_cf_multiplayer_team_is_available", ":my_player_no", 0),
         (overlay_set_color, "$g_presentation_obj_team_select_1", 0xFFFFFF),

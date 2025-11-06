@@ -1956,11 +1956,11 @@ gtd_harlaus_max_hp = 5000, #max hp for harlaus
 ######################################
 
 
-gtd_wave1_num_tier1 = 1,
-gtd_wave1_num_tier2 = 1,
-gtd_wave1_num_tier3 = 1,
-gtd_wave1_num_tier4 = 1,
-gtd_wave1_num_special = 1,
+gtd_wave1_num_tier1 = 10,
+gtd_wave1_num_tier2 = 0,
+gtd_wave1_num_tier3 = 0,
+gtd_wave1_num_tier4 = 0,
+gtd_wave1_num_special = 0,
 
 
 gtd_wave2_num_tier1 = 1,

@@ -8445,6 +8445,8 @@ mission_templates = [
       #set new bot amount for next wave based on players in player team and wave
       #proceed with gamestate after delay, if min. 1 player in player team
       (1,5,0, [(eq, "$g_is_wave_active",0)],[
+          
+        (assign, "$g_num_enemies_spawned", 0), #reset spawned enemy count for new wave
         (gt, "$g_num_players_t2", 0), #at least one player in team 2
         (team_get_score, ":team_2_score" ,1), #get wave number (player team score)
           (try_begin),
