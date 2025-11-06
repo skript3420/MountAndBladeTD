@@ -1918,8 +1918,28 @@ ACHIEVEMENT_LADY_OF_THE_LAKE = 80,
 ######################################
 # Item Constants
 ######################################
-gtd_poison_tick_dmg = 8,
+gtd_poison_effect_strength = 50, #percent
+gtd_poison_max_effect_no = 3, #max different affected agents 1 arrow
+gtd_poison_num_ticks = 6, #number of poison ticks
+gtd_poison_tick_dmg = 5,
 gtd_knock_down_dmg = 500, #has to reliably one-shot unkillable agent
+gtd_poison_radius = 250, #radius of poison effect
+
+gtd_explosive_small_effect_strength = 100, #percent
+gtd_explosive_small_horse_dmg = 30, #dmg dealt to horse by small explosive
+gtd_explosive_small_dmg = 15, #dmg dealt by small explosive
+gtd_explosive_small_radius = 150, #small explosive radius
+
+gtd_explosive_large_effect_strength = 40, #percent
+gtd_explosive_large_radius = 200, #large explosive radius
+gtd_explosive_large_dmg = 10, #dmg dealt by large explosive (plus gold/1000)
+gtd_explosive_large_horse_dmg = 50, #dmg dealt to horse by large explosive
+gtd_explosive_large_bonus_dmg_div = 100, #100 extra gold +1 dmg
+gtd_explosive_large_radius = 300, #large explosive radius
+
+gtd_knock_down_max_effect_no = 5, #max different affected agents 1 arrow
+gtd_knock_down_radius = 200, #radius of knock down effect
+
 
 ######################################
 # Map Constants

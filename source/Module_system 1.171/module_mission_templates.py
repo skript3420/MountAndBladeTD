@@ -8607,6 +8607,7 @@ mission_templates = [
         (agent_is_non_player, ":agent_no"),
         (agent_get_team, ":agent_team", ":agent_no"),
         (neq, ":agent_team", 1),
+        (agent_ai_set_always_attack_in_melee, ":agent_no", 1),
         (agent_get_position, pos2, ":agent_no"),
         (get_distance_between_positions, ":dist", pos10, pos2),
         (gt, ":dist", gtd_map_horse_kill_radius), #within range

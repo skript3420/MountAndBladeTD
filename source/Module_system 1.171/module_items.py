@@ -123,8 +123,8 @@ items = [
 				(agent_get_position, pos2, ":agent"),
 				(get_distance_between_positions, ":dist", pos1, pos2),
 				(try_begin),
-                    (le, ":count", 4),
-					(lt, ":dist", 190),
+                    (le, ":count", gtd_knock_down_max_effect_no),
+					(lt, ":dist", gtd_knock_down_radius),
                     (agent_set_slot, ":agent", slot_agent_got_knocked_down, 1),
                     (agent_set_slot, ":agent", slot_agent_got_knocked_down_by, ":shooter"),
                     (val_add, ":count", 1),
@@ -314,7 +314,7 @@ items = [
         (try_begin),
 			(multiplayer_is_server),
 			(store_trigger_param_1, ":shooter"),
-			(particle_system_burst, "psys_fireplace_fire_big", pos1, 100),
+			(particle_system_burst, "psys_fireplace_fire_big", pos1, gtd_explosive_small_effect_strength),
 			(try_for_agents, ":agent"),
 				(agent_is_alive, ":agent"),
                 (agent_get_team, ":agent_team", ":agent"),
@@ -323,11 +323,11 @@ items = [
 				(agent_get_position, pos2, ":agent"),
 				(get_distance_between_positions, ":dist", pos1, pos2),
 				(try_begin),
-					(lt, ":dist", 160),
-					(assign, ":dmg", 25), #agent deal 25 dmg
+					(lt, ":dist", gtd_explosive_small_radius),
+					(assign, ":dmg", gtd_explosive_small_dmg), #agent deal dmg
                     (try_begin),
                         (neg|agent_is_human, ":agent"),
-                        (assign, ":dmg", 45), #if horse deal 45 dmg
+                        (assign, ":dmg", gtd_explosive_small_horse_dmg), #if horse deal horse dmg
                     (try_end),
                     (agent_deliver_damage_to_agent, ":shooter", ":agent", ":dmg"),
                     (try_begin),
@@ -353,7 +353,7 @@ items = [
         (try_begin),
 			(multiplayer_is_server),
 			(store_trigger_param_1, ":shooter"),
-			(particle_system_burst, "psys_pistol_smoke", pos1, 60),
+			(particle_system_burst, "psys_pistol_smoke", pos1, gtd_poison_effect_strength),
             (assign, ":count", 0),
 			(try_for_agents, ":agent"),
 				(agent_is_alive, ":agent"),
@@ -362,10 +362,10 @@ items = [
 				(agent_get_team, ":agent_team", ":agent"),
 				(agent_get_team, ":shooter_team", ":shooter"),
 				(try_begin),
-                    (lt, ":count", 5), # max 5 agents can be poisoned
-					(lt, ":dist", 200),
+                    (lt, ":count", gtd_poison_max_effect_no),
+					(lt, ":dist", gtd_poison_radius),
 					(neq, ":shooter_team", ":agent_team"),
-                    (agent_set_slot, ":agent", slot_agent_is_poisoned, 3), # 5 times dmg over time
+                    (agent_set_slot, ":agent", slot_agent_is_poisoned, gtd_poison_num_ticks), # 5 times dmg over time
                     (agent_set_slot, ":agent", slot_agent_got_poisoned_by, ":shooter"),
                     (val_add, ":count", 1),
 				(try_end),
@@ -386,11 +386,14 @@ items = [
         (try_begin),
 			(multiplayer_is_server),
 			(store_trigger_param_1, ":shooter"),
-			(particle_system_burst, "psys_village_fire_big", pos1, 100),
-            (agent_get_player_id, ":shooter_player", ":shooter"),
+			(particle_system_burst, "psys_village_fire_big", pos1, gtd_explosive_large_effect_strength),
+            #calculate bonus damage from excess gold
+			(agent_get_player_id, ":shooter_player", ":shooter"),
             (player_get_gold, ":gold_amount", ":shooter_player"),
-            (store_div, ":dmg_base", ":gold_amount", 1000),
-            (store_add, ":horse_dmg",":dmg_base", 20), #if horse deal +20 dmg
+            (store_sub, ":excess_gold", ":gold_amount", gtd_lvl22_limit),
+            (store_div, ":dmg_bonus", ":gold_amount", gtd_explosive_large_bonus_dmg_div),
+            (store_add, ":dmg_human",":dmg_bonus", gtd_explosive_large_dmg)
+
 			(try_for_agents, ":agent"),
 				(agent_is_alive, ":agent"),
                 (agent_get_team, ":agent_team", ":agent"),
@@ -399,11 +402,11 @@ items = [
 				(agent_get_position, pos2, ":agent"),
 				(get_distance_between_positions, ":dist", pos1, pos2),
 				(try_begin),
-					(lt, ":dist", 300),
-                    (assign, ":dmg", ":dmg_base"),
+					(lt, ":dist", gtd_explosive_large_radius),
+                    (assign, ":dmg", ":dmg_human"),
                     (try_begin),
                         (neg|agent_is_human, ":agent"),
-                        (assign, ":dmg", ":horse_dmg"),
+                        (assign, ":dmg", gtd_explosive_large_horse_dmg),
                     (try_end),
 					(agent_deliver_damage_to_agent, ":shooter", ":agent", ":dmg"),
 					(try_begin),
