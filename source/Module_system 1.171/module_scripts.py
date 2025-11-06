@@ -51399,7 +51399,7 @@ scripts = [
         #(val_add, ":ax_bx", ":c"),
         #(val_div, ":ax_bx", 100),
         #(assign, reg0, ":ax_bx"),
-        (assign, reg0, 10),
+        (assign, reg0, 100),
 	]),
 
   ("announce_harlaus_hp",[
@@ -51417,7 +51417,7 @@ scripts = [
             (assign, ":troop", -1),
             (try_begin),
             (ge, ":random", 0),
-            (assign, ":troop", "trp_hired_assassin"),
+            (assign, ":troop", "trp_bandit"),
             (else_try),
             (eq, ":random", 1),
             (assign, ":troop", "trp_slave_driver"),

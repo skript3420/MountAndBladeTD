@@ -8292,7 +8292,14 @@ mission_templates = [
             (agent_get_position, pos2, ":agent_no"),
             (get_distance_between_positions, ":dist", pos10, pos2),
             (le, ":dist", gtd_map_horse_kill_radius), #within range
-            (assign, reg0, ":dist"),
+            
+            (try_begin), #make bots near harlaus attack him
+              (agent_get_team, ":agent_team", ":agent_no"),
+              (eq, ":agent_team", 0), #enemy team
+              (agent_clear_scripted_mode, ":agent_no"), #clear any scripted mode
+              (agent_set_is_alarmed, ":agent_no", 1), #set alarmed
+              (agent_force_rethink, ":agent_no"), #force rethink to attack harlaus
+            (try_end),
 
             (neg|agent_is_human, ":agent_no"), #if horse
             #process hired assassin rider
@@ -8434,20 +8441,6 @@ mission_templates = [
               (scene_prop_get_num_instances, "$g_num_ammo_chests", "spr_chest_b"),     
       ]),
       
-      #between rounds, once: 
-      #find harlaus and reset his hp
-      (ti_once, 0,0, [(eq, "$g_is_wave_active", 0)],[  
-        (assign, "$g_num_enemies_spawned", 0), #reset spawn counter
-        (assign, "$g_wave_spawn_timestamp", 0), #reset wave timer
-        (try_for_agents, ":agent_no"),
-          (agent_is_alive, ":agent_no"),
-          (agent_get_troop_id, ":agent_trp_id", ":agent_no"),
-          (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
-          (agent_set_max_hit_points, ":agent_no", gtd_harlaus_max_hp, 1), 
-          (agent_set_hit_points, ":agent_no", gtd_harlaus_max_hp, 1), 
-        (try_end),
-      ]),
-      
       #between rounds:
       #set new bot amount for next wave based on players in player team and wave
       #proceed with gamestate after delay, if min. 1 player in player team
@@ -8531,6 +8524,13 @@ mission_templates = [
             (eq, ":agent_team", 0), #if enemy spawned
             (val_add, "$g_num_enemies_alive", 1), #track enemy count
           (try_end),
+
+          (try_begin), #set harlaus hp to 1000 on spawn
+          (agent_get_troop_id, ":agent_trp_id", ":agent_no"),
+          (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
+          (agent_set_max_hit_points, ":agent_no", 1000,1),
+          (agent_set_hit_points, ":agent_no", 1000,1),
+          (try_end),
       ]),
 
       #bot spawning
@@ -8601,9 +8601,13 @@ mission_templates = [
       (5,0,0,[(eq, "$g_is_wave_active", 1)],[
       (entry_point_get_position, pos1, 32),
       (try_for_agents, ":agent_no"),
+        (agent_is_alive, ":agent_no"),
         (agent_is_non_player, ":agent_no"),
         (agent_get_team, ":agent_team", ":agent_no"),
         (neq, ":agent_team", 1),
+        (agent_get_position, pos2, ":agent_no"),
+        (get_distance_between_positions, ":dist", pos10, pos2),
+        (gt, ":dist", gtd_map_horse_kill_radius), #within range
         (agent_set_scripted_destination, ":agent_no", pos1,1,0), #first 1 is for z to set to ground level, second is no rethink true/false
       (try_end),
       ]),
