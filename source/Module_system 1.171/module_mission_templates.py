@@ -8502,18 +8502,14 @@ mission_templates = [
         [
         (store_trigger_param_1, ":dead_agent_no"), 
         #check if harlaus died
-        (agent_get_troop_id, ":agent_trp_id", ":dead_agent_no"),
-        (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
-        #end round, bot team has score of 1 to trigger end map
-        (assign, "$g_is_wave_active", 2),
-        (call_script, "script_set_team_score", 0, 1),
-      ]),
-
-      #keep track of enemies alive
-      (ti_on_agent_killed_or_wounded, 0, 0, [], 
-      [
-        (store_trigger_param_1, ":dead_agent_no"),
-        (agent_is_non_player, ":dead_agent_no"),
+        (try_begin),
+          (agent_get_troop_id, ":agent_trp_id", ":dead_agent_no"),
+          (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
+          #end round, bot team has score of 1 to trigger end map
+          (assign, "$g_is_wave_active", 2),
+          (call_script, "script_set_team_score", 0, 1),
+        (try_end),
+        #keep track of enemies alive
         (agent_get_team, ":dead_agent_team", ":dead_agent_no"),
         (try_begin),
           (eq, ":dead_agent_team", 0), #if enemy died
