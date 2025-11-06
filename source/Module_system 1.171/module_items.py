@@ -391,8 +391,8 @@ items = [
 			(agent_get_player_id, ":shooter_player", ":shooter"),
             (player_get_gold, ":gold_amount", ":shooter_player"),
             (store_sub, ":excess_gold", ":gold_amount", gtd_lvl22_limit),
-            (store_div, ":dmg_bonus", ":gold_amount", gtd_explosive_large_bonus_dmg_div),
-            (store_add, ":dmg_human",":dmg_bonus", gtd_explosive_large_dmg)
+            (store_div, ":dmg_bonus", ":excess_gold", gtd_explosive_large_bonus_dmg_div),
+            (store_add, ":dmg_human",":dmg_bonus", gtd_explosive_large_dmg),
 
 			(try_for_agents, ":agent"),
 				(agent_is_alive, ":agent"),
