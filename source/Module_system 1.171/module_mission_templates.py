@@ -8607,7 +8607,7 @@ mission_templates = [
         (agent_is_non_player, ":agent_no"),
         (agent_get_team, ":agent_team", ":agent_no"),
         (neq, ":agent_team", 1),
-        (agent_ai_set_always_attack_in_melee, ":agent_no", 1),
+        (team_give_order, 0, -1, mordr_use_blunt_weapons),
         (agent_get_position, pos2, ":agent_no"),
         (get_distance_between_positions, ":dist", pos10, pos2),
         (gt, ":dist", gtd_map_horse_kill_radius), #within range
@@ -8619,7 +8619,12 @@ mission_templates = [
       ######################################
       #GTD Other Native Function Calls
       ######################################
-
+      (ti_on_agent_killed_or_wounded, 0, 0, [],
+      [
+          (store_trigger_param_1, ":dead_agent_no"),
+          (store_trigger_param_2, ":killer_agent_no"),
+          (call_script, "script_multiplayer_server_on_agent_killed_or_wounded_common", ":dead_agent_no", ":killer_agent_no"),
+      ]),
 
       (ti_on_agent_spawn, 0, 0, [],
       [

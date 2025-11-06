@@ -1921,18 +1921,18 @@ ACHIEVEMENT_LADY_OF_THE_LAKE = 80,
 gtd_poison_effect_strength = 50, #percent
 gtd_poison_max_effect_no = 3, #max different affected agents 1 arrow
 gtd_poison_num_ticks = 6, #number of poison ticks
-gtd_poison_tick_dmg = 5,
+gtd_poison_tick_dmg = 8,
 gtd_knock_down_dmg = 500, #has to reliably one-shot unkillable agent
-gtd_poison_radius = 250, #radius of poison effect
+gtd_poison_radius = 200, #radius of poison effect
 
 gtd_explosive_small_effect_strength = 100, #percent
 gtd_explosive_small_horse_dmg = 30, #dmg dealt to horse by small explosive
 gtd_explosive_small_dmg = 15, #dmg dealt by small explosive
-gtd_explosive_small_radius = 150, #small explosive radius
+gtd_explosive_small_radius = 200, #small explosive radius
 
 gtd_explosive_large_effect_strength = 40, #percent
 gtd_explosive_large_radius = 200, #large explosive radius
-gtd_explosive_large_dmg = 10, #dmg dealt by large explosive (plus gold/1000)
+gtd_explosive_large_dmg = 30, #dmg dealt by large explosive (plus excess gold/dmg_div)
 gtd_explosive_large_horse_dmg = 50, #dmg dealt to horse by large explosive
 gtd_explosive_large_bonus_dmg_div = 100, #100 extra gold +1 dmg
 gtd_explosive_large_radius = 300, #large explosive radius
@@ -1948,13 +1948,13 @@ gtd_map_spawn_enemy = 0, #enemy spawn point
 gtd_map_spawn_harlaus = 32, #Harlaus spawn point
 gtd_map_spawn_round_over = 105, #tp to spawn point after round over
 gtd_map_horse_kill_radius = 800, #radius around harlaus spawn point to kill horses
-gtd_map_ammo_chest_radius = 120, #radius around chest to give ammo
+gtd_map_ammo_chest_radius = 125, #radius around chest to give ammo
 
 ######################################
 # Game Constants
 ######################################
 
-gtd_delay_before_restart = 10, #delay before restarting map after round over (seconds)
+gtd_delay_before_restart = 15, #delay before restarting map after round over (seconds)
 
 gtd_round_prepare = 0,
 gtd_round_active = 1,
@@ -1964,12 +1964,9 @@ gtd_allow_new_wave = 100, #number of alive enemies to allow new wave spawn
 gtd_wave_size = 50, #number of enemies concurrent spawn
 gtd_wave_delay = 10, #minimum delay between waves (seconds)
 
-gtd_units_near_harlaus_threshold = 10, #number of units near harlaus to trigger dmg
-gtd_special_dmg_units = 5, #dmg dealt by special units
 gtd_special_dmg_assassin = 10, #dmg dealt by trp_hired_assassins
-gtd_msg_delay_upgrade = 120, #delay between upgrade messages (seconds)
-gtd_bonus_gold = 100, #amount of gold given on player win map event
-gtd_harlaus_max_hp = 5000, #max hp for harlaus
+gtd_bonus_gold = 250, #amount of gold given on player win map event
+gtd_harlaus_max_hp = 100, #start hp for harlaus
 
 ######################################
 # Wave And Level Constants
