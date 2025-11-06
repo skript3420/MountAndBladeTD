@@ -51438,7 +51438,7 @@ scripts = [
       (assign, ":troop", "trp_rhodok_tribesman"),
       (else_try),
       (eq, ":random", 7),
-      (assign, ":troop", "trp_sarranid_skirmisher"),
+      (assign, ":troop", "trp_npc12"),
       (else_try),
       (eq, ":random", 8),
       (assign, ":troop", "trp_kingdom_1_lady_20"),
