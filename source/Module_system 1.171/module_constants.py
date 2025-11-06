@@ -1914,149 +1914,185 @@ ACHIEVEMENT_LADY_OF_THE_LAKE = 80,
 
 
 #------------GTD-START----------------
-wave1_num_tier1 = 1,
-wave1_num_tier2 = 1,
-wave1_num_tier3 = 1,
-wave1_num_tier4 = 1,
-wave1_num_special = 1,
+
+######################################
+# Item Constants
+######################################
+gtd_poison_tick_dmg = 8,
+gtd_knock_down_dmg = 500, #has to reliably one-shot unkillable agent
+
+######################################
+# Map Constants
+######################################
+gtd_map_spawn_harlaus = 32, #Harlaus spawn point
+gtd_map_spawn_round_over = 105, #tp to spawn point after round over
+gtd_map_horse_kill_radius = 800, #radius around harlaus spawn point to kill horses
+gtd_map_ammo_chest_radius = 120, #radius around chest to give ammo
+
+######################################
+# Game Constants
+######################################
+
+gtd_round_prepare = 0,
+gtd_round_active = 1,
+gtd_round_over = 2,
+
+gtd_max_population = 150, #max alive enemy (total wave number can be higher)
+gtd_special_dmg_assassin = 10, #dmg dealt by trp_hired_assassins
+gtd_msg_delay_upgrade = 120, #delay between upgrade messages (seconds)
+gtd_bonus_gold = 100, #amount of gold given on player win map event
+gtd_harlaus_max_hp = 5000, #max hp for harlaus
+
+######################################
+# Wave And Level Constants
+######################################
+
+gtd_wave_size = 30, #number of enemies concurrent spawn
+gtd_wave_spawn_delay = 10, #delay between spawns (seconds)
+
+gtd_wave1_num_tier1 = 1,
+gtd_wave1_num_tier2 = 1,
+gtd_wave1_num_tier3 = 1,
+gtd_wave1_num_tier4 = 1,
+gtd_wave1_num_special = 1,
 
 
-wave2_num_tier1 = 1,
-wave2_num_tier2 = 1,
-wave2_num_tier3 = 1,
-wave2_num_tier4 = 1,
-wave2_num_special = 1,
+gtd_wave2_num_tier1 = 1,
+gtd_wave2_num_tier2 = 1,
+gtd_wave2_num_tier3 = 1,
+gtd_wave2_num_tier4 = 1,
+gtd_wave2_num_special = 1,
 
-wave3_num_tier1 = 1,
-wave3_num_tier2 = 1,
-wave3_num_tier3 = 1,
-wave3_num_tier4 = 1,
-wave3_num_special = 1,
+gtd_wave3_num_tier1 = 1,
+gtd_wave3_num_tier2 = 1,
+gtd_wave3_num_tier3 = 1,
+gtd_wave3_num_tier4 = 1,
+gtd_wave3_num_special = 1,
 
-wave4_num_tier1 = 1,
-wave4_num_tier2 = 1,
-wave4_num_tier3 = 1,
-wave4_num_tier4 = 1,
-wave4_num_special = 1,
+gtd_wave4_num_tier1 = 1,
+gtd_wave4_num_tier2 = 1,
+gtd_wave4_num_tier3 = 1,
+gtd_wave4_num_tier4 = 1,
+gtd_wave4_num_special = 1,
 
-wave5_num_tier1 =1,
-wave5_num_tier2 =1,
-wave5_num_tier3 =1,
-wave5_num_tier4 =1,
-wave5_num_special =1,
+gtd_wave5_num_tier1 =1,
+gtd_wave5_num_tier2 =1,
+gtd_wave5_num_tier3 =1,
+gtd_wave5_num_tier4 =1,
+gtd_wave5_num_special =1,
 
-wave6_num_tier1 =1,
-wave6_num_tier2 =1,
-wave6_num_tier3 =1,
-wave6_num_tier4 =1,
-wave6_num_special =1,
+gtd_wave6_num_tier1 =1,
+gtd_wave6_num_tier2 =1,
+gtd_wave6_num_tier3 =1,
+gtd_wave6_num_tier4 =1,
+gtd_wave6_num_special =1,
 
-wave7_num_tier1 =1,
-wave7_num_tier2 =1,
-wave7_num_tier3 =1,
-wave7_num_tier4 =1,
-wave7_num_special =1,
+gtd_wave7_num_tier1 =1,
+gtd_wave7_num_tier2 =1,
+gtd_wave7_num_tier3 =1,
+gtd_wave7_num_tier4 =1,
+gtd_wave7_num_special =1,
 
-wave8_num_tier1 =1,
-wave8_num_tier2 =1,
-wave8_num_tier3 =1,
-wave8_num_tier4 =1,
-wave8_num_special =1,
+gtd_wave8_num_tier1 =1,
+gtd_wave8_num_tier2 =1,
+gtd_wave8_num_tier3 =1,
+gtd_wave8_num_tier4 =1,
+gtd_wave8_num_special =1,
 
-wave9_num_tier1 =1,
-wave9_num_tier2 =1,
-wave9_num_tier3 =1,
-wave9_num_tier4 =1,
-wave9_num_special =1,
+gtd_wave9_num_tier1 =1,
+gtd_wave9_num_tier2 =1,
+gtd_wave9_num_tier3 =1,
+gtd_wave9_num_tier4 =1,
+gtd_wave9_num_special =1,
 
-wave10_num_tier1 =1,
-wave10_num_tier2 =1,
-wave10_num_tier3 =1,
-wave10_num_tier4 =1,
-wave10_num_special =1,
+gtd_wave10_num_tier1 =1,
+gtd_wave10_num_tier2 =1,
+gtd_wave10_num_tier3 =1,
+gtd_wave10_num_tier4 =1,
+gtd_wave10_num_special =1,
 
-wave11_num_tier1 =1,
-wave11_num_tier2 =1,
-wave11_num_tier3 =1,
-wave11_num_tier4 =1,
-wave11_num_special =1,
+gtd_wave11_num_tier1 =1,
+gtd_wave11_num_tier2 =1,
+gtd_wave11_num_tier3 =1,
+gtd_wave11_num_tier4 =1,
+gtd_wave11_num_special =1,
 
-wave12_num_tier1 =1,
-wave12_num_tier2 =1,
-wave12_num_tier3 =1,
-wave12_num_tier4 =1,
-wave12_num_special =1,
+gtd_wave12_num_tier1 =1,
+gtd_wave12_num_tier2 =1,
+gtd_wave12_num_tier3 =1,
+gtd_wave12_num_tier4 =1,
+gtd_wave12_num_special =1,
 
-wave13_num_tier1 =1,
-wave13_num_tier2 =1,
-wave13_num_tier3 =1,
-wave13_num_tier4 =1,
-wave13_num_special =1,
+gtd_wave13_num_tier1 =1,
+gtd_wave13_num_tier2 =1,
+gtd_wave13_num_tier3 =1,
+gtd_wave13_num_tier4 =1,
+gtd_wave13_num_special =1,
 
-wave14_num_tier1 =1,
-wave14_num_tier2 =1,
-wave14_num_tier3 =1,
-wave14_num_tier4 =1,
-wave14_num_special =1,
+gtd_wave14_num_tier1 =1,
+gtd_wave14_num_tier2 =1,
+gtd_wave14_num_tier3 =1,
+gtd_wave14_num_tier4 =1,
+gtd_wave14_num_special =1,
 
-wave15_num_tier1 =1,
-wave15_num_tier2 =1,
-wave15_num_tier3 =1,
-wave15_num_tier4 =1,
-wave15_num_special =1,
+gtd_wave15_num_tier1 =1,
+gtd_wave15_num_tier2 =1,
+gtd_wave15_num_tier3 =1,
+gtd_wave15_num_tier4 =1,
+gtd_wave15_num_special =1,
 
-wave16_num_tier1 =1,
-wave16_num_tier2 =1,
-wave16_num_tier3 =1,
-wave16_num_tier4 =1,
-wave16_num_special =1,
+gtd_wave16_num_tier1 =1,
+gtd_wave16_num_tier2 =1,
+gtd_wave16_num_tier3 =1,
+gtd_wave16_num_tier4 =1,
+gtd_wave16_num_special =1,
 
-wave17_num_tier1 =1,
-wave17_num_tier2 =1,
-wave17_num_tier3 =1,
-wave17_num_tier4 =1,
-wave17_num_special =1,
+gtd_wave17_num_tier1 =1,
+gtd_wave17_num_tier2 =1,
+gtd_wave17_num_tier3 =1,
+gtd_wave17_num_tier4 =1,
+gtd_wave17_num_special =1,
 
-wave18_num_tier1 =1,
-wave18_num_tier2 =1,
-wave18_num_tier3 =1,
-wave18_num_tier4 =1,
-wave18_num_special =1,
+gtd_wave18_num_tier1 =1,
+gtd_wave18_num_tier2 =1,
+gtd_wave18_num_tier3 =1,
+gtd_wave18_num_tier4 =1,
+gtd_wave18_num_special =1,
 
-wave19_num_tier1 =1,
-wave19_num_tier2 =1,
-wave19_num_tier3 =1,
-wave19_num_tier4 =1,
-wave19_num_special =1,
+gtd_wave19_num_tier1 =1,
+gtd_wave19_num_tier2 =1,
+gtd_wave19_num_tier3 =1,
+gtd_wave19_num_tier4 =1,
+gtd_wave19_num_special =1,
 
-wave20_num_tier1 =1,
-wave20_num_tier2 =1,
-wave20_num_tier3 =1,
-wave20_num_tier4 =1,
-wave20_num_special =1,
+gtd_wave20_num_tier1 =1,
+gtd_wave20_num_tier2 =1,
+gtd_wave20_num_tier3 =1,
+gtd_wave20_num_tier4 =1,
+gtd_wave20_num_special =1,
 
 
 
-lvl1_limit = 5
-lvl2_limit = 20
-lvl3_limit = 45
-lvl4_limit = 75
-lvl5_limit = 110
-lvl6_limit = 175
-lvl7_limit = 250
-lvl8_limit = 500
-lvl9_limit = 800
-lvl10_limit = 1100
-lvl11_limit = 1600
-lvl12_limit = 2100
-lvl13_limit = 3000
-lvl14_limit = 3900
-lvl15_limit = 5000
-lvl16_limit = 6500
-lvl17_limit = 8000
-lvl18_limit = 10500
-lvl19_limit = 14500
-lvl20_limit = 18500
-lvl21_limit = 25000
-lvl22_limit = 35000
+gtd_lvl1_limit = 5
+gtd_lvl2_limit = 20
+gtd_lvl3_limit = 45
+gtd_lvl4_limit = 75
+gtd_lvl5_limit = 110
+gtd_lvl6_limit = 175
+gtd_lvl7_limit = 250
+gtd_lvl8_limit = 500
+gtd_lvl9_limit = 800
+gtd_lvl10_limit = 1100
+gtd_lvl11_limit = 1600
+gtd_lvl12_limit = 2100
+gtd_lvl13_limit = 3000
+gtd_lvl14_limit = 3900
+gtd_lvl15_limit = 5000
+gtd_lvl16_limit = 6500
+gtd_lvl17_limit = 8000
+gtd_lvl18_limit = 10500
+gtd_lvl19_limit = 14500
+gtd_lvl20_limit = 18500
+gtd_lvl21_limit = 25000
+gtd_lvl22_limit = 35000
 #------------GTD-END------------------

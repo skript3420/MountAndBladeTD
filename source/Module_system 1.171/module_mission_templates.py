@@ -8454,8 +8454,8 @@ mission_templates = [
           (try_end),
         #calculate bot-amount based on wave no and players active 
         (call_script, "script_calculate_wave_bot_num", ":team_2_score", "$g_num_players_t2"),
-        #result stored in reg30
-        (assign, ":num_bots", reg30),
+        #script result is stored in reg0
+        (assign, ":num_bots", reg0),
         (call_script, "script_set_num_bots", 0, ":num_bots"),
         #announce next wave
         (team_get_score, reg0 ,1),
