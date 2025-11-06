@@ -8225,9 +8225,11 @@ mission_templates = [
       # tracks number of alive enemy bots
       # handles special damage to king harlaus
       # handles knockdown and poison arrows and arrow chests
-      (1, 0, 0, [],[
+
+      (0.5, 0, 0, [],[
         #variables outside loop 
         (entry_point_get_position, pos10, gtd_map_spawn_harlaus), #harlaus spawn position
+        (assign, ":near_harlaus_count", 0),
 
         #main agent loop begin
         (try_for_agents, ":agent_no"),
@@ -8274,9 +8276,16 @@ mission_templates = [
           (try_begin), #special handling for king harlaus
             (agent_get_troop_id, ":agent_trp_id", ":agent_no"),
             (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
-            #keep harlaus from moving
-            #last two parameters: [auto_set_z_to_ground_level],[no_rethink] 
-            (agent_set_scripted_destination, ":agent_no", pos10, 1, 0),
+              #keep harlaus from moving, when no enemies near
+              (try_begin),
+                (eq, "$g_counted_near_harlaus", 0),
+                #last two parameters: [auto_set_z_to_ground_level],[no_rethink] 
+                (agent_set_scripted_destination, ":agent_no", pos10, 1, 0),
+              (else_try),
+                (agent_clear_scripted_mode, ":agent_no"), #clear any scripted mode
+                (agent_set_is_alarmed, ":agent_no", 1), #set alarmed
+                (agent_force_rethink, ":agent_no"), #force rethink to attack enemies
+              (try_end),
             #handle special damage to harlaus
             (gt, "$g_special_dmg_harlaus", 0),
             (store_agent_hit_points, ":harlaus_hp", ":agent_no",1), #0: relative, 1: absolute
@@ -8296,15 +8305,17 @@ mission_templates = [
               (get_distance_between_positions, ":dist", pos10, pos2),
               (le, ":dist", gtd_map_horse_kill_radius), #within range of harlaus
             
-              (try_begin), #make bots near harlaus attack him
+              (try_begin), #make human bots near harlaus attack him, count them
                 (eq, ":agent_team", 0), #enemy team
+                (agent_is_human, ":agent_no"),
+                (val_add, ":near_harlaus_count", 1), #count agent near harlaus
                 (agent_clear_scripted_mode, ":agent_no"), #clear any scripted mode
                 (agent_set_is_alarmed, ":agent_no", 1), #set alarmed
                 (agent_force_rethink, ":agent_no"), #force rethink to attack harlaus
               (try_end),
 
-              (try_begin),
-                (neg|agent_is_human, ":agent_no"), #if horse near harlaus
+              (try_begin), #handle horses near harlaus
+                (neg|agent_is_human, ":agent_no"),
                 #process hired assassin rider
                 (try_begin),
                   (agent_get_rider, ":rider_agent", ":agent_no"),
@@ -8317,8 +8328,8 @@ mission_templates = [
                 #remove horse
                 (remove_agent, ":agent_no"),
               (try_end),
-
-            (else_try), #for agent not near harlaus, reset focus
+            #for agent not near harlaus, reset focus
+            (else_try),
                 (eq, ":agent_team", 0), #enemy team
                 (agent_set_is_alarmed, ":agent_no", 0),
                 (agent_set_scripted_destination, ":agent_no", pos10,1,0),
@@ -8327,6 +8338,8 @@ mission_templates = [
         (try_end),
         #end of main agent loop
 
+        #store number globally for next trigger
+        (assign, "$g_counted_near_harlaus", ":near_harlaus_count"),
       ]),
 
       ######################################
@@ -8447,6 +8460,7 @@ mission_templates = [
               (assign, "$g_num_players_t2", 0),
               (assign, "$g_num_enemies_alive", 0),
               (assign, "$g_num_enemies_spawned", 0),
+              (assign, "$g_counted_near_harlaus", 0),
               #count ammo chests on map
               (scene_prop_get_num_instances, "$g_num_ammo_chests", "spr_chest_b"),     
       ]),

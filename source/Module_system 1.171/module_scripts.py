@@ -51407,7 +51407,7 @@ scripts = [
         (eq, ":x", 0),
         (assign, reg0, 1),
         (else_try),
-        (assign, reg0, 200),
+        (assign, reg0, 1000),
         (try_end),
 	]),
 

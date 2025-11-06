@@ -1966,7 +1966,7 @@ gtd_wave_delay = 10, #minimum delay between waves (seconds)
 
 gtd_special_dmg_assassin = 10, #dmg dealt by trp_hired_assassins
 gtd_bonus_gold = 250, #amount of gold given on player win map event
-gtd_harlaus_max_hp = 100, #start hp for harlaus
+gtd_harlaus_max_hp = 60, #start hp for harlaus
 
 ######################################
 # Wave And Level Constants
