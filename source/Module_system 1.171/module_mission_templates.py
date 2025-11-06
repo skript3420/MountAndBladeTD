@@ -8231,6 +8231,8 @@ mission_templates = [
 
         #main agent loop begin
         (try_for_agents, ":agent_no"),
+          #once determined per loop:
+          (agent_get_team, ":agent_team", ":agent_no"),
 
           (try_begin), #handle poison effect
             (agent_get_slot, ":poison_state", ":agent_no", slot_agent_is_poisoned),
@@ -8290,29 +8292,37 @@ mission_templates = [
             (eq, "$g_is_wave_active", 1), #only during active waves
             (agent_is_non_player, ":agent_no"),
             (agent_get_position, pos2, ":agent_no"),
-            (get_distance_between_positions, ":dist", pos10, pos2),
-            (le, ":dist", gtd_map_horse_kill_radius), #within range
-            
-            (try_begin), #make bots near harlaus attack him
-              (agent_get_team, ":agent_team", ":agent_no"),
-              (eq, ":agent_team", 0), #enemy team
-              (agent_clear_scripted_mode, ":agent_no"), #clear any scripted mode
-              (agent_set_is_alarmed, ":agent_no", 1), #set alarmed
-              (agent_force_rethink, ":agent_no"), #force rethink to attack harlaus
-            (try_end),
-
-            (neg|agent_is_human, ":agent_no"), #if horse
-            #process hired assassin rider
             (try_begin),
-              (agent_get_rider, ":rider_agent", ":agent_no"),
-              (neq, ":rider_agent", -1), #has rider
-              (agent_get_troop_id, ":agent_troop", ":rider_agent"),
-              (eq, ":agent_troop", "trp_hired_assassin"), #if hired assassin rider
-              (val_add, "$g_special_dmg_harlaus", gtd_special_dmg_assassin), #increase special dmg amount
-              (remove_agent, ":rider_agent"), #remove assassin
+              (get_distance_between_positions, ":dist", pos10, pos2),
+              (le, ":dist", gtd_map_horse_kill_radius), #within range of harlaus
+            
+              (try_begin), #make bots near harlaus attack him
+                (eq, ":agent_team", 0), #enemy team
+                (agent_clear_scripted_mode, ":agent_no"), #clear any scripted mode
+                (agent_set_is_alarmed, ":agent_no", 1), #set alarmed
+                (agent_force_rethink, ":agent_no"), #force rethink to attack harlaus
+              (try_end),
+
+              (try_begin),
+                (neg|agent_is_human, ":agent_no"), #if horse near harlaus
+                #process hired assassin rider
+                (try_begin),
+                  (agent_get_rider, ":rider_agent", ":agent_no"),
+                  (neq, ":rider_agent", -1), #has rider
+                  (agent_get_troop_id, ":agent_troop", ":rider_agent"),
+                  (eq, ":agent_troop", "trp_hired_assassin"), #if hired assassin rider
+                  (val_add, "$g_special_dmg_harlaus", gtd_special_dmg_assassin), #increase special dmg amount
+                  (remove_agent, ":rider_agent"), #remove assassin
+                (try_end),
+                #remove horse
+                (remove_agent, ":agent_no"),
+              (try_end),
+
+            (else_try), #for agent not near harlaus, reset focus
+                (eq, ":agent_team", 0), #enemy team
+                (agent_set_is_alarmed, ":agent_no", 0),
+                (agent_set_scripted_destination, ":agent_no", pos10,1,0),
             (try_end),
-            #remove horse
-            (remove_agent, ":agent_no"),
           (try_end),
         (try_end),
         #end of main agent loop
@@ -8597,22 +8607,6 @@ mission_templates = [
         #get harlaus hp in percent
         (store_agent_hit_points, ":harlaus_hp", ":agent_id",0), #3rd param: 0 percent, 1 absolute
         (call_script, "script_announce_harlaus_hp", ":harlaus_hp"),
-      ]),
-
-      #reset bots, make their target harlaus
-      (5,0,0,[(eq, "$g_is_wave_active", 1)],[
-      (entry_point_get_position, pos1, 32),
-      (try_for_agents, ":agent_no"),
-        (agent_is_alive, ":agent_no"),
-        (agent_is_non_player, ":agent_no"),
-        (agent_get_team, ":agent_team", ":agent_no"),
-        (neq, ":agent_team", 1),
-        (team_give_order, 0, -1, mordr_use_blunt_weapons),
-        (agent_get_position, pos2, ":agent_no"),
-        (get_distance_between_positions, ":dist", pos10, pos2),
-        (gt, ":dist", gtd_map_horse_kill_radius), #within range
-        (agent_set_scripted_destination, ":agent_no", pos1,1,0), #first 1 is for z to set to ground level, second is no rethink true/false
-      (try_end),
       ]),
 
 

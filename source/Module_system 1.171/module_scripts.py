@@ -51403,7 +51403,12 @@ scripts = [
         #(val_add, ":ax_bx", ":c"),
         #(val_div, ":ax_bx", 100),
         #(assign, reg0, ":ax_bx"),
-        (assign, reg0, 3),
+        (try_begin),
+        (eq, ":x", 0),
+        (assign, reg0, 1),
+        (else_try),
+        (assign, reg0, 200),
+        (try_end),
 	]),
 
   ("announce_harlaus_hp",[
@@ -51559,7 +51564,7 @@ scripts = [
             (try_end),
 		(else_try),
 			(eq, ":curr_wave", 2),
-            (call_script, "script_get_tier_1_troop"),
+            (assign, reg0, "trp_vaegir_marksman"),
 		(else_try),
 			(eq, ":curr_wave", 3),
 			(store_random_in_range,":random",0,6),

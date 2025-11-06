@@ -1928,7 +1928,7 @@ gtd_poison_radius = 200, #radius of poison effect
 gtd_explosive_small_effect_strength = 100, #percent
 gtd_explosive_small_horse_dmg = 30, #dmg dealt to horse by small explosive
 gtd_explosive_small_dmg = 15, #dmg dealt by small explosive
-gtd_explosive_small_radius = 200, #small explosive radius
+gtd_explosive_small_radius = 160, #small explosive radius
 
 gtd_explosive_large_effect_strength = 40, #percent
 gtd_explosive_large_radius = 200, #large explosive radius
