@@ -51255,7 +51255,7 @@ scripts = [
       #(try_for_range,":player",0,":max"),
       (player_is_active,":player_no"),
       (multiplayer_send_string_to_player,":player_no",multiplayer_event_show_server_message,":string"),  
-      (try_end),
+    (try_end),
       (server_add_message_to_log, ":string"),
   ]),
 
@@ -51399,7 +51399,7 @@ scripts = [
         #(val_add, ":ax_bx", ":c"),
         #(val_div, ":ax_bx", 100),
         #(assign, reg0, ":ax_bx"),
-        (assign, reg0, 500),
+        (assign, reg0, 10),
 	]),
 
   ("announce_harlaus_hp",[
@@ -51417,7 +51417,7 @@ scripts = [
             (assign, ":troop", -1),
             (try_begin),
             (ge, ":random", 0),
-            (assign, ":troop", "trp_farmer"),
+            (assign, ":troop", "trp_hired_assassin"),
             (else_try),
             (eq, ":random", 1),
             (assign, ":troop", "trp_slave_driver"),
@@ -51933,7 +51933,7 @@ scripts = [
          (player_is_active, ":player_no"),
          (player_get_gold, ":player_gold", ":player_no"),
          (try_begin),
-            (is_between, ":player_gold", 0, gtd_lvl1_limit),
+            (lt, ":player_gold", gtd_lvl1_limit),
             (store_sub, ":diff", gtd_lvl1_limit, ":player_gold"),
             (assign, reg0, ":diff"),
          (else_try),
@@ -52020,10 +52020,16 @@ scripts = [
             (is_between, ":player_gold", 0, gtd_lvl22_limit),
             (store_sub, ":diff", gtd_lvl22_limit, ":player_gold"),
             (assign, reg0, ":diff"),
+         (else_try), #full build
+            (assign, reg0, -1),
          (try_end),
-         
-         (call_script, "script_send_server_message_to_player", ":player_no", "str_next_upgrade_status"),
+         (try_begin),
+            (ge, reg0, 0),
+            (call_script, "script_send_server_message_to_player", ":player_no", "str_next_upgrade_status"),
+          (else_try),
+            (call_script, "script_send_server_message_to_player", ":player_no", "str_max_level_reached"),
          (try_end),
+      (try_end),
     ]),
 
         #---------------GTD-END---------------

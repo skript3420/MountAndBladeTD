@@ -3412,6 +3412,7 @@ str_you_win_message = 3410
 str_announce_harlaus_hp = 3411
 str_announce_round_over = 3412
 str_next_upgrade_status = 3413
-str_announce_website = 3414
+str_max_level_reached = 3414
+str_announce_website = 3415
 
 

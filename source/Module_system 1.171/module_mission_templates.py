@@ -384,13 +384,13 @@ multiplayer_server_spawn_bots = (
 
       #find spawn point
       (try_begin),
-        (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle), #i think this is for tdm
+        (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle),
         (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy),
         (try_begin),
           (eq, ":selected_team", 0),
-          (assign, reg0, 0), # enemy bots should spawn from spawnpoint 0
+          (assign, reg0, gtd_map_spawn_enemy), # enemy bots should spawn from spawnpoint 0
         (else_try),
-          (assign, reg0, 32), # friendly bots should spawn from spawnpoint 32
+          (assign, reg0, gtd_map_spawn_harlaus), # harlaus spawn point
         (try_end),
       (else_try),
         (call_script, "script_multiplayer_find_spawn_point", ":selected_team", 0, ":is_horseman"), 
@@ -489,12 +489,15 @@ multiplayer_server_check_end_map = (
       (try_begin), #store mission timer on first time the map should end and do once:
         (eq, "$g_game_end_timestamp", 0),
         (assign, "$g_game_end_timestamp", ":current_time"),
-        (val_add, "$g_game_end_timestamp", "$g_delay_before_restart"),
+        (val_add, "$g_game_end_timestamp", gtd_delay_before_restart),
         (try_begin),
             #server actions if players loose
             (eq, ":team_1_score", 1),
+            #reg0 is printed in message string
+            (assign, reg0, gtd_bonus_gold),
             (call_script, "script_send_server_message_to_players", "str_you_loose_message"),
-            (entry_point_get_position, pos1, 105), # tp everyone to entry point 105
+            # tp players after game over to entry point 105
+            (entry_point_get_position, pos1, gtd_map_spawn_round_over),
             (try_for_agents, ":agent_no"),
                 (gt, ":agent_no", 0),
                 (agent_is_human, ":agent_no"),
@@ -506,12 +509,14 @@ multiplayer_server_check_end_map = (
             (try_end),
         (else_try),
             #server actions if players win
+            #reg0 is printed in message string
+            (assign, reg0, gtd_bonus_gold),
             (call_script, "script_send_server_message_to_players", "str_you_win_message"),
             (try_for_players, ":player_no", 1),
                 (player_is_active, ":player_no"),
                 (player_get_gold, ":player_gold", ":player_no"),
-                (val_add, ":player_gold", 100),
-                (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
+                (val_add, ":player_gold", gtd_bonus_gold),
+                (player_set_gold, ":player_no", ":player_gold", 0),
                 (call_script, "script_save_player_gold", ":player_no"), #updated database
             (try_end),
         (try_end),
@@ -8176,11 +8181,11 @@ mission_templates = [
       # ])
       
       ##server messages
-      (120, 0, 0, [], #time interval for regular server message
-      [        
-        (call_script, "script_send_server_message_to_players", "str_announce_website"),
-      ]),
-      (120, 0, 0, [], #send progress every 120 seconds
+        #(120, 0, 0, [], #time interval for regular server message
+        #[        
+        #  (call_script, "script_send_server_message_to_players", "str_announce_website"),
+        #]),
+      (200, 0, 0, [], #send progress every 120 seconds
       [
         (call_script, "script_send_kills_until_upgrade_to_players"),
       ]),
@@ -8221,9 +8226,9 @@ mission_templates = [
       # handles special damage to king harlaus
       # handles knockdown and poison arrows and arrow chests
       (1, 0, 0, [],[
-        #variables needed once for loop 
-        (entry_point_get_position, pos10, 32), #harlaus spawn position
-        
+        #variables outside loop 
+        (entry_point_get_position, pos10, gtd_map_spawn_harlaus), #harlaus spawn position
+
         #main agent loop begin
         (try_for_agents, ":agent_no"),
 
@@ -8237,7 +8242,7 @@ mission_templates = [
               #count down poison state, deliver dmg
               (agent_get_slot, ":shooter", ":agent_no", slot_agent_got_poisoned_by),
               (agent_is_active, ":shooter"),
-              (agent_deliver_damage_to_agent, ":shooter", ":agent_no", 8),
+              (agent_deliver_damage_to_agent, ":shooter", ":agent_no", gtd_poison_tick_dmg),
               (agent_play_sound, ":agent_no","snd_man_hit"),
               (val_sub, ":poison_state", 1),
               (agent_set_slot, ":agent_no", slot_agent_is_poisoned, ":poison_state"),
@@ -8246,6 +8251,7 @@ mission_templates = [
 
           ##from this point onwards just functions for alive agents!##
           (agent_is_alive, ":agent_no"),
+
           
 
           (try_begin), #handle knockdown effect
@@ -8258,7 +8264,7 @@ mission_templates = [
             (agent_get_slot, ":shooter", ":agent_no", slot_agent_got_knocked_down_by),
             (store_agent_hit_points, ":agent_hp", ":agent_no"),
             (agent_set_no_death_knock_down_only, ":agent_no", 1), #set as unkillable
-            (agent_deliver_damage_to_agent, ":shooter", ":agent_no", 500), #knockdown because unkillable
+            (agent_deliver_damage_to_agent, ":shooter", ":agent_no", gtd_knock_down_dmg), #knockdown because unkillable
             (agent_set_hit_points, ":agent_no", ":agent_hp"), #reset hp
             (agent_set_no_death_knock_down_only, ":agent_no", 0), #set as killable
           (try_end),
@@ -8280,13 +8286,14 @@ mission_templates = [
             (assign, "$g_special_dmg_harlaus", 0), #reset special dmg
           (try_end),
 
-          (try_begin), #handle horses near harlaus
+          (try_begin), #handle units near harlaus
             (eq, "$g_is_wave_active", 1), #only during active waves
             (agent_is_non_player, ":agent_no"),
             (agent_get_position, pos2, ":agent_no"),
             (get_distance_between_positions, ":dist", pos10, pos2),
-            (le, ":dist", 800), #within range
+            (le, ":dist", gtd_map_horse_kill_radius), #within range
             (assign, reg0, ":dist"),
+
             (neg|agent_is_human, ":agent_no"), #if horse
             #process hired assassin rider
             (try_begin),
@@ -8294,7 +8301,7 @@ mission_templates = [
               (neq, ":rider_agent", -1), #has rider
               (agent_get_troop_id, ":agent_troop", ":rider_agent"),
               (eq, ":agent_troop", "trp_hired_assassin"), #if hired assassin rider
-              (val_add, "$g_special_dmg_harlaus", 10), #increase special dmg amount
+              (val_add, "$g_special_dmg_harlaus", gtd_special_dmg_assassin), #increase special dmg amount
               (remove_agent, ":rider_agent"), #remove assassin
             (try_end),
             #remove horse
@@ -8329,7 +8336,7 @@ mission_templates = [
                   (scene_prop_get_instance, ":cur_prop", "spr_chest_b", ":i_prop"),
                   (prop_instance_get_position, pos2, ":cur_prop"),
                   (get_distance_between_positions, ":dist", pos1, pos2),
-                  (lt, ":dist", 110),
+                  (lt, ":dist", gtd_map_ammo_chest_radius),
                   (agent_refill_ammo, ":agent_no"),
               (try_end),
           (try_end),
@@ -8418,7 +8425,6 @@ mission_templates = [
         (assign, "$g_is_wave_active", 0), #and set wave as inactive
               (assign, "$g_wave_spawn_timestamp", 0),
               (assign, "$g_game_end_timestamp", 0),
-              (assign, "$g_delay_before_restart", 15),
               (assign, "$g_has_harlaus_spawned", 0),
               (assign, "$g_special_dmg_harlaus", 0),
               (assign, "$g_num_players_t2", 0),
@@ -8437,8 +8443,8 @@ mission_templates = [
           (agent_is_alive, ":agent_no"),
           (agent_get_troop_id, ":agent_trp_id", ":agent_no"),
           (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
-          (agent_set_max_hit_points, ":agent_no", 200, 1), 
-          (agent_set_hit_points, ":agent_no", 200, 1), 
+          (agent_set_max_hit_points, ":agent_no", gtd_harlaus_max_hp, 1), 
+          (agent_set_hit_points, ":agent_no", gtd_harlaus_max_hp, 1), 
         (try_end),
       ]),
       
@@ -8518,6 +8524,15 @@ mission_templates = [
         (else_try),
       ]),
 
+      (ti_on_agent_spawn, 0, 0, [],[
+          (store_trigger_param_1, ":agent_no"),
+          (agent_get_team, ":agent_team", ":agent_no"),
+          (try_begin),
+            (eq, ":agent_team", 0), #if enemy spawned
+            (val_add, "$g_num_enemies_alive", 1), #track enemy count
+          (try_end),
+      ]),
+
       #bot spawning
       (1, 0, 0, [],[
         #initialize required bot numbers to 0
@@ -8526,18 +8541,23 @@ mission_templates = [
         #Enemy bots
         (try_begin),
           (eq, "$g_is_wave_active", 1),
-          (le, "$g_num_enemies_alive", 150),
+          (le, "$g_num_enemies_alive", gtd_allow_new_wave),
           (store_sub, ":bots_remaining", "$g_multiplayer_num_bots_team_1", "$g_num_enemies_spawned"),
           (val_max, ":bots_remaining", 0), #safeguard
           (try_begin), #few bots remaining: just spawn
-            (lt, ":bots_remaining", 10),
+            (lt, ":bots_remaining", gtd_wave_size),
             (assign, "$g_multiplayer_num_bots_required_team_1", ":bots_remaining"),
           (else_try), # lots of bots remaining: spawn waves
             (store_mission_timer_a, ":cur_time"),
             (store_sub, ":time_diff", ":cur_time", "$g_wave_spawn_timestamp"),
             (try_begin),
-              (ge, ":time_diff", 20), #wait for time delay
-              (assign, "$g_multiplayer_num_bots_required_team_1", 10), #spawn 10 bots
+              (eq, "$g_num_enemies_alive", 0), #if all bots dead, spawn now
+              (assign, "$g_multiplayer_num_bots_required_team_1", gtd_wave_size), #spawn wave
+              (assign, "$g_wave_spawn_timestamp", ":cur_time"), #reset spawn timer
+            (else_try),
+              (le, "$g_num_enemies_alive", gtd_allow_new_wave),
+              (ge, ":time_diff", gtd_wave_delay), #wait for time delay
+              (assign, "$g_multiplayer_num_bots_required_team_1", gtd_wave_size), #spawn wave
               (assign, "$g_wave_spawn_timestamp", ":cur_time"), #reset spawn timer
             (try_end),
           (try_end),
@@ -8588,16 +8608,11 @@ mission_templates = [
       (try_end),
       ]),
 
+
       ######################################
       #GTD Other Native Function Calls
       ######################################
 
-      (ti_on_agent_killed_or_wounded, 0, 0, [], 
-      [
-        (store_trigger_param_1, ":dead_agent_no"),
-        (store_trigger_param_2, ":killer_agent_no"),
-        (call_script, "script_multiplayer_server_on_agent_killed_or_wounded_common", ":dead_agent_no", ":killer_agent_no"),
-      ]),
 
       (ti_on_agent_spawn, 0, 0, [],
       [

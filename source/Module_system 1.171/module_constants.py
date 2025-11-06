@@ -1924,6 +1924,7 @@ gtd_knock_down_dmg = 500, #has to reliably one-shot unkillable agent
 ######################################
 # Map Constants
 ######################################
+gtd_map_spawn_enemy = 0, #enemy spawn point
 gtd_map_spawn_harlaus = 32, #Harlaus spawn point
 gtd_map_spawn_round_over = 105, #tp to spawn point after round over
 gtd_map_horse_kill_radius = 800, #radius around harlaus spawn point to kill horses
@@ -1933,11 +1934,18 @@ gtd_map_ammo_chest_radius = 120, #radius around chest to give ammo
 # Game Constants
 ######################################
 
+gtd_delay_before_restart = 10, #delay before restarting map after round over (seconds)
+
 gtd_round_prepare = 0,
 gtd_round_active = 1,
 gtd_round_over = 2,
 
-gtd_max_population = 150, #max alive enemy (total wave number can be higher)
+gtd_allow_new_wave = 100, #number of alive enemies to allow new wave spawn
+gtd_wave_size = 50, #number of enemies concurrent spawn
+gtd_wave_delay = 10, #minimum delay between waves (seconds)
+
+gtd_units_near_harlaus_threshold = 10, #number of units near harlaus to trigger dmg
+gtd_special_dmg_units = 5, #dmg dealt by special units
 gtd_special_dmg_assassin = 10, #dmg dealt by trp_hired_assassins
 gtd_msg_delay_upgrade = 120, #delay between upgrade messages (seconds)
 gtd_bonus_gold = 100, #amount of gold given on player win map event
@@ -1947,8 +1955,6 @@ gtd_harlaus_max_hp = 5000, #max hp for harlaus
 # Wave And Level Constants
 ######################################
 
-gtd_wave_size = 30, #number of enemies concurrent spawn
-gtd_wave_spawn_delay = 10, #delay between spawns (seconds)
 
 gtd_wave1_num_tier1 = 1,
 gtd_wave1_num_tier2 = 1,

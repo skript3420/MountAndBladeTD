@@ -387,6 +387,10 @@ items = [
 			(multiplayer_is_server),
 			(store_trigger_param_1, ":shooter"),
 			(particle_system_burst, "psys_village_fire_big", pos1, 100),
+            (agent_get_player_id, ":shooter_player", ":shooter"),
+            (player_get_gold, ":gold_amount", ":shooter_player"),
+            (store_div, ":dmg_base", ":gold_amount", 1000),
+            (store_add, ":horse_dmg",":dmg_base", 20), #if horse deal +20 dmg
 			(try_for_agents, ":agent"),
 				(agent_is_alive, ":agent"),
                 (agent_get_team, ":agent_team", ":agent"),
@@ -396,10 +400,10 @@ items = [
 				(get_distance_between_positions, ":dist", pos1, pos2),
 				(try_begin),
 					(lt, ":dist", 300),
-                    (assign, ":dmg", 45), #normally deal 45 dmg
+                    (assign, ":dmg", ":dmg_base"),
                     (try_begin),
                         (neg|agent_is_human, ":agent"),
-                        (assign, ":dmg", 55), #if horse deal 55 dmg
+                        (assign, ":dmg", ":horse_dmg"),
                     (try_end),
 					(agent_deliver_damage_to_agent, ":shooter", ":agent", ":dmg"),
 					(try_begin),

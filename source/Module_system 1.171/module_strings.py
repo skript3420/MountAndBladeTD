@@ -4351,11 +4351,12 @@ We apologize sincerely if you contributed your suggestions and feedback but were
   ("save_gold_error", "ERROR: Can't save player gold, player Id was invalid!"),
   ("next_wave_incoming", "^######################^ Wave: {reg0} incoming! ^######################"),
   ("current_wave", "^######################^ Current Wave: {reg0}/20 ^######################"),
-  ("you_loose_message", "^######################^Game Over   ^Get 100 Bonus Kills if you win next time!^######################"),
-  ("you_win_message", "^######################^You Win!   ^Everyone gets 100 Bonus Kills!^######################"),
+  ("you_loose_message", "^######################^Game Over   ^Get {reg0} Bonus Kills if you win next time!^######################"),
+  ("you_win_message", "^######################^You Win!   ^Everyone gets {reg0} Bonus Kills!^######################"),
   ("announce_harlaus_hp", "## Harlaus HP: {reg0}% ##"),
   ("announce_round_over", "^######################^Wave: {reg0} defeated! Prepare for next wave!^######################"),
   ("next_upgrade_status", "^{reg0} Kills remaining until next upgrade!"),
+  ("max_level_reached", "^Highest level! ^Increase gold to deal even more damage!"),
   ("announce_website", "^######################^Server-Rank at xxxxxxxxxx.xxxx.xxx^######################")
   #------------GTD-END--------------
   
