@@ -8634,7 +8634,7 @@ mission_templates = [
         (call_script, "script_announce_harlaus_hp", ":harlaus_hp"),
       ]),
 
-      #handle cloner bots
+      #handle cloner bots death
       (ti_on_agent_killed_or_wounded, 0, 0, [(eq, "$g_is_wave_active", 1)], [
         (store_trigger_param_1, ":agent_id"),
         (agent_get_troop_id, ":agent_trp_id", ":agent_id"),
@@ -8657,7 +8657,7 @@ mission_templates = [
         (add_visitors_to_current_scene, gtd_map_spawn_enemy, ":child_trp", gtd_clone_split_num_1st, 0, -1),
       ]),
 
-      #tp clones to parent death position on spawn
+      #tp cloned children to parent death position on spawn
       (ti_on_agent_spawn, 0, 0, [(eq, "$g_is_wave_active", 1)],
       [
         (store_trigger_param_1, ":agent_no"),
@@ -8684,7 +8684,6 @@ mission_templates = [
           (agent_get_slot, ":clones_needed", ":other_agent", slot_agent_clones_needed),
           #update status
           (gt, ":clones_needed", 0),
-          (display_message, "@c2"),
           (val_sub, ":clones_needed", 1),
           (agent_set_slot, ":other_agent", slot_agent_clones_needed, ":clones_needed"),
           #teleport agent to parent kill location
