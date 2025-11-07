@@ -1,6 +1,3 @@
-#---------------WSE START-----------------
-acf_lock_rotation              = 0x00000800 # lock agent rotation
-#---------------WSE END-------------------
 arf_blend_in_0               = 0x00000001
 arf_blend_in_1               = 0x00000002
 arf_blend_in_2               = 0x00000003
@@ -120,6 +117,11 @@ acf_rot_vertical_mask        = 0x00300000
 acf_rot_vertical_bow         = 0x00100000
 acf_rot_vertical_sword       = 0x00200000
 acf_anim_length_mask         = 0xff000000
+
+#WSE2 Start
+acf_apply_slope_for_human      = 0x00000004 # apply slope for human agent same as horse (requires WSE2)
+acf_lock_rotation              = 0x00000800 # lock agent rotation
+#WSE2 End
 
 acf_anim_length_bits         = 24
 def acf_anim_length(x):

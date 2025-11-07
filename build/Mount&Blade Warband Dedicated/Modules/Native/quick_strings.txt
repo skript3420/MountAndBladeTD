@@ -119,12 +119,11 @@ qstr_{!}DEBUGS_:_enemy_lo {!}DEBUGS_:_enemy_loses_:_{reg0}
 qstr_{!}DEBUGS1_:_total_g {!}DEBUGS1_:_total_gain_:_{reg0}
 qstr_{!}DEBUGS2_:_total_g {!}DEBUGS2_:_total_gain_:_{reg0}
 qstr_{!}DEBUGS3_:_num_pla {!}DEBUGS3_:_num_player_party_shares:{reg0},_total_gain:{reg1}
-qstr_&gold= &gold=
+qstr_killed killed
 qstr_wounded wounded
 qstr_{!}{reg3?{reg3}:}_{s {!}{reg3?{reg3}:}_{s1}_({s2})
 qstr_{!}{s0}_{reg3?{reg3} {!}{s0},_{reg3?{reg3}:}_{s1}_({s2})
 qstr_{!}{s0}^{reg3?{reg3} {!}{s0}^{reg3?{reg3}:}_{s1}_({s2})
-qstr_&user_id= &user_id=
 qstr_{s0}^TOTAL:_{reg3}__ {s0}^TOTAL:_{reg3}_({s2})
 qstr_^None ^None
 qstr_nothing nothing
@@ -350,6 +349,7 @@ qstr_{!}prison_cart_spawn {!}prison_cart_spawn_at_point_{reg0}
 qstr_{!}multiplayer_upgra {!}multiplayer_upgrade_player_equipment:_{reg0}
 qstr_http://localhost/web http://localhost/webpage.php?unique_id={reg1}&event=1
 qstr_http://localhost/webp http://localhost/webpage.php?unique_id={reg1}&gold={reg2}&event=2
+qstr_Error_in_get_special Error_in_get_special_troop_script.
 qstr_You_got_keys_of_dung You_got_keys_of_dungeon.
 qstr_You_must_stay_behind You_must_stay_behind_the_line_on_the_ground!_Point_is_not_counted.
 qstr_Tutorial Tutorial

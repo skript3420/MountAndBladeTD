@@ -429,14 +429,7 @@ def save_statement_block(ofile,statement_name,can_fail_statement,statement_block
     else:
       opcode = statement[0]
       no_variables = 0
-    #---ORIGINAL START---  
-    #if (opcode in [try_begin,
-    #               try_for_range,
-    #               try_for_range_backwards,
-    #               try_for_parties,
-    #               try_for_agents]):
-    #---ORIGINAL END---
-    #---WSE START---
+      #WSE2 Start
     if (opcode in [try_begin,
                    try_for_range,
                    try_for_range_backwards,
@@ -446,9 +439,7 @@ def save_statement_block(ofile,statement_name,can_fail_statement,statement_block
                    try_for_players,
                    try_for_dict_keys,
                    ]):
-    #---WSE END---
-      current_depth = current_depth + 1
-    elif (opcode == try_end):
+      #WSE2 End
       current_depth = current_depth - 1
     elif (opcode == store_script_param_1 or (opcode == store_script_param and statement[2] == 1)):
       store_script_param_1_uses = store_script_param_1_uses + 1

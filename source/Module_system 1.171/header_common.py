@@ -295,29 +295,16 @@ multi_num_valid_entry_points = 64
 multi_num_valid_entry_points_div_2 = 32
 
 #normal money management system
-#multi_battle_round_team_money_add = 500
-#multi_destroy_save_or_destroy_target_money_add = 100
-#multi_destroy_target_money_add = 1500
-#multi_initial_gold_value = 1000
-#multi_max_gold_that_can_be_stored = 15000
-#
-#multi_killer_agent_standard_money_add = 150 #(2/3 = 100 for battle & destroy, 3/3 = 150 for siege, 4/3 = 200 for deathmatch/team deathmatch/capture the flag/headquarters)
-#multi_killer_agent_loot_percentage_share = 12 #(2/3 = 8% for battle & destroy, 3/3 = 12% for siege, 4/3 = 16% for deathmatch/team deathmatch/capture the flag/headquarters)
-#multi_dead_agent_loot_percentage_share = 48 #(2/3 = 32% for battle & destroy, 3/3 = 48% for siege, 4/3 = 64% for deathmatch/team deathmatch/capture the flag/headquarters)
-#multi_minimum_gold = 1000 #(same in all modes)
-
-#------------GTD-BEGIN----------------
-multi_battle_round_team_money_add = 0
+multi_battle_round_team_money_add = 500
 multi_destroy_save_or_destroy_target_money_add = 100
 multi_destroy_target_money_add = 1500
-multi_initial_gold_value = 0
-multi_max_gold_that_can_be_stored = 0 
+multi_initial_gold_value = 1000
+multi_max_gold_that_can_be_stored = 15000
 
-multi_killer_agent_standard_money_add = 1 
-multi_killer_agent_loot_percentage_share = 100 
-multi_dead_agent_loot_percentage_share = 100 
-multi_minimum_gold = 0 
-#------------GTD-END------------------
+multi_killer_agent_standard_money_add = 150 #(2/3 = 100 for battle & destroy, 3/3 = 150 for siege, 4/3 = 200 for deathmatch/team deathmatch/capture the flag/headquarters)
+multi_killer_agent_loot_percentage_share = 12 #(2/3 = 8% for battle & destroy, 3/3 = 12% for siege, 4/3 = 16% for deathmatch/team deathmatch/capture the flag/headquarters)
+multi_dead_agent_loot_percentage_share = 48 #(2/3 = 32% for battle & destroy, 3/3 = 48% for siege, 4/3 = 64% for deathmatch/team deathmatch/capture the flag/headquarters)
+multi_minimum_gold = 1000 #(same in all modes)
 
 multi_minimum_target_health = 1200
 
@@ -653,8 +640,7 @@ spf_team_0_walkers_spawn_at_high_points      = 0x00000200,
 spf_team_1_walkers_spawn_at_high_points      = 0x00000400,
 spf_try_to_spawn_close_to_at_least_one_enemy = 0x00000800,
 spf_care_agent_to_agent_distances_less       = 0x00001000,
-
-#---------------WSE START-----------------
+#WSE2 Start
 #Tooltip types
 tooltip_agent = 1
 tooltip_horse = 2
@@ -729,6 +715,28 @@ window_inventory = 7
 window_party = 8
 window_character = 11
 
+#Inventory window modes
+iwm_view        = 0
+iwm_loot        = 1
+iwm_trade       = 2
+iwm_chest       = 3
+iwm_equip_other = 4
+
+#Party window modes
+pwm_view             = 0
+pwm_exchange_members = 1
+pwm_trade_prisoners  = 2
+pwm_buy_mercenaries  = 3
+pwm_battle_result    = 4
+pwm_battle_view      = 5
+pwm_exchange_leader  = 6
+pwm_give_members     = 7
+
+#Character window modes
+cwm_edit  = 0
+cwm_view  = 1
+cwm_train = 2
+
 #Agent body meta meshes
 bmm_head = 0
 bmm_beard = 1
@@ -758,6 +766,14 @@ bmm_left_bracer = 24
 bmm_right_bracer = 25
 bmm_banner = 26
 bmm_name = 27
+
+#Dialog states
+dlg_start              = 0
+dlg_party_encounter    = 1
+dlg_event_triggered    = 5
+dlg_close_window       = 6
+dlg_member_chat        = 13
+dlg_prisoner_chat      = 14
 
 #Floating point registers
 fp0 = 0
@@ -910,4 +926,4 @@ LUA_TTABLE			= 5
 LUA_TFUNCTION		= 6
 LUA_TUSERDATA		= 7
 LUA_TTHREAD			= 8
-#---------------WSE END-----------------
+#WSE2 End

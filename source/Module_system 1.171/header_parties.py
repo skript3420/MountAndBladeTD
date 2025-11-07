@@ -107,4 +107,8 @@ merchant_personality = aggressiveness_0 | courage_7
 escorted_merchant_personality = aggressiveness_0 | courage_11
 bandit_personality   = aggressiveness_3 | courage_8 | banditness
 
+#WSE2 Start
+pf_dont_send_to_clients = 0x00008000  # multiplayer campaign, for parties used only for calculating on server-side
+#WSE2 End
+
 

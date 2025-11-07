@@ -1,1 +1,1 @@
-WSELoaderServer.exe -r GTD_server_settings.txt -m Native
+mb_warband_wse2_dedicated.exe -r GTD_server_settings.txt -m Native

@@ -41,4 +41,6 @@ sf_vol_4          = 0x00000400
 sf_vol_3          = 0x00000300
 sf_vol_2          = 0x00000200
 sf_vol_1          = 0x00000100
-
+#WSE2 Start
+sf_use_next_for_far = 0x01000000
+#WSE2 End

@@ -15,3 +15,7 @@ psf_randomize_rotation  = 0x0000001000
 psf_randomize_size      = 0x0000002000
 psf_2d_turbulance       = 0x0000010000
 psf_next_effect_is_lod  = 0x0000020000
+#WSE2 Start
+psf_forced                  = 0x0000000001 # this particle enabled even if particle systems is off
+psf_ignore_degrade_distance = 0x0000000004 # this particle ignore degrade distance
+#WSE2 End

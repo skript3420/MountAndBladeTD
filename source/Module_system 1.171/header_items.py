@@ -9,14 +9,6 @@
 from header_common import *
 from header_item_modifiers import *
 
-
-#---------------WSE START-----------------
-itp_shield_no_parry = 0x0000000000004000 # left handed item without shield functionality
-itp_offset_mortschlag = 0x1000000000000000 # offsets melee weapon to mortschlag grip
-itp_covers_hands = 0x1000000000000000 # remove hands mesh (works on body armor items)
-itp_offset_flip = 0x4000000000000000 # flips melee weapon model 180 degrees on y-axis
-#---------------WSE END-------------------
-
 #item flags
 itp_type_horse           = 0x0000000000000001
 itp_type_one_handed_wpn  = 0x0000000000000002
@@ -408,3 +400,12 @@ itc_musket_melee = itc_parry_polearm|itcf_overswing_musket|itcf_thrust_musket|it
 ixmesh_inventory   = 0x1000000000000000
 ixmesh_flying_ammo = 0x2000000000000000
 ixmesh_carry       = 0x3000000000000000
+
+#WSE2 Start
+itp_shield_no_parry = 0x0000000000004000 # left handed item without shield functionality
+itp_offset_mortschlag = 0x1000000000000000 # offsets melee weapon to mortschlag grip
+itp_covers_hands = 0x1000000000000000 # remove hands mesh (works on body armor items)
+itp_crush_through_any_direction = 0x2000000000000000 #crush through works with any attack direction
+itp_offset_flip = 0x4000000000000000 # flips melee weapon model 180 degrees on y-axis
+#WSE2 End
+

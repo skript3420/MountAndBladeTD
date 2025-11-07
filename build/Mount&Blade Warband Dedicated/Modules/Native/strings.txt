@@ -1,5 +1,5 @@
 stringsfile version 1
-3415
+3417
 str_no_string NO_STRING!
 str_empty_string _
 str_yes Yes.
@@ -3401,17 +3401,19 @@ str_npc15_1 -Good_with_2h_and_bows^-Poor_with_crossbows_and_throwing
 str_npc16_1 -Good_with_throwing_and_1h^-Poor_with_2h_and_crossbows
 str_server_message_test Test
 str_reg0_debug reg0_is:_{reg0}
-str_msg_malformed ERROR:_Database_resultstring_does_not_match_expected_format!
+str_msg_malformed ERROR:_Database_resultstring_unexpected!_reg0:_{reg0}_reg1:_{reg1}_reg2:_{reg2}_reg3:_{reg3}_s0:_{s0}_s1:_{s1}
 str_msg_error ERROR:_Database_communication_error!
 str_msg_event_error ERROR:_Database_eventcode_unknown!_eventcode:_{reg0}
-str_str_msg_success SUCCESS:_received_Uid:_{reg1}_Gold:_{reg2}
+str_msg_success SUCCESS:_received_Uid:_{reg1}_Gold:_{reg2}
 str_load_gold_error ERROR:_Can't_load_player_Id,_player_Id_was_invalid!
 str_save_gold_error ERROR:_Can't_save_player_gold,_player_Id_was_invalid!
 str_next_wave_incoming ^######################^_Wave:_{reg0}_incoming!_^######################
 str_current_wave ^######################^_Current_Wave:_{reg0}/20_^######################
-str_you_loose_message ^######################^Game_Over___^Get_100_Bonus_Kills_if_you_win_next_time!^######################
-str_you_win_message ^######################^You_Win!___^Everyone_gets_100_Bonus_Kills!^######################
+str_you_loose_message ^######################^Game_Over___^Get_{reg0}_Bonus_Kills_if_you_win_next_time!^######################
+str_you_win_message ^######################^You_Win!___^Everyone_gets_{reg0}_Bonus_Kills!^######################
 str_announce_harlaus_hp ##_Harlaus_HP:_{reg0}%_##
 str_announce_round_over ^######################^Wave:_{reg0}_defeated!_Prepare_for_next_wave!^######################
 str_next_upgrade_status ^{reg0}_Kills_remaining_until_next_upgrade!
+str_max_level_reached ^You_reached_the_highest_level!_^Increase_gold_to_deal_even_more_damage!
+str_upgrade_reached ^You_reached_the_next_level!_^New_gear_is_available_next_time_you_spawn!
 str_announce_website ^######################^Server-Rank_at_xxxxxxxxxx.xxxx.xxx^######################

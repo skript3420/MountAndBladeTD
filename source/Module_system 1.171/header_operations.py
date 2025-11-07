@@ -1899,11 +1899,16 @@ can_fail_operations = [ge,
                        item_has_modifier,
                        item_has_faction
                        ]
-
-#---------------WSE START-----------------
+#WSE2 Begin
+#Add the following definitions to the end (!) of header_operations.py
 break_loop                   = 8 #(break_loop), #Break out of a loop, no matter how deeply nested in try_begin blocks
 continue_loop                = 9 #(continue_loop), #Continue to the next iteration of a loop, no matter how deeply nested in try_begin blocks
+try_for_agents               = 12 #(try_for_agents, <cur_agent_no>, [<position_no>], [<radius_fixed_point>], [<use_mission_grid>]), #Loops through agents in the scene. If [<position_no>] and [<radius_fixed_point>] are defined, it will only loop through agents in the chosen area. If [<use_mission_grid>] is non-zero, it will use mission grid iterator instead of searching through all agents. This is better in performance, but does not take into account the height of positions
 try_for_dict_keys            = 18 #(try_for_dict_keys, <cur_key_string_register>, <dict>), #Loops through keys of <2>
+key_is_down                  = 70 #(key_is_down, <key>, [<bypass_console_check>]), #Fails if <key> is not currently down
+key_clicked                  = 71 #(key_clicked, <key>, [<bypass_console_check>]), #Fails if <key> is not clicked on the specific frame
+game_key_is_down             = 72 #(game_key_is_down, <game_key_no>, [<bypass_console_check>]), #Fails if <game_key_no> is not currently down
+game_key_clicked             = 73 #(game_key_clicked, <game_key_no>, [<bypass_console_check>]), #Fails if <game_key_no> is not clicked on the specific frame
 server_set_max_num_players   = 491 #(server_set_max_num_players, <max_players>, [<max_private_players>]), #Sets maximum players to <max_players> and maximum private players to [<max_private_players>] (default = same as <max_players>). Both values must be in the range 2-250, [<max_private_players>] can't be lower than <max_players>
 position_rotate_x            = 723 #(position_rotate_x, <position_register>, <angle>, [<use_global_axis>]), #Rotates <position_register> around the x-axis by <angle> degrees
 position_rotate_y            = 724 #(position_rotate_y, <position_register>, <angle>, [<use_global_axis>]), #Rotates <position_register> around the y-axis by <angle> degrees
@@ -1912,6 +1917,7 @@ position_rotate_z_floating   = 734 #(position_rotate_z_floating, <position_regis
 position_rotate_x_floating   = 738 #(position_rotate_x_floating, <position_register>, <angle_fixed_point>, [<use_global_axis>]), #Rotates <position_register> around the x-axis by <angle_fixed_point> degrees
 position_rotate_y_floating   = 739 #(position_rotate_y_floating, <position_register>, <angle_fixed_point>, [<use_global_axis>]), #Rotates <position_register> around the y-axis by <angle_fixed_point> degrees
 is_vanilla_warband           = 1004 #(is_vanilla_warband), #Fails only when WSE is running
+start_map_conversation       = 1025 #(start_map_conversation, <troop_id>, [<troop_dna>], [<set_dialog_state>], [<dialog_state>]), #Starts a conversation with the selected <troop_id>. Can be called directly from global map or game menus. [<troop_dna>] parameter allows you to randomize non-hero troop appearances. If [<set_dialog_state>] sets, then [<dialog_state>] used instead dlg_event_triggered
 agent_set_animation_progress = 1743 #(agent_set_animation_progress, <agent_no>, <value_fixed_point>, [<channel_no>]), #Sets <agent_no>'s channel [<channel_no>] animation progress to <value_fixed_point>
 prop_instance_receive_damage = 1877 #(prop_instance_receive_damage, <prop_instance_no>, <agent_no>, <damage>, [<advanced>]), #<prop_instance_no> received <damage> damage from <agent_no>. If [<advanced>] is non-zero ti_on_scene_prop_hit will be called and the damage dealt will be sent to clients.
 add_point_light              = 1960 #(add_point_light, [<flicker_magnitude>], [<flicker_interval>], [<range>]), #Adds a point light with [<flicker_magnitude>] and [<flicker_interval>] ([<range>] if set - in meters)
@@ -1928,64 +1934,75 @@ store_xor  = 2807 #(store_xor, <destination>, <value1>, <value2>), #Performs a b
 val_not    = 2808 #(val_not, <value>), #Performs a bitwise complement on <value>
 store_not  = 2809 #(store_not, <destination>, <value>), #Performs a bitwise complement on <value> and stores the result into <destination>
 
-player_set_skin               = 2900 #(player_set_skin, <player_no>, <skin_no>), #Sets <player_no>'s skin (gender) to <skin_no> (requires network_compatible = 0 in wse_settings.ini)
-player_stop_controlling_agent = 2901 #(player_stop_controlling_agent, <player_no>), #Gives <player_no>'s agent back to AI control (requires network_compatible = 0 in wse_settings.ini)
+player_set_skin               = 2900 #(player_set_skin, <player_no>, <skin_no>), #Sets <player_no>'s skin (gender) to <skin_no> (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+player_stop_controlling_agent = 2901 #(player_stop_controlling_agent, <player_no>), #Gives <player_no>'s agent back to AI control (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
 player_set_banner_id          = 2902 #(player_set_banner_id, <player_no>, <banner_no>), #Sets <player_no>'s banner to <banner_no>
 player_set_username           = 2903 #(player_set_username, <player_no>, <string_no>), #Sets <player_no>'s username to <string_no>
 player_temp_ban               = 2904 #(player_temp_ban, <player_no>, <ban_time>), #Bans <player_no> temporarily for <ban_time> seconds
+player_get_wse2_version       = 2905 #(player_get_wse2_version, <destination>, <player_no>), #Stores <player_no>'s WSE2 version into <destination>. Works only on servers. 0 - vanilla Warband engine (requires WSE2)
+player_get_party_id           = 2906 #(player_get_party_id, <destination>, <player_no>), #Stores <player_no>'s party reference into <destination>. For multiplayer campaign mode (requires WSE2)
+player_set_party_id           = 2907 #(player_set_party_id, <player_no>, <party_no>), #Sets <player_no>'s party to <party_no>. For multiplayer campaign mode (requires WSE2)
 
-register_get                      = 3000 #(register_get, <destination>, <index>), #Stores the value of register <index> into <destination>
-register_set                      = 3001 #(register_set, <index>, <value>), #Sets the value of register <index> to <value>
-store_wse_version                 = 3002 #(store_wse_version, <destination>, <component>), #Stores <component> of the WSE version (0: major, 1: minor, 2: build) version into <destination>
-item_slot_gt                      = 3003 #(item_slot_gt, <item_kind_no>, <slot_no>, <value>), #Fails if <item_kind_no>'s <slot_no> is not greater than <value>
-party_template_slot_gt            = 3004 #(party_template_slot_gt, <party_template_no>, <slot_no>, <value>), #Fails if <party_template_no>'s <slot_no> is not greater than <value>
-troop_slot_gt                     = 3005 #(troop_slot_gt, <troop_no>, <slot_no>, <value>), #Fails if <troop_no>'s <slot_no> is not greater than <value>
-faction_slot_gt                   = 3006 #(faction_slot_gt, <faction_no>, <slot_no>, <value>), #Fails if <faction_no>'s <slot_no> is not greater than <value>
-quest_slot_gt                     = 3007 #(quest_slot_gt, <quest_no>, <slot_no>, <value>), #Fails if <quest_no>'s <slot_no> is not greater than <value>
-scene_slot_gt                     = 3008 #(scene_slot_gt, <site_no>, <slot_no>, <value>), #Fails if <site_no>'s <slot_no> is not greater than <value>
-party_slot_gt                     = 3009 #(party_slot_gt, <party_no>, <slot_no>, <value>), #Fails if <party_no>'s <slot_no> is not greater than <value>
-player_slot_gt                    = 3010 #(player_slot_gt, <player_no>, <slot_no>, <value>), #Fails if <player_no>'s <slot_no> is not greater than <value>
-team_slot_gt                      = 3011 #(team_slot_gt, <team_no>, <slot_no>, <value>), #Fails if <team_no>'s <slot_no> is not greater than <value>
-agent_slot_gt                     = 3012 #(agent_slot_gt, <agent_no>, <slot_no>, <value>), #Fails if <agent_no>'s <slot_no> is not greater than <value>
-scene_prop_slot_gt                = 3013 #(scene_prop_slot_gt, <prop_instance_no>, <slot_no>, <value>), #Fails if <prop_instance_no>'s <slot_no> is not greater than <value>
-store_current_trigger             = 3014 #(store_current_trigger, <destination>), #Stores the current trigger into <destination> (0 if not in a trigger)
-return_values                     = 3015 #(return_values, [<value_1>], [<value_2>], [<value_3>], [<value_4>], [<value_5>], [<value_6>], [<value_7>], [<value_8>], [<value_9>], [<value_10>], [<value_11>], [<value_12>], [<value_13>], [<value_14>], [<value_15>], [<value_16>]), #Stores up to 16 return values
-store_num_return_values           = 3016 #(store_num_return_values, <destination>), #Stores the amount of return values available into <destination>
-store_return_value                = 3017 #(store_return_value, <destination>, [<value>]), #Stores return value no. [<value>] into <destination>
-set_forced_lod                    = 3018 #(set_forced_lod, <lod_level>), #Forces the current trigger entity's LOD level to <lod_level> (0 = auto)
-send_message_to_url_advanced      = 3019 #(send_message_to_url_advanced, <url_string>, <user_agent_string>, [<success_callback_script_no>], [<failure_callback_script_no>], [<skip_parsing>], [<timeout>]), #Sends a HTTP request to <url_string> with <user_agent_string>. If the request succeeds, [<success_callback_script_no>] will be called. The script will behave like game_receive_url_response, unless [<skip_parsing>] is non-zero, in which case the script will receive no arguments and s0 will contain the full response. If the request fails, [<failure_callback_script_no>] will be called.
-mtsrand                           = 3020 #(mtsrand, <value>), #Seeds the MT19937 random generator with <value>
-mtrand                            = 3021 #(mtrand, <destination>, <min>, <max>), #Stores a random value between <min> and <max> into <destination> using the MT19937 random generator
-get_time                          = 3022 #(get_time, <destination>, [<local>]), #Stores the current UNIX time into <destination>. If [<local>] is non-zero, it will store local time instead of universal time.
-order_flag_is_active              = 3023 #(order_flag_is_active), #Fails if the order flag is not being placed
-play_bink_file                    = 3024 #(play_bink_file, <path_from_module_directory>, [<duration_in_ms>]), #Plays a .bik file located at <path_from_module_directory>. If [<duration_in_ms>] is not set the full movie will be played
-process_advanced_url_messages     = 3025 #(process_advanced_url_messages), #Forces processing of URL messages sent with send_message_to_url_advanced
-sleep_ms                          = 3026 #(sleep_ms, <time>), #Sleeps (blocking the game) for <time> ms
-timer_reset                       = 3027 #(timer_reset, <timer_register_no>, [<use_game_time>]), #Resets <timer_register_no>. If [<use_game_time>] is non-zero the timer will count game time rather than mission time
-timer_get_elapsed_time            = 3028 #(timer_get_elapsed_time, <destination>, <timer_register_no>), #Stores <timer_register_no>'s elapsed time into <destination>
-shell_open_url                    = 3029 #(shell_open_url, <url>), #Opens <url> in default browser. Support only http://, https://, ftp:// and ts3server:// urls.
-set_main_party                    = 3030 #(set_main_party, <party_no>), #Sets player's main party to <party_no>. Dynamic spawned party (not listed in module_parties.py) will corrupt the savegame!
-get_main_party                    = 3031 #(get_main_party, <destination>), #Stores player's main party to <destination>
-make_screenshot                   = 3032 #(make_screenshot, <format>, <file>), #Make game screenshot. For security reasons, <file> will be saved into a Screenshots directory. Supported <format>s: BMP - 0, JPG - 1, TGA - 2, PNG - 3.
-send_post_message_to_url_advanced = 3033 #(send_post_message_to_url_advanced, <url_string>, <user_agent_string>, <post_data>, [<success_callback_script_no>], [<failure_callback_script_no>], [<skip_parsing>], [<timeout>]), #Sends a HTTP POST request to <url_string> with <user_agent_string> and <post_data>. If the request succeeds, [<success_callback_script_no>] will be called. The script will behave like game_receive_url_response, unless [<skip_parsing>] is non-zero, in which case the script will receive no arguments and s0 will contain the full response. If the request fails, [<failure_callback_script_no>] will be called.
-set_random_seed                   = 3034 #(set_random_seed, <value>), #Seeds the random generator with <value>
-store_application_time            = 3035 #(store_application_time, <destination>), #Stores application time into <destination> in milliseconds
-is_party_skill                    = 3036 #(is_party_skill, <skill_no>), #Fails if <skill_no> is not effects party
+register_get                           = 3000 #(register_get, <destination>, <index>), #Stores the value of register <index> into <destination>
+register_set                           = 3001 #(register_set, <index>, <value>), #Sets the value of register <index> to <value>
+store_wse_version                      = 3002 #(store_wse_version, <destination>, <component>), #Stores <component> of the WSE version (0: major, 1: minor, 2: build) version into <destination>
+item_slot_gt                           = 3003 #(item_slot_gt, <item_kind_no>, <slot_no>, <value>), #Fails if <item_kind_no>'s <slot_no> is not greater than <value>
+party_template_slot_gt                 = 3004 #(party_template_slot_gt, <party_template_no>, <slot_no>, <value>), #Fails if <party_template_no>'s <slot_no> is not greater than <value>
+troop_slot_gt                          = 3005 #(troop_slot_gt, <troop_no>, <slot_no>, <value>), #Fails if <troop_no>'s <slot_no> is not greater than <value>
+faction_slot_gt                        = 3006 #(faction_slot_gt, <faction_no>, <slot_no>, <value>), #Fails if <faction_no>'s <slot_no> is not greater than <value>
+quest_slot_gt                          = 3007 #(quest_slot_gt, <quest_no>, <slot_no>, <value>), #Fails if <quest_no>'s <slot_no> is not greater than <value>
+scene_slot_gt                          = 3008 #(scene_slot_gt, <site_no>, <slot_no>, <value>), #Fails if <site_no>'s <slot_no> is not greater than <value>
+party_slot_gt                          = 3009 #(party_slot_gt, <party_no>, <slot_no>, <value>), #Fails if <party_no>'s <slot_no> is not greater than <value>
+player_slot_gt                         = 3010 #(player_slot_gt, <player_no>, <slot_no>, <value>), #Fails if <player_no>'s <slot_no> is not greater than <value>
+team_slot_gt                           = 3011 #(team_slot_gt, <team_no>, <slot_no>, <value>), #Fails if <team_no>'s <slot_no> is not greater than <value>
+agent_slot_gt                          = 3012 #(agent_slot_gt, <agent_no>, <slot_no>, <value>), #Fails if <agent_no>'s <slot_no> is not greater than <value>
+scene_prop_slot_gt                     = 3013 #(scene_prop_slot_gt, <prop_instance_no>, <slot_no>, <value>), #Fails if <prop_instance_no>'s <slot_no> is not greater than <value>
+store_current_trigger                  = 3014 #(store_current_trigger, <destination>), #Stores the current trigger into <destination> (0 if not in a trigger)
+return_values                          = 3015 #(return_values, [<value_1>], [<value_2>], [<value_3>], [<value_4>], [<value_5>], [<value_6>], [<value_7>], [<value_8>], [<value_9>], [<value_10>], [<value_11>], [<value_12>], [<value_13>], [<value_14>], [<value_15>], [<value_16>]), #Stores up to 16 return values
+store_num_return_values                = 3016 #(store_num_return_values, <destination>), #Stores the amount of return values available into <destination>
+store_return_value                     = 3017 #(store_return_value, <destination>, [<value>]), #Stores return value no. [<value>] into <destination>
+set_forced_lod                         = 3018 #(set_forced_lod, <lod_level>), #Forces the current trigger entity's LOD level to <lod_level> (0 = auto)
+send_message_to_url_advanced           = 3019 #(send_message_to_url_advanced, <url_string>, <user_agent_string>, [<success_callback_script_no>], [<failure_callback_script_no>], [<skip_parsing>], [<timeout>]), #Sends a HTTP request to <url_string> with <user_agent_string>. If the request succeeds, [<success_callback_script_no>] will be called. The script will behave like game_receive_url_response, unless [<skip_parsing>] is non-zero, in which case the script will receive no arguments and s0 will contain the full response. If the request fails, [<failure_callback_script_no>] will be called.
+mtsrand                                = 3020 #(mtsrand, <value>), #Seeds the MT19937 random generator with <value>
+mtrand                                 = 3021 #(mtrand, <destination>, <min>, <max>), #Stores a random value between <min> and <max> into <destination> using the MT19937 random generator
+get_time                               = 3022 #(get_time, <destination>, [<local>]), #Stores the current UNIX time into <destination>. If [<local>] is non-zero, it will store local time instead of universal time.
+order_flag_is_active                   = 3023 #(order_flag_is_active), #Fails if the order flag is not being placed
+play_bink_file                         = 3024 #(play_bink_file, <path_from_module_directory>, [<duration_in_ms>]), #Plays a .bik file located at <path_from_module_directory>. If [<duration_in_ms>] is not set the full movie will be played
+process_advanced_url_messages          = 3025 #(process_advanced_url_messages), #Forces processing of URL messages sent with send_message_to_url_advanced
+sleep_ms                               = 3026 #(sleep_ms, <time>), #Sleeps (blocking the game) for <time> ms
+timer_reset                            = 3027 #(timer_reset, <timer_register_no>, [<use_game_time>]), #Resets <timer_register_no>. If [<use_game_time>] is non-zero the timer will count game time rather than mission time
+timer_get_elapsed_time                 = 3028 #(timer_get_elapsed_time, <destination>, <timer_register_no>), #Stores <timer_register_no>'s elapsed time into <destination>
+shell_open_url                         = 3029 #(shell_open_url, <url>), #Opens <url> in default browser. Support only http://, https://, ftp:// and ts3server:// urls.
+set_main_party                         = 3030 #(set_main_party, <party_no>), #Sets player's main party to <party_no>. Dynamic spawned party (not listed in module_parties.py) will corrupt the savegame!
+get_main_party                         = 3031 #(get_main_party, <destination>), #Stores player's main party to <destination>
+make_screenshot                        = 3032 #(make_screenshot, <format>, <file>), #Make game screenshot. For security reasons, <file> will be saved into a Screenshots directory. Supported <format>s: BMP - 0, JPG - 1, TGA - 2, PNG - 3.
+send_post_message_to_url_advanced      = 3033 #(send_post_message_to_url_advanced, <url_string>, <user_agent_string>, <post_data>, [<success_callback_script_no>], [<failure_callback_script_no>], [<skip_parsing>], [<timeout>]), #Sends a HTTP POST (application/x-www-form-urlencoded) request to <url_string> with <user_agent_string> and <post_data>. If the request succeeds, [<success_callback_script_no>] will be called. The script will behave like game_receive_url_response, unless [<skip_parsing>] is non-zero, in which case the script will receive no arguments and s0 will contain the full response. If the request fails, [<failure_callback_script_no>] will be called.
+set_random_seed                        = 3034 #(set_random_seed, <value>), #Seeds the random generator with <value>
+store_application_time                 = 3035 #(store_application_time, <destination>), #Stores application time into <destination> in milliseconds
+is_party_skill                         = 3036 #(is_party_skill, <skill_no>), #Fails if <skill_no> is not effects party
+get_campaign_time                      = 3037 #(get_campaign_time, <destination>), #Stores campaign time into <destination>. 100000 = 1 game hour
+set_campaign_time                      = 3038 #(set_campaign_time, <value>), #Sets campaign time to <value>. 100000 = 1 game hour
+get_mouse_map_coordinates              = 3039 #(get_mouse_map_coordinates, <position_register>), #Stores mouse map coordinates into <position_register> (requires WSE2)
+profiler_start                         = 3040 #(profiler_start), #Start the profiler
+profiler_stop                          = 3041 #(profiler_stop), #Stop the profiler
+profiler_is_recording                  = 3042 #(profiler_is_recording), #Fails if profiler isn't recording
+profiler_mark                          = 3043 #(profiler_mark, <string_1>), #Add a marker at this point in time with name <string_1>. Good for analyzing individual parts of a script.
+conversation_screen_auto_update_choice = 3044 #(conversation_screen_auto_update_choice), #Auto update single conversation choice without mouse click. Useful if you need to get text from external scripts. (requires WSE2)
 
 game_key_get_key  = 3100 #(game_key_get_key, <destination>, <game_key_no>), #Stores the key mapped to <game_key_no> into <destination>
-key_released      = 3101 #(key_released, <key>), #Fails if <key> wasn't released in the current frame
-game_key_released = 3102 #(game_key_released, <game_key_no>), #Fails if <game_key_no> wasn't released in the current frame
+key_released      = 3101 #(key_released, <key>, [<bypass_console_check>]), #Fails if <key> wasn't released in the current frame
+game_key_released = 3102 #(game_key_released, <game_key_no>, [<bypass_console_check>]), #Fails if <game_key_no> wasn't released in the current frame
 
 dict_create                = 3200 #(dict_create, <destination>), #Creates an empty dictionary object and stores it into <destination>
 dict_free                  = 3201 #(dict_free, <dict>), #Frees the dictionary object <dict>. A dictionary can't be used after freeing it
-dict_load_file             = 3202 #(dict_load_file, <dict>, <file>, [<mode>]), #Loads a dictionary file into <dict>. Setting [<mode>] to 0 (default) clears <dict> and then loads the file, setting [<mode>] to 1 doesn't clear <dict> but overrides any key that's already present, [<mode>] to 2 doesn't clear <dict> and doesn't overwrite keys that are already present
+dict_load_file             = 3202 #(dict_load_file, <dict>, <file>, [<mode>], [<ini>]), #Loads a dictionary file into <dict>. Setting [<mode>] to 0 (default) clears <dict> and then loads the file, setting [<mode>] to 1 doesn't clear <dict> but overrides any key that's already present, [<mode>] to 2 doesn't clear <dict> and doesn't overwrite keys that are already present. Set [<ini>] to 1 to use ini file instead of binary
 dict_load_dict             = 3203 #(dict_load_dict, <dict_1>, <dict_2>, [<mode>]), #Loads <dict_2> into <dict_1>. [<mode>]: see above
-dict_save                  = 3204 #(dict_save, <dict>, <file>), #Saves <dict> into a file. For security reasons, <file> is just a name, not a full path, and will be stored into a WSE managed directory
+dict_save                  = 3204 #(dict_save, <dict>, <file>, [<ini>]), #Saves <dict> into a file. For security reasons, <file> is just a name, not a full path, and will be stored into a WSE managed directory. Set [<ini>] to 1 to use ini file instead of binary
 dict_clear                 = 3205 #(dict_clear, <dict>), #Clears all key-value pairs from <dict>
 dict_is_empty              = 3206 #(dict_is_empty, <dict>), #Fails if <dict> is not empty
 dict_has_key               = 3207 #(dict_has_key, <dict>, <key>), #Fails if <key> is not present in <dict>
 dict_get_size              = 3208 #(dict_get_size, <destination>, <dict>), #Stores the count of key-value pairs in <dict> into <destination>
-dict_delete_file           = 3209 #(dict_delete_file, <file>), #Deletes dictionary file <file> from disk
+dict_delete_file           = 3209 #(dict_delete_file, <file>, [<ini>]), #Deletes dictionary file <file> from disk. Set [<ini>] to 1 to use ini file instead of binary
 dict_get_str               = 3210 #(dict_get_str, <string_register>, <dict>, <key>, [<default>]), #Stores the string value paired to <key> into <string_register>. If the key is not found and [<default>] is set, [<default>] will be stored instead. If [<default>] is not set, an empty string will be stored
 dict_get_int               = 3211 #(dict_get_int, <destination>, <dict>, <key>, [<default>]), #Stores the numeric value paired to <key> into <destination>. If the key is not found and [<default>] is set, [<default>] will be stored instead. If [<default>] is not set, 0 will be stored
 dict_set_str               = 3212 #(dict_set_str, <dict>, <key>, <string_no>), #Adds (or changes) <string_no> as the string value paired to <key>
@@ -2035,22 +2052,38 @@ agent_get_current_vertical_speed                 = 3331 #(agent_get_current_vert
 agent_set_current_vertical_speed                 = 3332 #(agent_set_current_vertical_speed, <agent_no>, <value>), #Sets <agent_no>'s current vertical speed to <value> (in centimeters per second)
 agent_get_position_in_group                      = 3333 #(agent_get_position_in_group, <position_register>, <agent_no>), #Stores <agent_no>'s position in group into <position_register> (requires WSE2)
 agent_get_current_ai_mesh_face_group             = 3334 #(agent_get_current_ai_mesh_face_group, <destination>, <agent_no>), #Stores <agent_no>'s current ai mesh face group into <destination> (requires WSE2)
+agent_set_time_speed_multiplier                  = 3335 #(agent_set_time_speed_multiplier, <agent_no>, <value_fixed_point>), #Sets <agent_no>'s time speed multiplier to <value_fixed_point> (requires WSE2)
+agent_get_time_speed_multiplier                  = 3336 #(agent_get_time_speed_multiplier, <destination_fixed_point>, <agent_no>), #Stores <agent_no>'s time speed multiplier into <destination_fixed_point> (requires WSE2)
+agent_kick                                       = 3337 #(agent_kick, <agent_no>), #AI <agent_no> performs kick (requires WSE2)
+agent_set_dropped_items_prune_time               = 3338 #(agent_set_dropped_items_prune_time, <agent_no>, <value>), #Sets <agent_no>'s dropped items prune time to <value> (requires WSE2)
+agent_set_missile_items_prune_time               = 3339 #(agent_set_missile_items_prune_time, <agent_no>, <value>), #Sets <agent_no>'s missile items prune time to <value> (requires WSE2)
+agent_set_action_speed_modifier                  = 3340 #(agent_set_action_speed_modifier, <agent_no>, <value>), #Sets <agent_no>'s action speed modifier to <value> (requires WSE2)
+agent_get_action_speed_modifier                  = 3341 #(agent_get_action_speed_modifier, <destination>, <agent_no>), #Stores <agent_no>'s action speed modifier into <destination> (requires WSE2)
+agent_set_left_hand_weapon_collision             = 3342 #(agent_set_left_hand_weapon_collision, <agent_no>, <value>), #Enables or disables <agent_no>'s left hand weapon collision (requires WSE2)
+agent_ai_set_can_weapon_switch                   = 3343 #(agent_ai_set_can_weapon_switch, <agent_no>, <value>), #Enables or disables <agent_no>'s weapon switching for ai (requires WSE2)
+agent_ai_set_can_fight                           = 3344 #(agent_ai_set_can_fight, <agent_no>, <value>), #Enables or disables <agent_no>'s engaging enemy for ai (requires WSE2)
+agent_fade_out_advanced                          = 3345 #(agent_fade_out_advanced, <agent_no>, <value_fixed_point>), #Makes the <agent_no> disappear within specified time <value_fixed_point>. The agent is not deleted, but made invisible. (requires WSE2)
+agent_fade_in_advanced                           = 3346 #(agent_fade_in_advanced, <agent_no>, <value_fixed_point>), #Makes the <agent_no> reappear within specified time <value_fixed_point>. (requires WSE2)
+agent_set_voice_sound                            = 3347 #(agent_set_voice_sound, <agent_no>, <type>, <sound_no>), #Sets <agent_no>'s voice <sound_no> for <type>. For human type: check header_skins.py. For horse only 0 (neigh). For mute use sound_no = -1 (requires WSE2)
+agent_set_enable_tilt                            = 3348 #(agent_set_enable_tilt, <agent_no>, <value>), #Enables or disables <agent_no>'s tilt (for horse) (requires WSE2)
 
 multiplayer_send_chat_message_to_player      = 3400 #(multiplayer_send_chat_message_to_player, <player_no>, <sender_player_no>, <text>, [<type>]), #Sends <text> to <player_no> as a (native compatible) chat message by <sender_player_no>. Works only on servers. [<type>]: 0 = chat, 1 = team chat
-multiplayer_send_composite_message_to_player = 3401 #(multiplayer_send_composite_message_to_player, <player_no>, <message_type>, <message_register>), #Sends <message_register> with <message_type> to <player_no> (requires network_compatible = 0 in wse_settings.ini)
-multiplayer_send_composite_message_to_server = 3402 #(multiplayer_send_composite_message_to_server, <message_type>, <message_register>), #Sends <message_register> with <message_type> to the server (requires network_compatible = 0 in wse_settings.ini)
+multiplayer_send_composite_message_to_player = 3401 #(multiplayer_send_composite_message_to_player, <player_no>, <message_type>, <message_register>), #Sends <message_register> with <message_type> to <player_no> (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+multiplayer_send_composite_message_to_server = 3402 #(multiplayer_send_composite_message_to_server, <message_type>, <message_register>), #Sends <message_register> with <message_type> to the server (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
 multiplayer_get_cur_profile                  = 3403 #(multiplayer_get_cur_profile, <destination>), #Stores the current multiplayer profile into <destination>
 multiplayer_get_num_profiles                 = 3404 #(multiplayer_get_num_profiles, <destination>), #Stores the number of multiplayer profiles into <destination>
-multiplayer_message_init                     = 3405 #(multiplayer_message_init, <message_register>), #Initializes (empties) <message_register> (requires network_compatible = 0 in wse_settings.ini)
-multiplayer_message_put_string               = 3406 #(multiplayer_message_put_string, <message_register>, <string>), #Puts <string> into <message_register> (requires network_compatible = 0 in wse_settings.ini)
-multiplayer_message_put_int                  = 3407 #(multiplayer_message_put_int, <message_register>, <value>, [<num_bits>]), #Puts [<num_bits>] of <value> into <message_register> (requires network_compatible = 0 in wse_settings.ini)
-multiplayer_message_put_position             = 3408 #(multiplayer_message_put_position, <message_register>, <position_register>, [<local>]), #Puts <position_register> into <9>. Set [<local>] to non-zero for small, relative positions (default: scene positions) (requires network_compatible = 0 in wse_settings.ini)
-multiplayer_message_put_coordinate           = 3409 #(multiplayer_message_put_coordinate, <message_register>, <position_register>, [<local>]), #Puts x, y, z coordinates from <position_register> into <message_register>. Set [<local>] to non-zero for small, relative positions (default: scene positions) (requires network_compatible = 0 in wse_settings.ini)
-multiplayer_cur_message_get_string           = 3410 #(multiplayer_cur_message_get_string, <string_register>), #Stores a string from the current message register into <string_register> (requires network_compatible = 0 in wse_settings.ini)
-multiplayer_cur_message_get_int              = 3411 #(multiplayer_cur_message_get_int, <destination>, [<num_bits>]), #Stores [<num_bits>] of an int from the current message register into <destination>. [<num_bits>] MUST match the number of bits sent (requires network_compatible = 0 in wse_settings.ini)
-multiplayer_cur_message_get_position         = 3412 #(multiplayer_cur_message_get_position, <position_register>, [<local>]), #Stores a position from the current message register into <position_register>. [<local>] MUST match the type sent (requires network_compatible = 0 in wse_settings.ini)
-multiplayer_cur_message_get_coordinate       = 3413 #(multiplayer_cur_message_get_coordinate, <position_register>, [<local>]), #Stores x, y, z coordinates from the current message register into <position_register>. [<local>] MUST match the type sent (requires network_compatible = 0 in wse_settings.ini)
+multiplayer_message_init                     = 3405 #(multiplayer_message_init, <message_register>), #Initializes (empties) <message_register> (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+multiplayer_message_put_string               = 3406 #(multiplayer_message_put_string, <message_register>, <string>), #Puts <string> into <message_register> (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+multiplayer_message_put_int                  = 3407 #(multiplayer_message_put_int, <message_register>, <value>, [<num_bits>]), #Puts [<num_bits>] of <value> into <message_register> (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+multiplayer_message_put_position             = 3408 #(multiplayer_message_put_position, <message_register>, <position_register>, [<local>]), #Puts <position_register> into <9>. Set [<local>] to non-zero for small, relative positions (default: scene positions) (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+multiplayer_message_put_coordinate           = 3409 #(multiplayer_message_put_coordinate, <message_register>, <position_register>, [<local>]), #Puts x, y, z coordinates from <position_register> into <message_register>. Set [<local>] to non-zero for small, relative positions (default: scene positions) (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+multiplayer_cur_message_get_string           = 3410 #(multiplayer_cur_message_get_string, <string_register>), #Stores a string from the current message register into <string_register> (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+multiplayer_cur_message_get_int              = 3411 #(multiplayer_cur_message_get_int, <destination>, [<num_bits>]), #Stores [<num_bits>] of an int from the current message register into <destination>. [<num_bits>] MUST match the number of bits sent (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+multiplayer_cur_message_get_position         = 3412 #(multiplayer_cur_message_get_position, <position_register>, [<local>]), #Stores a position from the current message register into <position_register>. [<local>] MUST match the type sent (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+multiplayer_cur_message_get_coordinate       = 3413 #(multiplayer_cur_message_get_coordinate, <position_register>, [<local>]), #Stores x, y, z coordinates from the current message register into <position_register>. [<local>] MUST match the type sent (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
 multiplayer_cur_profile_get_skin             = 3414 #(multiplayer_cur_profile_get_skin, <destination>), #Stores current profile's skin into <destination>
+multiplayer_connect_to_server                = 3415 #(multiplayer_connect_to_server, <address>, <password>, [<campaign>]), #Connect to server with <address> and <password>. Set [<campaign>] to non-zero for connect to multiplayer campaign server. (requires WSE2)
+multiplayer_is_campaign                      = 3416 #(multiplayer_is_campaign), #Checks that the code is running on multiplayer campaign mode. (requires WSE2)
 
 server_set_password_admin      = 3500 #(server_set_password_admin, <password>), #Sets <password> as server administrator password
 server_set_password_private    = 3501 #(server_set_password_private, <password>), #Sets <password> as server private player password
@@ -2060,16 +2093,17 @@ server_map_rotation_set_index  = 3504 #(server_map_rotation_set_index, <index>),
 server_map_rotation_get_map    = 3505 #(server_map_rotation_get_map, <destination>, <index>), #Stores the map at <index> into <destination>
 server_map_rotation_add_map    = 3506 #(server_map_rotation_add_map, <site_no>, [<index>]), #Adds <site_no> to the map rotation at [<index>]
 server_map_rotation_remove_map = 3507 #(server_map_rotation_remove_map, [<index>]), #Removes the map at [<index>] from the map rotation (does not work when only one left)
-server_get_horse_friendly_fire = 3508 #(server_get_horse_friendly_fire, <destination>), #Stores horse friendly fire status into <destination> (requires network_compatible = 0 in wse_settings.ini)
-server_set_horse_friendly_fire = 3509 #(server_set_horse_friendly_fire, <value>), #Enables or disables horse friendly fire (requires network_compatible = 0 in wse_settings.ini)
-server_get_show_crosshair      = 3510 #(server_get_show_crosshair, <destination>), #Stores crosshair visibility status into <destination> (requires network_compatible = 0 in wse_settings.ini)
-server_set_show_crosshair      = 3511 #(server_set_show_crosshair, <value>), #Enables or disables the crosshair (requires network_compatible = 0 in wse_settings.ini)
+server_get_horse_friendly_fire = 3508 #(server_get_horse_friendly_fire, <destination>), #Stores horse friendly fire status into <destination> (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+server_set_horse_friendly_fire = 3509 #(server_set_horse_friendly_fire, <value>), #Enables or disables horse friendly fire (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+server_get_show_crosshair      = 3510 #(server_get_show_crosshair, <destination>), #Stores crosshair visibility status into <destination> (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
+server_set_show_crosshair      = 3511 #(server_set_show_crosshair, <value>), #Enables or disables the crosshair (requires, for WSE: network_compatible = 0 in wse_settings.ini, for WSE2: bBreakWarbandCompatibility=true in rgl_config.ini)
 get_server_option_at_connect   = 3512 #(get_server_option_at_connect, <destination>, [<index>]), #Stores option [<index>] into <destination>
 server_set_password_rcon       = 3513 #(server_set_password_rcon, <password>), #Sets <password> as server RCON password
 execute_server_console_command = 3514 #(execute_server_console_command, <string_register>, <command>), #Executes dedicated server console command <command> and stores result string into <string_register>
 add_anonymous_player           = 3515 #(add_anonymous_player, <unique_id>, <name>), #Sets <name> pseudonym for multiplayer player <unique_id> (requires WSE2)
 remove_anonymous_player        = 3516 #(remove_anonymous_player, <unique_id>), #Removes pseudonym for multiplayer player <unique_id> (requires WSE2)
 clear_anonymous_players        = 3517 #(clear_anonymous_players), #Clears pseudonyms for multiplayer players (requires WSE2)
+server_set_ghost_mode_advanced = 3518 #(server_set_ghost_mode_advanced, <value>, <can't_be_free>, <team>, <lock_to_view>, <only_players>), #Sets settings for advanced ghost mode. Works only for WSE2 clients. <value>: 0 - disable, 1 - enable, <can't_be_free>: 0 - camera can move, 1 - camera can't move, <team>: 0 - any team, 1 - player's team only, <lock_to_view>: 0 - freely rotate camera, 1 - lock to agent's view, <only_players>: 0 - any agents, 1 - only players (requires WSE2)
 
 store_cur_mission_template_no        = 3600 #(store_cur_mission_template_no, <destination>), #Stores the current mission template into <destination>
 set_show_use_tooltip                 = 3601 #(set_show_use_tooltip, <tooltip_type>, [<value>]), #Enables or disables use tooltips. See header_common_addon.py for possible types
@@ -2086,11 +2120,15 @@ missile_remove_on_hit                = 3611 #(missile_remove_on_hit), #Causes a 
 missile_is_valid                     = 3612 #(missile_is_valid, <missile_no>), #Fails if <missile_no> is not valid
 missile_get_cur_position             = 3613 #(missile_get_cur_position, <position_register>, <missile_no>), #Stores <missile_no>'s current position into <position_register>
 set_prop_collision_threshold         = 3614 #(set_prop_collision_threshold, <attack_direction>, <low_boundary>, <high_boundary>), #Changes the animation progress boundaries (in percents) that determine if swing attacks on props will collide (default: 40% <= x <= 80% (75% for overheads))
-get_camera_position                  = 3615 #(get_camera_position, <position_register_no>), #Stores camera position and rotation into <position_register_no>
+get_camera_position                  = 3615 #(get_camera_position, <position_register>), #Stores camera position and rotation into <position_register>
 prop_instance_remove_particle_system = 3616 #(prop_instance_remove_particle_system, <prop_instance_no>, [<particle_system_no>]), #Removes [<particle_system_no>] (all particle systems if not set or -1) from <prop_instance_no>
 prop_instance_remove_light           = 3617 #(prop_instance_remove_light, <prop_instance_no>), #Removes light from <prop_instance_no>
 prop_instance_get_sound_progress     = 3618 #(prop_instance_get_sound_progress, <destination>, <scene_prop_id>), #Stores <scene_prop_id>'s sound_progress into <destination>. Returned value can be between 0-100, or -1 if nothing is being played. (requires WSE2)
 set_horse_friendly_fire              = 3619 #(set_horse_friendly_fire, <value>), #Enables or disables horse friendly fire for singleplayer
+cast_ray_agents                      = 3620 #(cast_ray_agents, <destination>, <hit_position_register>, <ray_position_register>, [<ray_length_fixed_point>]), #Casts a ray of length [<ray_length_fixed_point>] starting from <ray_position_register> and stores the closest agent's hit position into <hit_position_register> (fails if no hits). Agent's id will be stored into <destination> and bone no will be stored into reg0 (requires WSE2)
+ai_mesh_face_group_translate         = 3621 #(ai_mesh_face_group_translate, <group_no>, <position_register>), #Translates the ai mesh face <group_no> by distance given in <position_register> (requires WSE2)
+set_show_crosshair                   = 3622 #(set_show_crosshair, <value>), #Enables or disables the crosshair for singleplayer
+shift_entry_point                    = 3623 #(shift_entry_point, <entry_no>), #Shift <entry_no> same way game does to spawn visitors (requires WSE2)
 
 troop_get_skill_points       = 3700 #(troop_get_skill_points, <destination>, <troop_no>), #Stores <troop_no>'s unused skill points into <destination>
 troop_set_skill_points       = 3701 #(troop_set_skill_points, <troop_no>, <value>), #Sets <troop_no>'s unused skill points to <value>
@@ -2116,6 +2154,7 @@ item_set_horse_blood_particles  = 3809 #(item_set_horse_blood_particles, <item_k
 item_set_horse_blood_color      = 3810 #(item_set_horse_blood_color, <item_kind_no>, <color>), #Sets <item_kind_no>'s horse blood <color> (requires WSE2)
 cur_item_mesh_set_color         = 3811 #(cur_item_mesh_set_color, <mesh_no>, <color>), #Sets item <mesh_no> color to <color>. Only call inside ti_on_init_item in module_items.
 cur_item_add_mesh_with_material = 3812 #(cur_item_add_mesh_with_material, <mesh_name_string_no>, <material_name_string_no>, [<lod_begin>], [<lod_end>], [<color>]), #Adds another <mesh_name_string_no> to item. Replaces item material to <material_name_string_no>. Sets item color to [<color>]. Only call inside ti_on_init_item in module_items.
+item_set_horse_skeleton_model   = 3813 #(item_set_horse_skeleton_model, <item_kind_no>, <skeleton_model_name>), #Sets <item_kind_no>'s horse <skeleton_model_name>. Use skeleton_model_clean_body_sections and skeleton_model_set_bone_body_section operations to configure sections for new horses skeleton models (requires WSE2)
 
 party_stack_get_experience      = 3900 #(party_stack_get_experience, <destination>, <party_no>, <party_stack_no>), #Stores the experience of <party_no>'s <party_stack_no> into <destination>
 party_stack_get_num_upgradeable = 3901 #(party_stack_get_num_upgradeable, <destination>, <party_no>, <party_stack_no>), #Stores the amount of upgradeable troops in <party_no>'s <party_stack_no> into <destination>
@@ -2123,6 +2162,11 @@ party_has_flag                  = 3902 #(party_has_flag, <party_no>, <flag>), #F
 party_heal_members              = 3903 #(party_heal_members, <party_no>, <troop_no>, <number>), #Heals <number> <troop_no> of <party_no>
 party_switch_stacks             = 3904 #(party_switch_stacks, <party_no>, <party_stack_no_1>, <party_stack_no_2>), #Switches <party_no>'s <party_stack_no_1> and <party_stack_no_2>
 party_stack_upgrade             = 3905 #(party_stack_upgrade, <party_no>, <party_stack_no>, <amount>, <upgrade_path>), #Upgrades <party_no>'s <party_stack_no>'s <amount> of troops (<upgrade_path> can be 0 or 1) (requires WSE2)
+party_stack_set_num_upgradeable = 3906 #(party_stack_set_num_upgradeable, <party_no>, <party_stack_no>, <value>), #Sets <party_no>'s <party_stack_no>'s amount of upgradeable troops to <value>
+party_get_banner_icon           = 3907 #(party_get_banner_icon, <destination>, <party_no>), #Stores <party_no>'s banner icon into <destination>
+party_get_extra_icon            = 3908 #(party_get_extra_icon, <destination>, <party_no>), #Stores <party_no>'s extra icon into <destination>
+party_get_player_id             = 3909 #(party_get_player_id, <destination>, <party_no>), #Stores <party_no>'s player reference into <destination>. For multiplayer campaign mode (requires WSE2)
+party_is_non_player             = 3910 #(party_is_non_player, <party_no>), #Fails if <party_no> is player. For multiplayer campaign mode (requires WSE2)
 
 position_get_vector_to_position = 4100 #(position_get_vector_to_position, <destination_fixed_point>, <dest_position_register>, <position_register_1>, <position_register_2>), #Stores the vector from <position_register_1> to <position_register_2> into <dest_position_register> and its length into <destination_fixed_point>
 position_align_to_ground        = 4101 #(position_align_to_ground, <position_register>, [<point_up>], [<set_z_to_ground_level>]), #Aligns <position_register> to the ground (or to the ground normal if [<point_up>] is set)
@@ -2249,8 +2293,12 @@ edit_mode_deselect_prop_instance          = 4603 #(edit_mode_deselect_prop_insta
 edit_mode_get_highlighted_prop_instance   = 4604 #(edit_mode_get_highlighted_prop_instance, <destination>), #Stores the highlighted prop instance into <destination>
 edit_mode_set_highlighted_prop_instance   = 4605 #(edit_mode_set_highlighted_prop_instance, [<prop_instance_no>]), #Stores the <1>th selected prop instance into instance no into [<prop_instance_no>]
 edit_mode_set_enabled                     = 4606 #(edit_mode_set_enabled, <value>), #Enables or disables edit mode
+edit_mode_in_edit_objects_mode            = 4607 #(edit_mode_in_edit_objects_mode), #Fails if the game is not in edit objects mode
 
-update_material = 4700 #(update_material, <material_name>, <new_material_name>), #Updates <material_name> with <new_material_name>
+update_material   = 4700 #(update_material, <material_name>, <new_material_name>), #Updates <material_name> with <new_material_name>
+reload_item_kinds = 4701 #(reload_item_kinds, [<change_file>], [<file_name>]), #Reload item kinds. If [<change_file>] sets, then [<file_name>] loaded instead default file (requires WSE2)
+reload_troops     = 4702 #(reload_troops, [<change_file>], [<file_name>]), #Reload troops. If [<change_file>] sets, then [<file_name>] loaded instead default file (requires WSE2)
+reload_parties    = 4703 #(reload_parties, [<change_file>], [<file_name>]), #Reload parties. If [<change_file>] sets, then [<file_name>] loaded instead default file (requires WSE2)
 
 menu_create_new      = 4800 #(menu_create_new, <destination>, <text>, [<mesh_name>], [<flags>], [<script_no>], [<script_param>]), #Creates a dynamic menu and stores its id into <destination>. [<script_no>] (-1 for no script) will be called with params 1 = menu_no, 2 = [<script_param>] when the operations block is executed
 menu_add_item        = 4801 #(menu_add_item, <menu_no>, <text>, [<conditions_script_no>], [<consequences_script_no>], [<script_param>]), #Adds a new menu item to <menu_no>. [<conditions_script_no>] and [<consequences_script_no>] (-1 for no script) will be called with params 1 = <menu_no>, 2 = [<script_param>] when the conditions/consequences blocks are executed
@@ -2262,6 +2310,8 @@ presentation_activate   = 4901 #(presentation_activate, <presentation_no>), #Act
 overlay_button_set_type = 4902 #(overlay_button_set_type, <overlay_no>, <toggle_or_not>, <deselectable_or_not>), #Sets <overlay_no>'s <toggle_or_not> and <deselectable_or_not>
 overlay_get_scroll_pos  = 4903 #(overlay_get_scroll_pos, <destination_fixed_point>, <overlay_no>), #Stores <overlay_no>'s scroll pos into <destination_fixed_point>
 overlay_set_scroll_pos  = 4904 #(overlay_set_scroll_pos, <overlay_no>, <value_fixed_point>), #Sets <overlay_no>'s scroll pos <value_fixed_point>
+overlay_enable          = 4905 #(overlay_enable, <overlay_no>, <enable_or_disable>), #Sets <overlay_no>'s <enable_or_disable>
+overlay_item_set_text   = 4906 #(overlay_item_set_text, <overlay_no>, <item_no>, <text>), #Changes the <overlay_no>'s <item_no>'s <text>. Items are indexed from 0 (requires WSE2)
 
 array_create        = 5000 #(array_create, <destination>, <type_id>, <Dim 0>, [<Dim 1>], [<Dim 2>], [<Dim 3>], [<Dim 4>], [<Dim 5>], [<Dim 6>], [<Dim 7>], [<Dim 8>], [<Dim 9>], [<Dim 10>], [<Dim 11>], [<Dim 12>], [<Dim 13>]), #Creates an array object of <type_id> (0: Integer, 1: String, 2: Position) and stores its ID into <destination>. You can specify up to 14 dimensions, from <Dim 0> to [<Dim 13>]. The array will be initialized by default with 0 / empty string / 0-position.
 array_free          = 5001 #(array_free, <arrayID>), #Frees array with <arrayID>.
@@ -2298,13 +2348,47 @@ lua_to_pos          = 5107 #(lua_to_pos, <pos_register>, <index>), #Retrieves th
 lua_push_int        = 5108 #(lua_push_int, <value>), #Pushes <value> onto the lua stack.
 lua_push_str        = 5109 #(lua_push_str, <string_1>), #Pushes <string_1> onto the lua stack.
 lua_push_pos        = 5110 #(lua_push_pos, <pos_register>), #Pushes the position in <pos_register> onto the lua stack.
-lua_get_type        = 5111 #(lua_get_type, <destination>), #Stores the type of the value at <1> in the stack into <destination>. Return types can be found in header_common(_addon).py (LUA_T*)
-lua_call            = 5112 #(lua_call, <func_name>, <num_args>), #Calls the lua function with name <func_name>, using the lua stack to pass <num_args> arguments and to return values. The first argument is pushed first. All arguments get removed from the stack automatically. The last return value will be at the top of the stack.
+lua_get_type        = 5111 #(lua_get_type, <destination>, <index>), #Stores the type of the value at <index> in the stack into <destination>. Return types can be found in header_common(_addon).py (LUA_T*)
+lua_call            = 5112 #(lua_call, <func_name>, <num_args>), #Calls the lua function with name <func_name>, using the lua stack to pass <num_args> arguments and to return values.
+                                                                 #The first argument is pushed first. All arguments get removed from the stack automatically.
+                                                                 #The last return value will be at the top of the stack.
+                                                                 #You can use underscores and 't1.t2.func()'-syntax in func_name.
+                                                                 #Warning: leaves a traceback function on the stack. This won't be fixed in order to not break existing code.
 lua_triggerCallback = 5113 #(lua_triggerCallback, <reference>, <triggerPart>, [<context>]), #Calls the lua trigger callback with <reference>. This operation is utilized internally and should not be used, unless you know what you are doing.
+lua_test            = 5114 #(lua_test, <index>), #Checks if the lua stack at <index> evaluates to true (any value different from false and nil). If you want to test only actual boolean values, check the type too.
 
-skin_set_blood_color = 5200 #(skin_set_blood_color, <skin_no>, <color>), #Sets <skin_no>'s blood <color> (requires WSE2)
+skin_set_blood_color                 = 5200 #(skin_set_blood_color, <skin_no>, <color>), #Sets <skin_no>'s blood <color> (requires WSE2)
+skeleton_model_set_bone_body_section = 5201 #(skeleton_model_set_bone_body_section, <skeleton_model_name>, <bone_no>, <body_section>), #Sets <skeleton_model_name>'s <bone_no> <body_section>. 0 - none, 1 - lowerbody, 2 - rightside (included lowerbody), 3 - all (included lowerbody and rightside). Check acf_enforce animations flags (requires WSE2)
+skeleton_model_clean_body_sections   = 5202 #(skeleton_model_clean_body_sections, <skeleton_model_name>), #Cleans <skeleton_model_name>'s body sections. Use to clean default body sections before set new (requires WSE2)
+
+#WSE2 extended operations
+game_key_get_mapped_key_name                = 65 #(game_key_get_mapped_key_name, <string_register>, <game_key_no>, [<alternative>]), #Stores human-readable key name that's currently assigned to the provided <game_key_no> into <string_register> (requires WSE2)
+options_get_damage_to_player                = 260 #(options_get_damage_to_player, <destination>, [<percentage>]), #Stores damage to player for singleplayer into <destination>. If set [<percentage>], uses 0-100% range instead default values (0 = 1/4, 1 = 1/2, 2 = 1/1) (requires WSE2)
+options_set_damage_to_player                = 261 #(options_set_damage_to_player, <value>, [<percentage>]), #Sets damage to player for singleplayer. If set [<percentage>], uses 0-100% range instead default values (0 = 1/4, 1 = 1/2, 2 = 1/1) (requires WSE2)
+options_get_damage_to_friends               = 262 #(options_get_damage_to_friends, <destination>, [<percentage>]), #Stores damage to friends for singleplayer into <destination>. If set [<percentage>], uses 0-100% range instead default values (0 = 1/2, 1 = 3/4, 2 = 1/1) (requires WSE2)
+options_set_damage_to_friends               = 263 #(options_set_damage_to_friends, <value>, [<percentage>]), #Sets damage to friends for singleplayer. If set [<percentage>], uses 0-100% range instead default values (0 = 1/2, 1 = 3/4, 2 = 1/1) (requires WSE2)
+set_camera_follow_party                     = 1021 #(set_camera_follow_party, <party_no>, [<instant>]), #Global map camera follows <party_no>. If [<instant>] sets, camera position sets to party position instatly (requires WSE2)
+start_map_conversation                      = 1025 #(start_map_conversation, <troop_id>, [<troop_dna>], [<set_dialog_state>], [<dialog_state>], [<from_presentation>]), #Starts a conversation with the selected <troop_id>. Can be called directly from global map or game menus. [<troop_dna>] parameter allows you to randomize non-hero troop appearances. If [<set_dialog_state>] sets, then [<dialog_state>] used instead dlg_event_triggered. If [<from_presentation>] sets, then conversation called directly from the presentation. (requires WSE2)
+start_encounter                             = 1300 #(start_encounter, <encountered_party_no>, [<party_no>]), #Forces the [<party_no>] to initiate encounter with the <encountered_party_no>. If [<party_no>] not specified, main party used. (requires WSE2)
+party_get_battle_opponent                   = 1680 #(party_get_battle_opponent, <destination>, <party_no>), #When a <party_no> is engaged in battle with another party, stores its opponent party into <destination>. If the <party_no> is not in the encounter stores -1. For multiplayer campaign mode - stores -2, if <party_no> is observer player. (requires WSE2)
+agent_get_attached_scene_prop               = 1756 #(agent_get_attached_scene_prop, <destination>, <agent_no>, [<attached_prop_index>]), #Stores scene prop instance which is attached to the <agent_no>, or -1 if there isn't any into <destination>. ([<attached_prop_index>]: 0-3) (requires WSE2)
+agent_set_attached_scene_prop               = 1757 #(agent_set_attached_scene_prop, <agent_no>, <prop_instance_no>, [<attached_prop_index>], [<bone_no>], [<use_bone_rotation>]), #Attaches the specified <prop_instance_no> to the <agent_no>. ([<attached_prop_index>]: 0-3) (requires WSE2)
+agent_set_attached_scene_prop_x             = 1758 #(agent_set_attached_scene_prop_x, <agent_no>, <value>, [<attached_prop_index>]), #Offsets the position of the attached scene prop in relation to <agent_no>, in centimeters, along the X axis (left/right). ([<attached_prop_index>]: 0-3) (requires WSE2)
+agent_set_attached_scene_prop_z             = 1759 #(agent_set_attached_scene_prop_z, <agent_no>, <value>, [<attached_prop_index>]), #Offsets the position of the attached scene prop in relation to <agent_no>, in centimeters, along the Z axis (down/up). ([<attached_prop_index>]: 0-3) (requires WSE2)
+entry_point_get_position                    = 1780 #(entry_point_get_position, <position_register>, <entry_no>, [<shifted>]), #Stores <entry_no>'s position into <position_register>. If [<shifted>] is non-zero stores shifted position (requires WSE2)
+agent_set_attached_scene_prop_y             = 1809 #(agent_set_attached_scene_prop_y, <agent_no>, <value>, [<attached_prop_index>]), #Offsets the position of the attached scene prop in relation to <agent_no>, in centimeters, along the Y axis (backwards/forward). ([<attached_prop_index>]: 0-3) (requires WSE2)
+prop_instance_intersects_with_prop_instance = 1880 #(prop_instance_intersects_with_prop_instance, <checked_scene_prop_no>, <prop_instance_no>, [<check_polygon_to_polygon>]), #Checks if two scene props are intersecting (i.e. collided). Useful when animating scene props movement. Pass -1 for <prop_instance_no> to check the prop against all other props on the scene. Scene props must have active collision meshes. If [<check_polygon_to_polygon>] is non-zero also checks polygon-to-polygon physics models, this is may reduce performance. (requires WSE2)
+str_store_player_username                   = 2350 #(str_store_player_username, <string_register>, <player_no>, [<force_real>]), #Stores <player_no>'s multiplayer username into <string_register>. [<force_real>] uses for real name instead anonymous pseudonym (requires WSE2)
+
+game_key_get_key = 3100 #(game_key_get_key, <destination>, <game_key_no>, [<alternative>], [<modifier>]), #Stores the key mapped to <game_key_no> into <destination> (requires WSE2)
+
+str_store_module_setting = 4226 #(str_store_module_setting, <string_register>, <setting>, <section>), #Stores the string value (empty if not found) of <section>'s <setting> in rgl_config.ini into <string_register> (requires WSE2)
+
+overlay_get_scroll_pos = 4903 #(overlay_get_scroll_pos, <destination_fixed_point>, <overlay_no>, [<horizontal>]), #Stores <overlay_no>'s scroll pos into <destination_fixed_point> (requires WSE2)
+overlay_set_scroll_pos = 4904 #(overlay_set_scroll_pos, <overlay_no>, <value_fixed_point>, [<horizontal>]), #Sets <overlay_no>'s scroll pos <value_fixed_point> (requires WSE2)
 
 lhs_operations += [
+	try_for_agents,
 	agent_get_ammo_for_slot,
 	agent_get_item_cur_ammo,
 	agent_get_damage_modifier,
@@ -2326,6 +2410,8 @@ lhs_operations += [
 	store_xor,
 	val_not,
 	store_not,
+	player_get_wse2_version,
+	player_get_party_id,
 	register_get,
 	store_wse_version,
 	store_current_trigger,
@@ -2336,6 +2422,7 @@ lhs_operations += [
 	timer_get_elapsed_time,
 	get_main_party,
 	store_application_time,
+	get_campaign_time,
 	game_key_get_key,
 	dict_create,
 	dict_get_size,
@@ -2356,6 +2443,8 @@ lhs_operations += [
 	agent_get_horse_rotation_velocity,
 	agent_get_current_vertical_speed,
 	agent_get_current_ai_mesh_face_group,
+	agent_get_time_speed_multiplier,
+	agent_get_action_speed_modifier,
 	multiplayer_get_cur_profile,
 	multiplayer_get_num_profiles,
 	multiplayer_cur_message_get_int,
@@ -2370,11 +2459,15 @@ lhs_operations += [
 	get_spectated_agent_no,
 	get_water_level,
 	prop_instance_get_sound_progress,
+	cast_ray_agents,
 	troop_get_skill_points,
 	troop_get_attribute_points,
 	troop_get_proficiency_points,
 	party_stack_get_experience,
 	party_stack_get_num_upgradeable,
+	party_get_banner_icon,
+	party_get_extra_icon,
+	party_get_player_id,
 	position_get_vector_to_position,
 	position_get_length,
 	get_dot_product_of_positions,
@@ -2410,6 +2503,10 @@ lhs_operations += [
 ]
 
 can_fail_operations += [
+	key_is_down,
+	key_clicked,
+	game_key_is_down,
+	game_key_clicked,
 	is_vanilla_warband,
 	item_slot_gt,
 	party_template_slot_gt,
@@ -2424,13 +2521,17 @@ can_fail_operations += [
 	scene_prop_slot_gt,
 	order_flag_is_active,
 	is_party_skill,
+	profiler_is_recording,
 	key_released,
 	game_key_released,
 	dict_is_empty,
 	dict_has_key,
+	multiplayer_is_campaign,
 	missile_is_valid,
+	cast_ray_agents,
 	troop_has_flag,
 	party_has_flag,
+	party_is_non_player,
 	str_equals,
 	str_contains,
 	str_starts_with,
@@ -2446,6 +2547,7 @@ can_fail_operations += [
 	flt,
 	fge,
 	fle,
+	edit_mode_in_edit_objects_mode,
 	presentation_activate,
 	array_eq,
 	array_neq,
@@ -2455,5 +2557,6 @@ can_fail_operations += [
 	array_le,
 	lua_call,
 	lua_triggerCallback,
+	lua_test,
 ]
-#---------------WSE END-------------------
+#WSE2 End
