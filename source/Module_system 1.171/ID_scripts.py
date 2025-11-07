@@ -639,6 +639,7 @@ script_get_tier_4_troops = 637
 script_get_special_troop = 638
 script_get_available_troops_for_round = 639
 script_gtd_choose_player_troop = 640
-script_send_kills_until_upgrade_to_players = 641
+script_get_next_lvl_remaining = 641
+script_send_kills_until_upgrade_to_players = 642
 
 

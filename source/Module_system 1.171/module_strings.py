@@ -4357,6 +4357,7 @@ We apologize sincerely if you contributed your suggestions and feedback but were
   ("announce_round_over", "^######################^Wave: {reg0} defeated! Prepare for next wave!^######################"),
   ("next_upgrade_status", "^{reg0} Kills remaining until next upgrade!"),
   ("max_level_reached", "^You reached the highest level! ^Increase gold to deal even more damage!"),
+  ("upgrade_reached", "^You reached the next level! ^New gear is available next time you spawn!"),
   ("announce_website", "^######################^Server-Rank at xxxxxxxxxx.xxxx.xxx^######################")
   #------------GTD-END--------------
   

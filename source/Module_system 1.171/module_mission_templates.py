@@ -8185,7 +8185,7 @@ mission_templates = [
         #[        
         #  (call_script, "script_send_server_message_to_players", "str_announce_website"),
         #]),
-      (200, 0, 0, [], #send progress every 120 seconds
+      (120, 0, 0, [], #send progress every 120 seconds
       [
         (call_script, "script_send_kills_until_upgrade_to_players"),
       ]),
@@ -8461,6 +8461,8 @@ mission_templates = [
               (assign, "$g_num_enemies_alive", 0),
               (assign, "$g_num_enemies_spawned", 0),
               (assign, "$g_counted_near_harlaus", 0),
+              (call_script, "script_set_team_score", 0, 0),
+              (call_script, "script_set_team_score", 1, 1),
               #count ammo chests on map
               (scene_prop_get_num_instances, "$g_num_ammo_chests", "spr_chest_b"),     
       ]),
@@ -8485,7 +8487,8 @@ mission_templates = [
         #announce next wave
         (team_get_score, reg0 ,1),
         (call_script, "script_send_server_message_to_players", "str_next_wave_incoming"),
-        #start next wave
+        #start next wave, inform player
+        (call_script, "script_send_kills_until_upgrade_to_players"),
         (assign, "$g_is_wave_active", 1),
       ]),
 
@@ -8545,17 +8548,21 @@ mission_templates = [
 
       (ti_on_agent_spawn, 0, 0, [],[
           (store_trigger_param_1, ":agent_no"),
+          (agent_is_human, ":agent_no"),
           (agent_get_team, ":agent_team", ":agent_no"),
+          (agent_get_troop_id, ":agent_trp_id", ":agent_no"),
+
           (try_begin),
             (eq, ":agent_team", 0), #if enemy spawned
+            (neq, ":agent_trp_id", "trp_hired_assassin"),
             (val_add, "$g_num_enemies_alive", 1), #track enemy count
+            (agent_set_speed_limit, ":agent_no", gtd_max_enemy_speed_kph),
           (try_end),
 
           (try_begin), #set harlaus hp to 1000 on spawn
-          (agent_get_troop_id, ":agent_trp_id", ":agent_no"),
-          (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
-          (agent_set_max_hit_points, ":agent_no", 1000,1),
-          (agent_set_hit_points, ":agent_no", 1000,1),
+            (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
+            (agent_set_max_hit_points, ":agent_no", 1000,1),
+            (agent_set_hit_points, ":agent_no", 1000,1),
           (try_end),
       ]),
 

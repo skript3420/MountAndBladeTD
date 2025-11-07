@@ -51335,6 +51335,7 @@ scripts = [
           (player_get_unique_id, ":player_unique_id", ":player_no"),
           (eq, ":player_unique_id", ":unique_id"),
           (player_set_gold, ":player_no", ":gold"),
+          (player_set_slot, ":player_no", slot_player_gold_old_value, ":gold"),
         (try_end),
       (else_try),
         (display_message, "str_msg_event_error"), 
@@ -51404,7 +51405,7 @@ scripts = [
     # 1. Get the base number of bots for the current wave using constants
     (assign, ":wave_bot_count", 0),
     (try_begin),
-      (eq, ":current_wave", 1), (assign, ":wave_bot_count", gtd_wave_1_base_bots),
+      (le, ":current_wave", 1), (assign, ":wave_bot_count", gtd_wave_1_base_bots),
     (else_try),
       (eq, ":current_wave", 2), (assign, ":wave_bot_count", gtd_wave_2_base_bots),
     (else_try),
@@ -52139,11 +52140,8 @@ scripts = [
 
 
 
-    
-    ("send_kills_until_upgrade_to_players", [
-    (try_for_players, ":player_no", 1),
-         (player_is_active, ":player_no"),
-         (player_get_gold, ":player_gold", ":player_no"),
+    ("get_next_lvl_remaining",[
+      (store_script_param_1, ":player_gold"),
          (try_begin),
             (lt, ":player_gold", gtd_lvl1_limit),
             (store_sub, ":diff", gtd_lvl1_limit, ":player_gold"),
@@ -52235,12 +52233,31 @@ scripts = [
          (else_try), #full build
             (assign, reg0, -1),
          (try_end),
-         (try_begin),
-            (ge, reg0, 0),
-            (call_script, "script_send_server_message_to_player", ":player_no", "str_next_upgrade_status"),
-          (else_try),
-            (call_script, "script_send_server_message_to_player", ":player_no", "str_max_level_reached"),
-         (try_end),
+    ]),
+
+    
+    ("send_kills_until_upgrade_to_players", [
+      (try_for_players, ":player_no", 1),
+        (player_is_active, ":player_no"),
+        (player_get_gold, ":player_gold", ":player_no"),
+        (player_get_slot, ":player_gold_on_join", ":player_no", slot_player_gold_old_value),
+        #get remaining gold
+        (call_script, "script_get_next_lvl_remaining", ":player_gold_on_join"),
+        (assign, ":remaining_old", reg0),
+        (call_script, "script_get_next_lvl_remaining", ":player_gold"),
+        (assign, ":remaining", reg0),
+        #notify player
+        (try_begin),
+           (ge, ":remaining", 0), #not -1, (max level reached)
+           (assign, reg0, ":remaining"), #for string
+           (call_script, "script_send_server_message_to_player", ":player_no", "str_next_upgrade_status"),
+         (else_try),
+           (call_script, "script_send_server_message_to_player", ":player_no", "str_max_level_reached"),
+        (try_end),
+        #check if new level already reached, notify
+        (gt, ":remaining", ":remaining_old"),
+        (call_script, "script_send_server_message_to_player", ":player_no", "str_upgrade_reached"),
+        (player_set_slot, ":player_no", slot_player_gold_old_value, ":player_gold"), #reset slot
       (try_end),
     ]),
 

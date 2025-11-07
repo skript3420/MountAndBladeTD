@@ -1008,6 +1008,10 @@ slot_player_coop_opened_chests_begin           = slot_player_coop_dropped_item +
 slot_player_coop_opened_chests_end             = slot_player_coop_opened_chests_begin + 10
 #INVASION MODE END
 
+#------------GTD-START----------------
+slot_player_gold_old_value 			= 60
+#------------GTD-END------------------
+
 ########################################################
 ##  TEAM SLOTS             #############################
 ########################################################
@@ -1634,11 +1638,11 @@ startup_merchants_end = "trp_startup_merchants_end"
 
 #------------GTD-BEGIN----------------
 
-num_max_items = 100000 #used for multiplayer mode #modded from 10000 
+num_max_items = 100000 #modded, not sure if relevant
 
 average_price_factor = 1000
 minimum_price_factor = 100
-maximum_price_factor = 100000 #modded from 10000
+maximum_price_factor = 100000 #modded, not sure if relevant
 
 #------------GTD-END----------------
 
@@ -1967,6 +1971,7 @@ gtd_wave_delay = 10, #minimum delay between waves (seconds)
 gtd_special_dmg_assassin = 10, #dmg dealt by trp_hired_assassins
 gtd_bonus_gold = 250, #amount of gold given on player win map event
 gtd_harlaus_max_hp = 55, #start hp for harlaus
+gtd_max_enemy_speed_kph = 5, #max speed of enemy bots in kph
 
 ######################################
 # Wave And Level Constants
