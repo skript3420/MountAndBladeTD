@@ -51471,6 +51471,9 @@ scripts = [
     
     # 4. Return the final number in reg0
     (assign, reg0, ":final_bot_count"),
+
+    #debug
+    (assign, reg0, 5),
   ]),
 
   ("announce_harlaus_hp",[
@@ -52059,6 +52062,8 @@ scripts = [
       (eq, "$g_is_wave_active", 0),
       (assign, reg0, "trp_kingdom_2_lord"),
     (try_end),
+    #debug
+    (assign, reg0, "trp_arena_training_fighter_10"),
   ]),
 
   ("gtd_choose_player_troop", [
@@ -52264,3 +52269,5 @@ scripts = [
         #---------------GTD-END---------------
      
 ]
+
+

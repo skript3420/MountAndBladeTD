@@ -517,7 +517,6 @@ multiplayer_server_check_end_map = (
                 (player_get_gold, ":player_gold", ":player_no"),
                 (val_add, ":player_gold", gtd_bonus_gold),
                 (player_set_gold, ":player_no", ":player_gold", 0),
-                (call_script, "script_save_player_gold", ":player_no"), #updated database
             (try_end),
         (try_end),
       (try_end),
@@ -8331,8 +8330,13 @@ mission_templates = [
             #for agent not near harlaus, reset focus
             (else_try),
                 (eq, ":agent_team", 0), #enemy team
-                (agent_set_is_alarmed, ":agent_no", 0),
-                (agent_set_scripted_destination, ":agent_no", pos10,1,0),
+                (agent_get_class, ":is_ranged", ":agent_no"),
+                (try_begin),
+                  (eq, ":is_ranged", 1), #target in sight
+                  (agent_set_scripted_destination_no_attack, ":agent_no", pos10, 1),
+                (else_try),
+                  (agent_set_scripted_destination, ":agent_no", pos10,1,0),
+                (try_end),
             (try_end),
           (try_end),
         (try_end),
@@ -8629,6 +8633,67 @@ mission_templates = [
         (store_agent_hit_points, ":harlaus_hp", ":agent_id",0), #3rd param: 0 percent, 1 absolute
         (call_script, "script_announce_harlaus_hp", ":harlaus_hp"),
       ]),
+
+      #handle cloner bots
+      (ti_on_agent_killed_or_wounded, 0, 0, [(eq, "$g_is_wave_active", 1)], [
+        (store_trigger_param_1, ":agent_id"),
+        (agent_get_troop_id, ":agent_trp_id", ":agent_id"),
+        #for parent clones
+        (this_or_next|eq, ":agent_trp_id", "trp_arena_training_fighter_10"),
+        (eq, ":agent_trp_id", "trp_arena_training_fighter_9"),
+        (assign, ":child_trp", -1),
+        (try_begin),
+          #1st gen
+          (eq, ":agent_trp_id", "trp_arena_training_fighter_10"),
+          (assign, ":child_trp", "trp_arena_training_fighter_9"),
+        (else_try),
+          #2nd gen
+          (assign, ":child_trp", "trp_arena_training_fighter_8"),
+        (try_end),
+        #spawn children clones
+        (agent_set_slot, ":agent_id", slot_agent_clones_needed, gtd_clone_split_num_1st),
+        (store_current_scene, ":cur_scene"),
+        (modify_visitors_at_site, ":cur_scene"),
+        (add_visitors_to_current_scene, gtd_map_spawn_enemy, ":child_trp", gtd_clone_split_num_1st, 0, -1),
+      ]),
+
+      #tp clones to parent death position on spawn
+      (ti_on_agent_spawn, 0, 0, [(eq, "$g_is_wave_active", 1)],
+      [
+        (store_trigger_param_1, ":agent_no"),
+        (agent_get_troop_id, ":agent_trp_id", ":agent_no"),
+        #only for clone children
+        (this_or_next|eq, ":agent_trp_id", "trp_arena_training_fighter_9"),
+        (eq, ":agent_trp_id", "trp_arena_training_fighter_8"),
+        #init parent troop id
+        (assign, ":parent_trp_id", -1),
+        (try_begin),
+          (eq, ":agent_trp_id", "trp_arena_training_fighter_9"),
+          (assign, ":parent_trp_id", "trp_arena_training_fighter_10"),
+        (else_try),
+          (eq, ":agent_trp_id", "trp_arena_training_fighter_8"),
+          (assign, ":parent_trp_id", "trp_arena_training_fighter_9"),
+        (try_end),
+        (assign, ":found_parent", 0),
+        #search for clone parent
+        (try_for_agents, ":other_agent"),
+          (neq, ":found_parent", 1), #prevent multiple teleports to one child
+          (agent_get_troop_id, ":other_trp_id", ":other_agent"),
+          (eq, ":other_trp_id", ":parent_trp_id"),
+          #get parent status (more than 1 parent might need clones simultaneously)
+          (agent_get_slot, ":clones_needed", ":other_agent", slot_agent_clones_needed),
+          #update status
+          (gt, ":clones_needed", 0),
+          (display_message, "@c2"),
+          (val_sub, ":clones_needed", 1),
+          (agent_set_slot, ":other_agent", slot_agent_clones_needed, ":clones_needed"),
+          #teleport agent to parent kill location
+          (agent_get_position, pos1, ":other_agent"),
+          (agent_set_position, ":agent_no", pos1),
+          (assign, ":found_parent", 1), #found parent, exit loop
+        (try_end),
+      ]),
+      
 
 
       ######################################

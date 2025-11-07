@@ -1,4 +1,9 @@
 <?php
+
+# Clear output buffer, otherwise BOM character sent in echo function -> encoding issues
+ob_clean();
+header('Content-Type: text/plain; charset=utf-8');
+
 // Safe functions to comply with Warband encoding UTF-8 without BOM
 function safe_echo($output_string) {
     // Force the string to be UTF-8

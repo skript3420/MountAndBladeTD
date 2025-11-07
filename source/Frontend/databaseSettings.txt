@@ -31,9 +31,9 @@ VAR_GOLD_REG = reg2
 
 ### Database information ###
 DB_URL_ADDRESS = http://localhost/webpage.php
-# Name of the database ID field
+# Name of the database ID field (VARCHAR)
 DB_ID_FIELD_NAME = unique_id
-# Name of the database gold field
+# Name of the database gold field (VARCHAR)
 DB_GOLD_FIELD_NAME = gold
 
 
@@ -42,5 +42,5 @@ DB_HOST = localhost
 DB_USER = root
 DB_PASS = 
 DB_NAME = warband
-DB_TABLE = wb_td
+DB_TABLE = players
 

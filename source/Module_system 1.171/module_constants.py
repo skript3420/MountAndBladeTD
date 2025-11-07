@@ -96,6 +96,7 @@ slot_agent_is_poisoned = 100
 slot_agent_got_poisoned_by = 101
 slot_agent_got_knocked_down = 102
 slot_agent_got_knocked_down_by = 103
+slot_agent_clones_needed = 107 
 
 #------------GTD-END------------------
     
@@ -961,7 +962,12 @@ troop_slots_reserved_for_relations_start        = 165 #this is based on id_troop
 
 slot_troop_relations_begin				= 0 #this creates an array for relations between troops
 											#Right now, lords start at 165 and run to around 290, including pretenders
-											
+
+#-------------GTD-START----------------
+slot_troop_tp_to_x = 200
+slot_troop_tp_to_y = 201
+slot_troop_tp_to_z = 202
+#-------------GTD-END------------------								
 											
 											
 ########################################################
@@ -1972,6 +1978,9 @@ gtd_special_dmg_assassin = 10, #dmg dealt by trp_hired_assassins
 gtd_bonus_gold = 250, #amount of gold given on player win map event
 gtd_harlaus_max_hp = 55, #start hp for harlaus
 gtd_max_enemy_speed_kph = 5, #max speed of enemy bots in kph
+
+gtd_clone_split_num_1st = 3, #number of clones created on first split
+gtd_clone_split_num_2nd = 3, #number of clones created on second
 
 ######################################
 # Wave And Level Constants
