@@ -1927,7 +1927,7 @@ gtd_poison_radius = 200, #radius of poison effect
 
 gtd_explosive_small_effect_strength = 100, #percent
 gtd_explosive_small_horse_dmg = 30, #dmg dealt to horse by small explosive
-gtd_explosive_small_dmg = 15, #dmg dealt by small explosive
+gtd_explosive_small_dmg = 20, #dmg dealt by small explosive
 gtd_explosive_small_radius = 160, #small explosive radius
 
 gtd_explosive_large_effect_strength = 40, #percent
@@ -1947,7 +1947,7 @@ gtd_knock_down_radius = 200, #radius of knock down effect
 gtd_map_spawn_enemy = 0, #enemy spawn point
 gtd_map_spawn_harlaus = 32, #Harlaus spawn point
 gtd_map_spawn_round_over = 105, #tp to spawn point after round over
-gtd_map_horse_kill_radius = 800, #radius around harlaus spawn point to kill horses
+gtd_map_horse_kill_radius = 700, #radius around harlaus spawn point to kill horses
 gtd_map_ammo_chest_radius = 125, #radius around chest to give ammo
 
 ######################################
@@ -1966,133 +1966,173 @@ gtd_wave_delay = 10, #minimum delay between waves (seconds)
 
 gtd_special_dmg_assassin = 10, #dmg dealt by trp_hired_assassins
 gtd_bonus_gold = 250, #amount of gold given on player win map event
-gtd_harlaus_max_hp = 60, #start hp for harlaus
+gtd_harlaus_max_hp = 55, #start hp for harlaus
 
 ######################################
 # Wave And Level Constants
 ######################################
 
+gtd_wave1_formula_num = 5, #wave 1 bots
+gtd_wave20_formula_num = 50, #wave 20 bots
+gtd_wave_player_multiplier = 15, #additional bots per player at wave 20
+gtd_total_waves_num = 20, #total number of waves (must match with other constants below)
 
-gtd_wave1_num_tier1 = 10,
-gtd_wave1_num_tier2 = 0,
-gtd_wave1_num_tier3 = 0,
-gtd_wave1_num_tier4 = 0,
-gtd_wave1_num_special = 0,
+#----------------------------------------------------------------
+# GTD Tower Defense Base Bot Count per Wave (without player multiplier)
+#----------------------------------------------------------------
+gtd_wave_1_base_bots  = 15
+gtd_wave_2_base_bots  = 15
+gtd_wave_3_base_bots  = 16
+gtd_wave_4_base_bots  = 18
+gtd_wave_5_base_bots  = 20
+gtd_wave_6_base_bots  = 24
+gtd_wave_7_base_bots  = 28
+gtd_wave_8_base_bots  = 33
+gtd_wave_9_base_bots  = 38
+gtd_wave_10_base_bots = 45
+gtd_wave_11_base_bots = 52
+gtd_wave_12_base_bots = 60
+gtd_wave_13_base_bots = 68
+gtd_wave_14_base_bots = 78
+gtd_wave_15_base_bots = 88
+gtd_wave_16_base_bots = 99
+gtd_wave_17_base_bots = 110
+gtd_wave_18_base_bots = 123
+gtd_wave_19_base_bots = 136
+gtd_wave_20_base_bots = 150
 
 
-gtd_wave2_num_tier1 = 1,
-gtd_wave2_num_tier2 = 1,
-gtd_wave2_num_tier3 = 1,
-gtd_wave2_num_tier4 = 1,
-gtd_wave2_num_special = 1,
+#----------------------------------------------------------------
+# GTD Tower Defense Wave Spawn Probabilities (out of 100)
+#----------------------------------------------------------------
+# Constants represent the CUMULATIVE chance out of 100.
+# Random number is 0-99.
+# T1: 0 <= random < gtd_waveX_num_tier1
+# T2: gtd_waveX_num_tier1 <= random < gtd_waveX_num_tier2
+# T3: gtd_waveX_num_tier2 <= random < gtd_waveX_num_tier3
+# T4: gtd_waveX_num_tier3 <= random < 100
 
-gtd_wave3_num_tier1 = 1,
-gtd_wave3_num_tier2 = 1,
-gtd_wave3_num_tier3 = 1,
-gtd_wave3_num_tier4 = 1,
-gtd_wave3_num_special = 1,
+# Wave 1 (Farm): 70% T1, 30% T2, 0% T3, 0% T4
+gtd_wave1_num_tier1 = 70
+gtd_wave1_num_tier2 = 100
+gtd_wave1_num_tier3 = 100
+gtd_wave1_num_tier4 = 100 # Total
 
-gtd_wave4_num_tier1 = 1,
-gtd_wave4_num_tier2 = 1,
-gtd_wave4_num_tier3 = 1,
-gtd_wave4_num_tier4 = 1,
-gtd_wave4_num_special = 1,
+# Wave 2: 50% T1, 40% T2, 10% T3, 0% T4
+gtd_wave2_num_tier1 = 50
+gtd_wave2_num_tier2 = 90
+gtd_wave2_num_tier3 = 100
+gtd_wave2_num_tier4 = 100 # Total
 
-gtd_wave5_num_tier1 =1,
-gtd_wave5_num_tier2 =1,
-gtd_wave5_num_tier3 =1,
-gtd_wave5_num_tier4 =1,
-gtd_wave5_num_special =1,
+# Wave 3: 30% T1, 50% T2, 20% T3, 0% T4
+gtd_wave3_num_tier1 = 30
+gtd_wave3_num_tier2 = 80
+gtd_wave3_num_tier3 = 100
+gtd_wave3_num_tier4 = 100 # Total
 
-gtd_wave6_num_tier1 =1,
-gtd_wave6_num_tier2 =1,
-gtd_wave6_num_tier3 =1,
-gtd_wave6_num_tier4 =1,
-gtd_wave6_num_special =1,
+# Wave 4: 10% T1, 60% T2, 30% T3, 0% T4
+gtd_wave4_num_tier1 = 10
+gtd_wave4_num_tier2 = 70
+gtd_wave4_num_tier3 = 100
+gtd_wave4_num_tier4 = 100 # Total
 
-gtd_wave7_num_tier1 =1,
-gtd_wave7_num_tier2 =1,
-gtd_wave7_num_tier3 =1,
-gtd_wave7_num_tier4 =1,
-gtd_wave7_num_special =1,
+# Wave 5 (Farm): 40% T1, 40% T2, 20% T3, 0% T4
+gtd_wave5_num_tier1 = 40
+gtd_wave5_num_tier2 = 80
+gtd_wave5_num_tier3 = 100
+gtd_wave5_num_tier4 = 100 # Total
 
-gtd_wave8_num_tier1 =1,
-gtd_wave8_num_tier2 =1,
-gtd_wave8_num_tier3 =1,
-gtd_wave8_num_tier4 =1,
-gtd_wave8_num_special =1,
+# Wave 6: 20% T1, 50% T2, 30% T3, 0% T4
+gtd_wave6_num_tier1 = 20
+gtd_wave6_num_tier2 = 70
+gtd_wave6_num_tier3 = 100
+gtd_wave6_num_tier4 = 100 # Total
 
-gtd_wave9_num_tier1 =1,
-gtd_wave9_num_tier2 =1,
-gtd_wave9_num_tier3 =1,
-gtd_wave9_num_tier4 =1,
-gtd_wave9_num_special =1,
+# Wave 7: 10% T1, 40% T2, 50% T3, 0% T4
+gtd_wave7_num_tier1 = 10
+gtd_wave7_num_tier2 = 50
+gtd_wave7_num_tier3 = 100
+gtd_wave7_num_tier4 = 100 # Total
 
-gtd_wave10_num_tier1 =1,
-gtd_wave10_num_tier2 =1,
-gtd_wave10_num_tier3 =1,
-gtd_wave10_num_tier4 =1,
-gtd_wave10_num_special =1,
+# Wave 8: 6% T1, 34% T2, 60% T3, 0% T4
+gtd_wave8_num_tier1 = 6
+gtd_wave8_num_tier2 = 40
+gtd_wave8_num_tier3 = 100
+gtd_wave8_num_tier4 = 100 # Total
 
-gtd_wave11_num_tier1 =1,
-gtd_wave11_num_tier2 =1,
-gtd_wave11_num_tier3 =1,
-gtd_wave11_num_tier4 =1,
-gtd_wave11_num_special =1,
+# Wave 9 (Boss 1): 0% T1, 30% T2, 70% T3, 0% T4
+gtd_wave9_num_tier1 = 0
+gtd_wave9_num_tier2 = 30
+gtd_wave9_num_tier3 = 100
+gtd_wave9_num_tier4 = 100 # Total
 
-gtd_wave12_num_tier1 =1,
-gtd_wave12_num_tier2 =1,
-gtd_wave12_num_tier3 =1,
-gtd_wave12_num_tier4 =1,
-gtd_wave12_num_special =1,
+# Wave 10 (Farm): 30% T1, 50% T2, 20% T3, 0% T4
+gtd_wave10_num_tier1 = 30
+gtd_wave10_num_tier2 = 80
+gtd_wave10_num_tier3 = 100
+gtd_wave10_num_tier4 = 100 # Total
 
-gtd_wave13_num_tier1 =1,
-gtd_wave13_num_tier2 =1,
-gtd_wave13_num_tier3 =1,
-gtd_wave13_num_tier4 =1,
-gtd_wave13_num_special =1,
+# --- T4 TROOPS NOW APPEAR ---
 
-gtd_wave14_num_tier1 =1,
-gtd_wave14_num_tier2 =1,
-gtd_wave14_num_tier3 =1,
-gtd_wave14_num_tier4 =1,
-gtd_wave14_num_special =1,
+# Wave 11: 10% T1, 40% T2, 45% T3, 5% T4
+gtd_wave11_num_tier1 = 10
+gtd_wave11_num_tier2 = 50
+gtd_wave11_num_tier3 = 95
+gtd_wave11_num_tier4 = 100 # Total
 
-gtd_wave15_num_tier1 =1,
-gtd_wave15_num_tier2 =1,
-gtd_wave15_num_tier3 =1,
-gtd_wave15_num_tier4 =1,
-gtd_wave15_num_special =1,
+# Wave 12: 5% T1, 35% T2, 50% T3, 10% T4
+gtd_wave12_num_tier1 = 5
+gtd_wave12_num_tier2 = 40
+gtd_wave12_num_tier3 = 90
+gtd_wave12_num_tier4 = 100 # Total
 
-gtd_wave16_num_tier1 =1,
-gtd_wave16_num_tier2 =1,
-gtd_wave16_num_tier3 =1,
-gtd_wave16_num_tier4 =1,
-gtd_wave16_num_special =1,
+# Wave 13 (T1 Phased Out): 0% T1, 30% T2, 55% T3, 15% T4
+gtd_wave13_num_tier1 = 0
+gtd_wave13_num_tier2 = 30
+gtd_wave13_num_tier3 = 85
+gtd_wave13_num_tier4 = 100 # Total
 
-gtd_wave17_num_tier1 =1,
-gtd_wave17_num_tier2 =1,
-gtd_wave17_num_tier3 =1,
-gtd_wave17_num_tier4 =1,
-gtd_wave17_num_special =1,
+# Wave 14 (Boss 2): 0% T1, 20% T2, 55% T3, 25% T4
+gtd_wave14_num_tier1 = 0
+gtd_wave14_num_tier2 = 20
+gtd_wave14_num_tier3 = 75
+gtd_wave14_num_tier4 = 100 # Total
 
-gtd_wave18_num_tier1 =1,
-gtd_wave18_num_tier2 =1,
-gtd_wave18_num_tier3 =1,
-gtd_wave18_num_tier4 =1,
-gtd_wave18_num_special =1,
+# Wave 15 (Farm/Reward): 25% T1, 50% T2, 25% T3, 0% T4
+gtd_wave15_num_tier1 = 25
+gtd_wave15_num_tier2 = 75
+gtd_wave15_num_tier3 = 100
+gtd_wave15_num_tier4 = 100 # Total
 
-gtd_wave19_num_tier1 =1,
-gtd_wave19_num_tier2 =1,
-gtd_wave19_num_tier3 =1,
-gtd_wave19_num_tier4 =1,
-gtd_wave19_num_special =1,
+# Wave 16: 0% T1, 20% T2, 60% T3, 20% T4
+gtd_wave16_num_tier1 = 0
+gtd_wave16_num_tier2 = 20
+gtd_wave16_num_tier3 = 80
+gtd_wave16_num_tier4 = 100 # Total
 
-gtd_wave20_num_tier1 =1,
-gtd_wave20_num_tier2 =1,
-gtd_wave20_num_tier3 =1,
-gtd_wave20_num_tier4 =1,
-gtd_wave20_num_special =1,
+# Wave 17: 0% T1, 15% T2, 60% T3, 25% T4
+gtd_wave17_num_tier1 = 0
+gtd_wave17_num_tier2 = 15
+gtd_wave17_num_tier3 = 75
+gtd_wave17_num_tier4 = 100 # Total
+
+# Wave 18 (Boss 3): 0% T1, 10% T2, 60% T3, 30% T4
+gtd_wave18_num_tier1 = 0
+gtd_wave18_num_tier2 = 10
+gtd_wave18_num_tier3 = 70
+gtd_wave18_num_tier4 = 100 # Total
+
+# Wave 19: 0% T1, 10% T2, 60% T3, 30% T4
+gtd_wave19_num_tier1 = 0
+gtd_wave19_num_tier2 = 10
+gtd_wave19_num_tier3 = 70
+gtd_wave19_num_tier4 = 100 # Total
+
+# Wave 20 (Final Wave): 0% T1, 10% T2, 60% T3, 30% T4
+gtd_wave20_num_tier1 = 0
+gtd_wave20_num_tier2 = 10
+gtd_wave20_num_tier3 = 70
+gtd_wave20_num_tier4 = 100 # Total
 
 
 

@@ -632,12 +632,13 @@ script_send_bot_info_to_player = 630
 script_send_score_info_to_players = 631
 script_calculate_wave_bot_num = 632
 script_announce_harlaus_hp = 633
-script_get_tier_1_troop = 634
-script_get_tier_2_troop = 635
-script_get_tier_3_troop = 636
-script_get_special_troop = 637
-script_get_available_troops_for_round = 638
-script_gtd_choose_player_troop = 639
-script_send_kills_until_upgrade_to_players = 640
+script_get_tier_1_troops = 634
+script_get_tier_2_troops = 635
+script_get_tier_3_troops = 636
+script_get_tier_4_troops = 637
+script_get_special_troop = 638
+script_get_available_troops_for_round = 639
+script_gtd_choose_player_troop = 640
+script_send_kills_until_upgrade_to_players = 641
 
 

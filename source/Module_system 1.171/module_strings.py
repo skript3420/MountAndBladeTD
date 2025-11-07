@@ -4356,7 +4356,7 @@ We apologize sincerely if you contributed your suggestions and feedback but were
   ("announce_harlaus_hp", "## Harlaus HP: {reg0}% ##"),
   ("announce_round_over", "^######################^Wave: {reg0} defeated! Prepare for next wave!^######################"),
   ("next_upgrade_status", "^{reg0} Kills remaining until next upgrade!"),
-  ("max_level_reached", "^Highest level! ^Increase gold to deal even more damage!"),
+  ("max_level_reached", "^You reached the highest level! ^Increase gold to deal even more damage!"),
   ("announce_website", "^######################^Server-Rank at xxxxxxxxxx.xxxx.xxx^######################")
   #------------GTD-END--------------
   
