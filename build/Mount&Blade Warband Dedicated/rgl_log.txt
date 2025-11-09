@@ -1,1136 +1,1140 @@
-03:40:33 - Build: Release Dedicated
-03:40:33 - Mount&Blade Warband WSE2 version: 1.174 1139 Nov  3 2025 14:58:49
-03:40:33 - Havok version: 2013.1.0-r1
-03:40:33 - WSE netcode version: 10
-03:40:33 - Command line: -r GTD_server_settings.txt -m Native
-03:40:33 - Initializing timer...
-03:40:33 - Collecting system info...
-03:40:33 - Dumping system info...
-03:40:33 - -- OS: Windows 11
-03:40:33 -  - Version: 10.0.26100
-03:40:33 -  - Arch: x64
-03:40:33 - -- CPU: 12th Gen Intel(R) Core(TM) i7-1260P (GenuineIntel)
-03:40:33 -  - Count: 8 (HT)
-03:40:33 - -- Memory: 16093 MB
-03:40:33 -  - Available: 762 MB
-03:40:33 - Initializing language...
-03:40:33 - WARNING: Duplicate language string ui_retreated_battle
-03:40:33 - WARNING: Duplicate language string ui_midnight
-03:40:33 - WARNING: Duplicate language string ui_chest
-03:40:33 - WARNING: Duplicate language string ui_group_rename
-03:40:33 - WARNING: Duplicate language string ui_music_volume
-03:40:33 - WARNING: Duplicate language string ui_sound_volume
-03:40:33 - WARNING: Duplicate language string ui_mouse_sensitivity
-03:40:33 - WARNING: Duplicate language string ui_invert_mouse_y_axis
-03:40:33 - WARNING: Duplicate language string ui_enabled
-03:40:33 - WARNING: Duplicate language string ui_disabled
-03:40:33 - WARNING: Duplicate language string ui_damage_to_player
-03:40:33 - WARNING: Duplicate language string ui_reduced_to_1_over_4_easiest
-03:40:33 - WARNING: Duplicate language string ui_reduced_to_1_over_2_easy
-03:40:33 - WARNING: Duplicate language string ui_damage_to_friends
-03:40:33 - WARNING: Duplicate language string ui_reduced_to_1_over_2_easiest
-03:40:33 - WARNING: Duplicate language string ui_reduced_to_3_over_4_easy
-03:40:33 - WARNING: Duplicate language string ui_normal
-03:40:33 - WARNING: Duplicate language string ui_combat_ai
-03:40:33 - WARNING: Duplicate language string ui_combat_speed
-03:40:33 - WARNING: Duplicate language string ui_good
-03:40:33 - WARNING: Duplicate language string ui_average_caps
-03:40:33 - WARNING: Duplicate language string ui_poor
-03:40:33 - WARNING: Duplicate language string ui_faster
-03:40:33 - WARNING: Duplicate language string ui_slower
-03:40:33 - WARNING: Duplicate language string ui_control_block_direction
-03:40:33 - WARNING: Duplicate language string ui_automatic_recommended
-03:40:33 - WARNING: Duplicate language string ui_manual_easy
-03:40:33 - WARNING: Duplicate language string ui_manual_hard
-03:40:33 - WARNING: Duplicate language string ui_by_mouse_movement
-03:40:33 - WARNING: Duplicate language string ui_control_attack_direction
-03:40:33 - WARNING: Duplicate language string ui_lance_control
-03:40:33 - WARNING: Duplicate language string ui_by_relative_enemy_position
-03:40:33 - WARNING: Duplicate language string ui_by_inverse_mouse_movement
-03:40:33 - WARNING: Duplicate language string ui_battle_size
-03:40:33 - WARNING: Duplicate language string ui_show_attack_direction
-03:40:33 - WARNING: Duplicate language string ui_show_targeting_reticule
-03:40:33 - WARNING: Duplicate language string ui_show_names_of_friendly_troops
-03:40:33 - WARNING: Duplicate language string ui_report_damage
-03:40:33 - WARNING: Duplicate language string ui_report_shot_difficulty
-03:40:33 - WARNING: Duplicate language string ui_difficulty_rating_percentage
-03:40:33 - WARNING: Duplicate language string ui_controls
-03:40:33 - WARNING: Duplicate language string ui_video_options
-03:40:33 - WARNING: Duplicate language string ui_done
-03:40:33 - WARNING: Duplicate language string ui_factions
-03:40:33 - WARNING: Duplicate language string ui_item_itemname
-03:40:33 - WARNING: Duplicate language string ui_prop_propname
-03:40:33 - WARNING: Duplicate language string ui_unknown_unknownname
-03:40:33 - WARNING: Duplicate language string ui_entry_point_entrypointname
-03:40:33 - WARNING: Duplicate language string ui_passage_menu_item_passagename
-03:40:33 - WARNING: Duplicate language string ui_plant_plantname
-03:40:33 - WARNING: Duplicate language string ui_export_file_for_character_playername_already_exists_overwrite_it
-03:40:33 - WARNING: Duplicate language string ui_yes
-03:40:33 - WARNING: Duplicate language string ui_no
-03:40:33 - WARNING: Duplicate language string ui_set_save_file_name
-03:40:33 - WARNING: Duplicate language string ui_enter_new_name
-03:40:33 - WARNING: Duplicate language string ui_export_character
-03:40:33 - WARNING: Duplicate language string ui_import_character
-03:40:33 - WARNING: Duplicate language string ui_character_playername_exported_successfully
-03:40:33 - WARNING: Duplicate language string ui_character_playername_imported_successfully
-03:40:33 - WARNING: Duplicate language string ui_unable_to_open_import_file
-03:40:33 - WARNING: Duplicate language string ui_are_you_sure_you_want_to_import_the_character
-03:40:33 - WARNING: Duplicate language string ui_unable_to_find_character_import_file
-03:40:33 - WARNING: Duplicate language string ui_mount_and_blade_is_running_in_trial_mode_please_buy_the_game_for_importing_a_character
-03:40:33 - WARNING: Duplicate language string ui_change_skin
-03:40:33 - WARNING: Duplicate language string ui_change_hair
-03:40:33 - WARNING: Duplicate language string ui_change_hair_color
-03:40:33 - WARNING: Duplicate language string ui_change_beard
-03:40:33 - WARNING: Duplicate language string ui_tutorial
-03:40:33 - WARNING: Duplicate language string ui_tutorial_face_generator
-03:40:33 - WARNING: Duplicate language string ui_restore
-03:40:33 - WARNING: Duplicate language string ui_cancel
-03:40:33 - WARNING: Duplicate language string ui_delete
-03:40:33 - WARNING: Duplicate language string ui_confirm_delete_game
-03:40:33 - WARNING: Duplicate language string ui_error_removing_file
-03:40:33 - WARNING: Duplicate language string ui_day_datedisplay
-03:40:33 - WARNING: Duplicate language string ui_reset_changes
-03:40:33 - WARNING: Duplicate language string ui_weapon_proficiencies
-03:40:33 - WARNING: Duplicate language string ui_skills
-03:40:33 - WARNING: Duplicate language string ui_attributes
-03:40:33 - WARNING: Duplicate language string ui_enter_name_here
-03:40:33 - WARNING: Duplicate language string ui_edit_face
-03:40:33 - WARNING: Duplicate language string ui_statistics
-03:40:33 - WARNING: Duplicate language string ui_next
-03:40:33 - WARNING: Duplicate language string ui_prev
-03:40:33 - WARNING: Duplicate language string ui_learn
-03:40:33 - WARNING: Duplicate language string ui_question_saving_policy
-03:40:33 - WARNING: Duplicate language string ui_saving_policy_realistic
-03:40:33 - WARNING: Duplicate language string ui_saving_policy_nonrealistic
-03:40:33 - WARNING: Duplicate language string ui_tutorial_character_generation
-03:40:33 - WARNING: Duplicate language string ui_str
-03:40:33 - WARNING: Duplicate language string ui_agi
-03:40:33 - WARNING: Duplicate language string ui_int
-03:40:33 - WARNING: Duplicate language string ui_cha
-03:40:33 - WARNING: Duplicate language string ui_at_learning_limit
-03:40:33 - WARNING: Duplicate language string ui_not_enough_skill_points_to_learn
-03:40:33 - WARNING: Duplicate language string ui_strength
-03:40:33 - WARNING: Duplicate language string ui_agility
-03:40:33 - WARNING: Duplicate language string ui_intelligence
-03:40:33 - WARNING: Duplicate language string ui_charisma
-03:40:33 - WARNING: Duplicate language string ui_not_enough_attributetype_to_learn_this_skill
-03:40:33 - WARNING: Duplicate language string ui_explanation_one_handed_weapon
-03:40:33 - WARNING: Duplicate language string ui_explanation_two_handed_weapon
-03:40:33 - WARNING: Duplicate language string ui_explanation_polearm
-03:40:33 - WARNING: Duplicate language string ui_explanation_archery
-03:40:33 - WARNING: Duplicate language string ui_explanation_crossbow
-03:40:33 - WARNING: Duplicate language string ui_explanation_throwing
-03:40:33 - WARNING: Duplicate language string ui_explanation_firearms
-03:40:33 - WARNING: Duplicate language string ui_explanation_strength
-03:40:33 - WARNING: Duplicate language string ui_explanation_agility
-03:40:33 - WARNING: Duplicate language string ui_explanation_intelligence
-03:40:33 - WARNING: Duplicate language string ui_explanation_charisma
-03:40:33 - WARNING: Duplicate language string ui_level
-03:40:33 - WARNING: Duplicate language string ui_xp
-03:40:33 - WARNING: Duplicate language string ui_next_level_at
-03:40:33 - WARNING: Duplicate language string ui_health_player
-03:40:33 - WARNING: Duplicate language string ui_health
-03:40:33 - WARNING: Duplicate language string ui_attribute_points
-03:40:33 - WARNING: Duplicate language string ui_skill_points
-03:40:33 - WARNING: Duplicate language string ui_weapon_points
-03:40:33 - WARNING: Duplicate language string ui_mission_losses_none
-03:40:33 - WARNING: Duplicate language string ui_mission_losses_wounded
-03:40:33 - WARNING: Duplicate language string ui_mission_losses_killed
-03:40:33 - WARNING: Duplicate language string ui_party_losses
-03:40:33 - WARNING: Duplicate language string ui_casualties_sustained
-03:40:33 - WARNING: Duplicate language string ui_advantage_change
-03:40:33 - WARNING: Duplicate language string ui_overall_battle_casualties
-03:40:33 - WARNING: Duplicate language string ui_advantage_outnumbered
-03:40:33 - WARNING: Duplicate language string ui_advantage_major_disadvantage
-03:40:33 - WARNING: Duplicate language string ui_advantage_slight_disadvantage
-03:40:33 - WARNING: Duplicate language string ui_advantage_balanced
-03:40:33 - WARNING: Duplicate language string ui_advantage_fair_advantage
-03:40:33 - WARNING: Duplicate language string ui_advantage_greatly_favored
-03:40:33 - WARNING: Duplicate language string ui_tactical_advantage
-03:40:33 - WARNING: Duplicate language string ui_order_group
-03:40:33 - WARNING: Duplicate language string ui_question_save_changes
-03:40:33 - WARNING: Duplicate language string ui_yes_save
-03:40:33 - WARNING: Duplicate language string ui_no_discard_changes
-03:40:33 - WARNING: Duplicate language string ui_everyone_control
-03:40:33 - WARNING: Duplicate language string ui_everyone_around_control
-03:40:33 - WARNING: Duplicate language string ui_others_control
-03:40:33 - WARNING: Duplicate language string ui_question_give_up_fight
-03:40:33 - WARNING: Duplicate language string ui_give_up
-03:40:33 - WARNING: Duplicate language string ui_keep_fighting
-03:40:33 - WARNING: Duplicate language string ui_question_leave_area
-03:40:33 - WARNING: Duplicate language string ui_cant_retreat_there_are_enemies_nearby
-03:40:33 - WARNING: Duplicate language string ui_question_retreat_battle
-03:40:33 - WARNING: Duplicate language string ui_retreat
-03:40:33 - WARNING: Duplicate language string ui_talk
-03:40:33 - WARNING: Duplicate language string ui_duel
-03:40:33 - WARNING: Duplicate language string ui_mount
-03:40:33 - WARNING: Duplicate language string ui_riding_skill_not_adequate_to_mount
-03:40:33 - WARNING: Duplicate language string ui_dismount
-03:40:33 - WARNING: Duplicate language string ui_exit
-03:40:33 - WARNING: Duplicate language string ui_door_to
-03:40:33 - WARNING: Duplicate language string ui_open
-03:40:33 - WARNING: Duplicate language string ui_equip
-03:40:33 - WARNING: Duplicate language string ui_baggage
-03:40:33 - WARNING: Duplicate language string ui_access_inventory
-03:40:33 - WARNING: Duplicate language string ui_passage
-03:40:33 - WARNING: Duplicate language string ui_go
-03:40:33 - WARNING: Duplicate language string ui_retreat_battle
-03:40:33 - WARNING: Duplicate language string ui_leave_area
-03:40:33 - WARNING: Duplicate language string ui_reports
-03:40:33 - WARNING: Duplicate language string ui_camp
-03:40:33 - WARNING: Duplicate language string ui_terrain
-03:40:33 - WARNING: Duplicate language string ui_quests
-03:40:33 - WARNING: Duplicate language string ui_inventory
-03:40:33 - WARNING: Duplicate language string ui_character
-03:40:33 - WARNING: Duplicate language string ui_party
-03:40:33 - WARNING: Duplicate language string ui_paused
-03:40:33 - WARNING: Duplicate language string ui_click_left_button_to_cancel_wait
-03:40:33 - WARNING: Duplicate language string ui_late_night
-03:40:33 - WARNING: Duplicate language string ui_dawn
-03:40:33 - WARNING: Duplicate language string ui_early_morning
-03:40:33 - WARNING: Duplicate language string ui_morning
-03:40:33 - WARNING: Duplicate language string ui_noon
-03:40:33 - WARNING: Duplicate language string ui_afternoon
-03:40:33 - WARNING: Duplicate language string ui_late_afternoon
-03:40:33 - WARNING: Duplicate language string ui_dusk
-03:40:33 - WARNING: Duplicate language string ui_evening
-03:40:33 - WARNING: Duplicate language string ui_level_limit_reached
-03:40:33 - WARNING: Duplicate language string ui_explanation_level_limit
-03:40:33 - WARNING: Duplicate language string ui_time_limit_reached
-03:40:33 - WARNING: Duplicate language string ui_explanation_time_limit
-03:40:33 - WARNING: Duplicate language string ui_target_lost
-03:40:33 - WARNING: Duplicate language string ui_waiting
-03:40:33 - WARNING: Duplicate language string ui_travelling_to
-03:40:33 - WARNING: Duplicate language string ui_following
-03:40:33 - WARNING: Duplicate language string ui_accompanying
-03:40:33 - WARNING: Duplicate language string ui_running_from
-03:40:33 - WARNING: Duplicate language string ui_patrolling
-03:40:33 - WARNING: Duplicate language string ui_patrolling_around
-03:40:33 - WARNING: Duplicate language string ui_holding
-03:40:33 - WARNING: Duplicate language string ui_travelling
-03:40:33 - WARNING: Duplicate language string ui_fighting_against
-03:40:33 - WARNING: Duplicate language string ui_speed_equals
-03:40:33 - WARNING: Duplicate language string ui_defenders
-03:40:33 - WARNING: Duplicate language string ui_prisoners
-03:40:33 - WARNING: Duplicate language string ui_1_hour
-03:40:33 - WARNING: Duplicate language string ui_n_hours
-03:40:33 - WARNING: Duplicate language string ui_between_hours
-03:40:33 - WARNING: Duplicate language string ui_combatants
-03:40:33 - WARNING: Duplicate language string ui_party_size
-03:40:33 - WARNING: Duplicate language string ui_party_size_between
-03:40:33 - WARNING: Duplicate language string ui_merchant
-03:40:33 - WARNING: Duplicate language string ui_return
-03:40:33 - WARNING: Duplicate language string ui_no_cost
-03:40:33 - WARNING: Duplicate language string ui_rename
-03:40:33 - WARNING: Duplicate language string ui_use
-03:40:33 - WARNING: Duplicate language string ui_destroy
-03:40:33 - WARNING: Duplicate language string ui_destructible_target
-03:40:33 - WARNING: Duplicate language string ui_tutorial_inventory
-03:40:33 - WARNING: Duplicate language string ui_head_armor
-03:40:33 - WARNING: Duplicate language string ui_body_armor
-03:40:33 - WARNING: Duplicate language string ui_leg_armor
-03:40:33 - WARNING: Duplicate language string ui_encumbrance
-03:40:33 - WARNING: Duplicate language string ui_you_dont_have_value
-03:40:33 - WARNING: Duplicate language string ui_merchant_cant_afford_value
-03:40:33 - WARNING: Duplicate language string ui_merchant_pay_whatever
-03:40:33 - WARNING: Duplicate language string ui_merchant_think_of_something_else
-03:40:33 - WARNING: Duplicate language string ui_dumping_value_items
-03:40:33 - WARNING: Duplicate language string ui_dumping_value_item
-03:40:33 - WARNING: Duplicate language string ui_question_slaughter_food_and_eat
-03:40:33 - WARNING: Duplicate language string ui_money_value
-03:40:33 - WARNING: Duplicate language string ui_dump
-03:40:33 - WARNING: Duplicate language string ui_outfit
-03:40:33 - WARNING: Duplicate language string ui_arms
-03:40:33 - WARNING: Duplicate language string ui_horse
-03:40:33 - WARNING: Duplicate language string ui_food
-03:40:33 - WARNING: Duplicate language string ui_reclaim_your_sold_goods
-03:40:33 - WARNING: Duplicate language string ui_return_your_bought_goods
-03:40:33 - WARNING: Duplicate language string ui_polearm_no_shield
-03:40:33 - WARNING: Duplicate language string ui_polearm
-03:40:33 - WARNING: Duplicate language string ui_two_handed
-03:40:33 - WARNING: Duplicate language string ui_two_handed_one_handed
-03:40:33 - WARNING: Duplicate language string ui_one_handed
-03:40:33 - WARNING: Duplicate language string ui_return_price
-03:40:33 - WARNING: Duplicate language string ui_sell_price
-03:40:33 - WARNING: Duplicate language string ui_reclaim_price
-03:40:33 - WARNING: Duplicate language string ui_buying_price
-03:40:33 - WARNING: Duplicate language string ui_default_item
-03:40:33 - WARNING: Duplicate language string ui_buying_price_free
-03:40:33 - WARNING: Duplicate language string ui_weight
-03:40:33 - WARNING: Duplicate language string ui_plus_value_to_head_armor
-03:40:33 - WARNING: Duplicate language string ui_plus_value_to_body_armor
-03:40:33 - WARNING: Duplicate language string ui_plus_value_to_leg_armor
-03:40:33 - WARNING: Duplicate language string ui_swing
-03:40:33 - WARNING: Duplicate language string ui_damage
-03:40:33 - WARNING: Duplicate language string ui_thrust
-03:40:33 - WARNING: Duplicate language string ui_accuracy
-03:40:33 - WARNING: Duplicate language string ui_speed_rating
-03:40:33 - WARNING: Duplicate language string ui_value_to_damage
-03:40:33 - WARNING: Duplicate language string ui_value_to_morale
-03:40:33 - WARNING: Duplicate language string ui_resistance
-03:40:33 - WARNING: Duplicate language string ui_size
-03:40:33 - WARNING: Duplicate language string ui_weapon_reach
-03:40:33 - WARNING: Duplicate language string ui_armor
-03:40:33 - WARNING: Duplicate language string ui_speed
-03:40:33 - WARNING: Duplicate language string ui_maneuver
-03:40:33 - WARNING: Duplicate language string ui_charge
-03:40:33 - WARNING: Duplicate language string ui_hit_points
-03:40:33 - WARNING: Duplicate language string ui_requires_value_difficulty
-03:40:33 - WARNING: Duplicate language string ui_bonus_against_shields
-03:40:33 - WARNING: Duplicate language string ui_cant_be_used_to_block
-03:40:33 - WARNING: Duplicate language string ui_troop_cant_use_item
-03:40:33 - WARNING: Duplicate language string ui_notification_riding_skill_not_enough
-03:40:33 - WARNING: Duplicate language string ui_notification_requirements_not_met
-03:40:33 - WARNING: Duplicate language string ui_notification_payment_value
-03:40:33 - WARNING: Duplicate language string ui_notification_payment_receive_value
-03:40:33 - WARNING: Duplicate language string ui_one_handed_weapons
-03:40:33 - WARNING: Duplicate language string ui_two_handed_weapons
-03:40:33 - WARNING: Duplicate language string ui_polearms
-03:40:33 - WARNING: Duplicate language string ui_archery
-03:40:33 - WARNING: Duplicate language string ui_crossbows
-03:40:33 - WARNING: Duplicate language string ui_throwing
-03:40:33 - WARNING: Duplicate language string ui_firearms
-03:40:33 - WARNING: Duplicate language string ui_reset
-03:40:33 - WARNING: Duplicate language string ui_release_one
-03:40:33 - WARNING: Duplicate language string ui_move_up
-03:40:33 - WARNING: Duplicate language string ui_move_down
-03:40:33 - WARNING: Duplicate language string ui_upgrade_one
-03:40:33 - WARNING: Duplicate language string ui_party_skills
-03:40:33 - WARNING: Duplicate language string ui_morale
-03:40:33 - WARNING: Duplicate language string ui_terrible
-03:40:33 - WARNING: Duplicate language string ui_very_low
-03:40:33 - WARNING: Duplicate language string ui_low
-03:40:33 - WARNING: Duplicate language string ui_below_average
-03:40:33 - WARNING: Duplicate language string ui_average
-03:40:33 - WARNING: Duplicate language string ui_above_average
-03:40:33 - WARNING: Duplicate language string ui_high
-03:40:33 - WARNING: Duplicate language string ui_very_high
-03:40:33 - WARNING: Duplicate language string ui_excellent
-03:40:33 - WARNING: Duplicate language string ui_starving
-03:40:33 - WARNING: Duplicate language string ui_weekly_cost_value
-03:40:33 - WARNING: Duplicate language string ui_company
-03:40:33 - WARNING: Duplicate language string ui_prisoners_equal_value
-03:40:33 - WARNING: Duplicate language string ui_choose_prisoners
-03:40:33 - WARNING: Duplicate language string ui_choose_companions
-03:40:33 - WARNING: Duplicate language string ui_rescued_prisoners
-03:40:33 - WARNING: Duplicate language string ui_captured_enemies
-03:40:33 - WARNING: Duplicate language string ui_disband
-03:40:33 - WARNING: Duplicate language string ui_take_prisoner
-03:40:33 - WARNING: Duplicate language string ui_take_back
-03:40:33 - WARNING: Duplicate language string ui_give
-03:40:33 - WARNING: Duplicate language string ui_take
-03:40:33 - WARNING: Duplicate language string ui_sell
-03:40:33 - WARNING: Duplicate language string ui_hire
-03:40:33 - WARNING: Duplicate language string ui_notification_cant_hire
-03:40:33 - WARNING: Duplicate language string ui_uncapture
-03:40:33 - WARNING: Duplicate language string ui_capture
-03:40:33 - WARNING: Duplicate language string ui_party_capcity_reached
-03:40:33 - WARNING: Duplicate language string ui_all
-03:40:33 - WARNING: Duplicate language string ui_joining_cost_weekly_wage
-03:40:33 - WARNING: Duplicate language string ui_weekly_wage
-03:40:33 - WARNING: Duplicate language string ui_price
-03:40:33 - WARNING: Duplicate language string ui_number_ready_to_upgrade
-03:40:33 - WARNING: Duplicate language string ui_upgrade_to_value
-03:40:33 - WARNING: Duplicate language string ui_notification_no_slot_for_upgrade
-03:40:33 - WARNING: Duplicate language string ui_shield_broken
-03:40:33 - WARNING: Duplicate language string ui_shield_cracked
-03:40:33 - WARNING: Duplicate language string ui_shield_deformed
-03:40:33 - WARNING: Duplicate language string ui_you_hit_a_friendly_troop
-03:40:33 - WARNING: Duplicate language string ui_hit_shield_on_back
-03:40:33 - WARNING: Duplicate language string ui_delivered_couched_lance_damage
-03:40:33 - WARNING: Duplicate language string ui_received_couched_lance_damage
-03:40:33 - WARNING: Duplicate language string ui_speed_bonus_plus
-03:40:33 - WARNING: Duplicate language string ui_speed_bonus
-03:40:33 - WARNING: Duplicate language string ui_cant_reload_this_weapon_on_horseback
-03:40:33 - WARNING: Duplicate language string ui_no_more_bolts
-03:40:33 - WARNING: Duplicate language string ui_you_are_not_carrying_any_bolts
-03:40:33 - WARNING: Duplicate language string ui_no_more_arrows
-03:40:33 - WARNING: Duplicate language string ui_you_are_not_carrying_any_arrows
-03:40:33 - WARNING: Duplicate language string ui_head_shot
-03:40:33 - WARNING: Duplicate language string ui_delivered_number_damage
-03:40:33 - WARNING: Duplicate language string ui_delivered_number_damage_to_horse
-03:40:33 - WARNING: Duplicate language string ui_horse_charged_for_number_damage
-03:40:33 - WARNING: Duplicate language string ui_received_number_damage
-03:40:33 - WARNING: Duplicate language string ui_horse_received_number_damage
-03:40:33 - WARNING: Duplicate language string ui_value_killed_teammate
-03:40:33 - WARNING: Duplicate language string ui_horse_fell_dead
-03:40:33 - WARNING: Duplicate language string ui_horse_crippled
-03:40:33 - WARNING: Duplicate language string ui_shot_difficulty
-03:40:33 - WARNING: Duplicate language string ui_you_have_improved_your_proficiency_in_value_to_number
-03:40:33 - WARNING: Duplicate language string ui_your_proficiency_in_value_has_improved_by_number_to_number
-03:40:33 - WARNING: Duplicate language string ui_value_killed_by_value
-03:40:33 - WARNING: Duplicate language string ui_value_fell_dead
-03:40:33 - WARNING: Duplicate language string ui_value_knocked_unconscious_by_value
-03:40:33 - WARNING: Duplicate language string ui_value_fell_unconscious
-03:40:33 - WARNING: Duplicate language string ui_troop_routed
-03:40:33 - WARNING: Duplicate language string ui_troop_panicked
-03:40:33 - WARNING: Duplicate language string ui_troop_fled
-03:40:33 - WARNING: Duplicate language string ui_you_got_number_experience
-03:40:33 - WARNING: Duplicate language string ui_you_have_advanced_to_level_number
-03:40:33 - WARNING: Duplicate language string ui_value_has_advanced_to_level_number
-03:40:33 - WARNING: Duplicate language string ui_you_got_value
-03:40:33 - WARNING: Duplicate language string ui_new_quest_taken
-03:40:33 - WARNING: Duplicate language string ui_quest_completed_value
-03:40:33 - WARNING: Duplicate language string ui_quest_succeeded_value
-03:40:33 - WARNING: Duplicate language string ui_quest_failed_value
-03:40:33 - WARNING: Duplicate language string ui_quest_concluded_value
-03:40:33 - WARNING: Duplicate language string ui_quest_cancelled_value
-03:40:33 - WARNING: Duplicate language string ui_lost_value
-03:40:33 - WARNING: Duplicate language string ui_items_lost
-03:40:33 - WARNING: Duplicate language string ui_party_has_nothing_to_eat
-03:40:33 - WARNING: Duplicate language string ui_days_training_is_complete
-03:40:33 - WARNING: Duplicate language string ui_total_experience_gained_through_training_number
-03:40:33 - WARNING: Duplicate language string ui_some_soldiers_are_ready_to_upgrade
-03:40:33 - WARNING: Duplicate language string ui_number_of_companions_exceeds_leadership_limit
-03:40:33 - WARNING: Duplicate language string ui_number_of_prisoners_exceeds_prisoner_management_limit
-03:40:33 - WARNING: Duplicate language string ui_party_morale_is_low
-03:40:33 - WARNING: Duplicate language string ui_and_one_space
-03:40:33 - WARNING: Duplicate language string ui_has_deserted_the_party
-03:40:33 - WARNING: Duplicate language string ui_have_deserted_the_party
-03:40:33 - WARNING: Duplicate language string ui_weekly_report
-03:40:33 - WARNING: Duplicate language string ui_shared_number_experience_within_party
-03:40:33 - WARNING: Duplicate language string ui_got_item_value
-03:40:33 - WARNING: Duplicate language string ui_game_saved_successfully
-03:40:33 - WARNING: Duplicate language string ui_autosaving
-03:40:33 - WARNING: Duplicate language string ui_quick_saving
-03:40:33 - WARNING: Duplicate language string ui_cant_quick_save
-03:40:33 - WARNING: Duplicate language string ui_screenshot_taken_to_value
-03:40:33 - WARNING: Duplicate language string ui_screenshot_failed
-03:40:33 - WARNING: Duplicate language string ui_value_joined_your_party
-03:40:33 - WARNING: Duplicate language string ui_value_joined_party_as_prisoner
-03:40:33 - WARNING: Duplicate language string ui_value_has_joined_party
-03:40:33 - WARNING: Duplicate language string ui_value_has_been_taken_prisoner
-03:40:33 - WARNING: Duplicate language string ui_value_left_the_party
-03:40:33 - WARNING: Duplicate language string ui_number_values_left_the_party
-03:40:33 - WARNING: Duplicate language string ui_number_value_left_the_party
-03:40:33 - WARNING: Duplicate language string ui_your_relations_with_value_has_improved_from_number_to_number
-03:40:33 - WARNING: Duplicate language string ui_your_relations_with_value_has_deteriorated_from_number_to_number
-03:40:33 - WARNING: Duplicate language string ui_you_lost_value
-03:40:33 - WARNING: Duplicate language string ui_lost_item_value
-03:40:33 - WARNING: Duplicate language string ui_got_number_value
-03:40:33 - WARNING: Duplicate language string ui_lost_number_value
-03:40:33 - WARNING: Duplicate language string ui_set_default_keys
-03:40:33 - WARNING: Duplicate language string ui_undo_changes
-03:40:33 - WARNING: Duplicate language string ui_press_a_key
-03:40:33 - WARNING: Duplicate language string ui_return_to_game
-03:40:33 - WARNING: Duplicate language string ui_options
-03:40:33 - WARNING: Duplicate language string ui_save_and_exit
-03:40:33 - WARNING: Duplicate language string ui_save
-03:40:33 - WARNING: Duplicate language string ui_save_as
-03:40:33 - WARNING: Duplicate language string ui_quit_without_saving
-03:40:33 - WARNING: Duplicate language string ui_empty_slot
-03:40:33 - WARNING: Duplicate language string ui_game_saved
-03:40:33 - WARNING: Duplicate language string ui_confirm_overwrite
-03:40:33 - WARNING: Duplicate language string ui_dynamic_lighting
-03:40:33 - WARNING: Duplicate language string ui_character_shadows
-03:40:33 - WARNING: Duplicate language string ui_grass_density
-03:40:33 - WARNING: Duplicate language string ui_environment_shadows
-03:40:33 - WARNING: Duplicate language string ui_realistic_shadows_on_plants
-03:40:33 - WARNING: Duplicate language string ui_particle_systems
-03:40:33 - WARNING: Duplicate language string ui_gamma
-03:40:33 - WARNING: Duplicate language string ui_character_detail
-03:40:33 - WARNING: Duplicate language string ui_character_shadow_detail
-03:40:33 - WARNING: Duplicate language string ui_blood_stains
-03:40:33 - WARNING: Duplicate language string ui_on
-03:40:33 - WARNING: Duplicate language string ui_off
-03:40:33 - WARNING: Duplicate language string ui_near_player_only
-03:40:33 - WARNING: Duplicate language string ui_default
-03:40:33 - WARNING: Duplicate language string ui_3d_grass
-03:40:33 - WARNING: Duplicate language string ui_number_of_ragdolls
-03:40:33 - WARNING: Duplicate language string ui_number_of_corpses
-03:40:33 - WARNING: Duplicate language string ui_unlimited
-03:40:33 - WARNING: Duplicate language string ui_anisotropic_filtering
-03:40:33 - WARNING: Duplicate language string ui_fast_water_reflection
-03:40:33 - WARNING: Duplicate language string ui_maximum_framerate
-03:40:33 - WARNING: Duplicate language string ui_show_framerate
-03:40:33 - WARNING: Duplicate language string ui_estimated_performance
-03:40:33 - WARNING: Duplicate language string ui_change_graphics_settings_explanation
-03:40:33 - WARNING: Duplicate language string ui_start_tutorial
-03:40:33 - WARNING: Duplicate language string ui_start_a_new_game
-03:40:33 - WARNING: Duplicate language string ui_restore_a_saved_game
-03:40:33 - WARNING: Duplicate language string ui_exit_to_windows
-03:40:33 - WARNING: Duplicate language string ui_credits
-03:40:33 - WARNING: Duplicate language string ui_version_value
-03:40:33 - WARNING: Duplicate language string ui_active_quests
-03:40:33 - WARNING: Duplicate language string ui_finished_quests
-03:40:33 - WARNING: Duplicate language string ui_given_on_date
-03:40:33 - WARNING: Duplicate language string ui_days_since_given
-03:40:33 - WARNING: Duplicate language string ui_quest_progression_number
-03:40:33 - WARNING: Duplicate language string ui_too_many_quests
-03:40:33 - WARNING: Duplicate language string ui_ok
-03:40:33 - WARNING: Duplicate language string ui_move_forward
-03:40:33 - WARNING: Duplicate language string ui_move_backward
-03:40:33 - WARNING: Duplicate language string ui_move_left
-03:40:33 - WARNING: Duplicate language string ui_move_right
-03:40:33 - WARNING: Duplicate language string ui_action
-03:40:33 - WARNING: Duplicate language string ui_jump
-03:40:33 - WARNING: Duplicate language string ui_attack
-03:40:33 - WARNING: Duplicate language string ui_parry_then_attack
-03:40:33 - WARNING: Duplicate language string ui_defend
-03:40:33 - WARNING: Duplicate language string ui_kick
-03:40:33 - WARNING: Duplicate language string ui_equip_weapon_1
-03:40:33 - WARNING: Duplicate language string ui_equip_weapon_2
-03:40:33 - WARNING: Duplicate language string ui_equip_weapon_3
-03:40:33 - WARNING: Duplicate language string ui_equip_weapon_4
-03:40:33 - WARNING: Duplicate language string ui_equip_next_weapon
-03:40:33 - WARNING: Duplicate language string ui_equip_next_shield
-03:40:33 - WARNING: Duplicate language string ui_sheath_weapon
-03:40:33 - WARNING: Duplicate language string ui_character_window
-03:40:33 - WARNING: Duplicate language string ui_inventory_window
-03:40:33 - WARNING: Duplicate language string ui_party_window
-03:40:33 - WARNING: Duplicate language string ui_quests_window
-03:40:33 - WARNING: Duplicate language string ui_game_log_window
-03:40:33 - WARNING: Duplicate language string ui_leave_location_retreat
-03:40:33 - WARNING: Duplicate language string ui_zoom
-03:40:33 - WARNING: Duplicate language string ui_view_outfit
-03:40:33 - WARNING: Duplicate language string ui_toggle_first_person_view
-03:40:33 - WARNING: Duplicate language string ui_view_orders
-03:40:33 - WARNING: Duplicate language string ui_quick_save
-03:40:33 - WARNING: Duplicate language string ui_no_key_assigned
-03:40:33 - WARNING: Duplicate language string ui_new_enemies_have_arrived
-03:40:33 - WARNING: Duplicate language string ui_reinforcements_have_arrived
-03:40:33 - WARNING: Duplicate language string ui_report_casualties
-03:40:33 - WARNING: Duplicate language string ui_report_experience
-03:40:33 - WARNING: Duplicate language string ui_current_level_value
-03:40:33 - WARNING: Duplicate language string ui_base_attribute_value
-03:40:33 - WARNING: Duplicate language string ui_battle_controls
-03:40:33 - WARNING: Duplicate language string ui_map_controls
-03:40:33 - WARNING: Duplicate language string ui_general_controls
-03:40:33 - WARNING: Duplicate language string ui_zoom_in
-03:40:33 - WARNING: Duplicate language string ui_zoom_out
-03:40:33 - WARNING: Duplicate language string ui_wait
-03:40:33 - WARNING: Duplicate language string ui_take_screenshot
-03:40:33 - WARNING: Duplicate language string ui_randomize
-03:40:33 - WARNING: Duplicate language string ui_hint
-03:40:33 - WARNING: Duplicate language string ui_press_left_mouse_button_to_continue
-03:40:33 - WARNING: Duplicate language string ui_loot
-03:40:33 - WARNING: Duplicate language string ui_cut_short
-03:40:33 - WARNING: Duplicate language string ui_pierce_short
-03:40:33 - WARNING: Duplicate language string ui_blunt_short
-03:40:33 - WARNING: Duplicate language string ui_battle
-03:40:33 - WARNING: Duplicate language string ui_siege
-03:40:33 - WARNING: Duplicate language string ui_troops
-03:40:33 - WARNING: Duplicate language string ui_loading_module_info_file
-03:40:33 - WARNING: Duplicate language string ui_processing_ini_file
-03:40:33 - WARNING: Duplicate language string ui_loading_music
-03:40:33 - WARNING: Duplicate language string ui_loading_data
-03:40:33 - WARNING: Duplicate language string ui_loading_setting_data
-03:40:33 - WARNING: Duplicate language string ui_loading_textures
-03:40:33 - WARNING: Duplicate language string ui_finished
-03:40:33 - WARNING: Duplicate language string ui_creating_game
-03:40:33 - WARNING: Duplicate language string ui_loading_savegame_file
-03:40:33 - WARNING: Duplicate language string ui_loading_map_file
-03:40:33 - WARNING: Duplicate language string ui_initializing_map
-03:40:33 - WARNING: Duplicate language string ui_launching_game
-03:40:33 - WARNING: Duplicate language string ui_capital_battle
-03:40:33 - WARNING: Duplicate language string ui_capital_versus
-03:40:33 - WARNING: Duplicate language string ui_tracks
-03:40:33 - WARNING: Duplicate language string ui_battleground
-03:40:33 - WARNING: Duplicate language string ui_order_1
-03:40:33 - WARNING: Duplicate language string ui_order_2
-03:40:33 - WARNING: Duplicate language string ui_order_3
-03:40:33 - WARNING: Duplicate language string ui_order_4
-03:40:33 - WARNING: Duplicate language string ui_order_5
-03:40:33 - WARNING: Duplicate language string ui_order_6
-03:40:33 - WARNING: Duplicate language string ui_order_button_hold_this_position
-03:40:33 - WARNING: Duplicate language string ui_order_button_follow_me
-03:40:33 - WARNING: Duplicate language string ui_order_button_charge
-03:40:33 - WARNING: Duplicate language string ui_order_button_stand_ground
-03:40:33 - WARNING: Duplicate language string ui_order_button_retreat
-03:40:33 - WARNING: Duplicate language string ui_order_button_advance
-03:40:33 - WARNING: Duplicate language string ui_order_button_fall_back
-03:40:33 - WARNING: Duplicate language string ui_order_button_spread_out
-03:40:33 - WARNING: Duplicate language string ui_order_button_stand_closer
-03:40:33 - WARNING: Duplicate language string ui_order_button_mount_horses
-03:40:33 - WARNING: Duplicate language string ui_order_button_dismount
-03:40:33 - WARNING: Duplicate language string ui_order_button_hold_fire
-03:40:33 - WARNING: Duplicate language string ui_order_button_fire_at_will
-03:40:33 - WARNING: Duplicate language string ui_order_button_use_blunt_weapons
-03:40:33 - WARNING: Duplicate language string ui_order_button_use_any_weapon
-03:40:33 - WARNING: Duplicate language string ui_order_button_movement_orders
-03:40:33 - WARNING: Duplicate language string ui_order_button_formation_orders
-03:40:33 - WARNING: Duplicate language string ui_order_button_fire_orders
-03:40:33 - WARNING: Duplicate language string ui_follow_me_e_
-03:40:33 - WARNING: Duplicate language string ui_charge_e_
-03:40:33 - WARNING: Duplicate language string ui_stand_ground_e_
-03:40:33 - WARNING: Duplicate language string ui_retreat_e_
-03:40:33 - WARNING: Duplicate language string ui_mount_horses_e_
-03:40:33 - WARNING: Duplicate language string ui_dismount_e_
-03:40:33 - WARNING: Duplicate language string ui_advance_e_
-03:40:33 - WARNING: Duplicate language string ui_fall_back_e_
-03:40:33 - WARNING: Duplicate language string ui_stand_closer_e_
-03:40:33 - WARNING: Duplicate language string ui_spread_out_e_
-03:40:33 - WARNING: Duplicate language string ui_use_blunt_weapons_e_
-03:40:33 - WARNING: Duplicate language string ui_use_any_weapon_e_
-03:40:33 - WARNING: Duplicate language string ui_hold_fire_e_
-03:40:33 - WARNING: Duplicate language string ui_fire_at_will_e_
-03:40:33 - WARNING: Duplicate language string ui_hold_this_position_e_
-03:40:33 - WARNING: Duplicate language string ui_infantry
-03:40:33 - WARNING: Duplicate language string ui_archers
-03:40:33 - WARNING: Duplicate language string ui_cavalry
-03:40:33 - WARNING: Duplicate language string ui_companions
-03:40:33 - WARNING: Duplicate language string ui_everyone_hear_me
-03:40:33 - WARNING: Duplicate language string ui_everyone
-03:40:33 - WARNING: Duplicate language string ui_everyone_around_me
-03:40:33 - WARNING: Duplicate language string ui_str_hear_me
-03:40:33 - WARNING: Duplicate language string ui_str_and_str
-03:40:33 - WARNING: Duplicate language string ui_str_comma_str
-03:40:33 - WARNING: Duplicate language string ui_need_to_learn_prisoner_management
-03:40:33 - WARNING: Duplicate language string ui_game_log
-03:40:33 - WARNING: Duplicate language string ui_recent_messages
-03:40:33 - WARNING: Duplicate language string ui_custom_battle
-03:40:33 - WARNING: Duplicate language string ui_player
-03:40:33 - WARNING: Duplicate language string ui_value_denars
-03:40:33 - WARNING: Duplicate language string ui_back
-03:40:33 - WARNING: Duplicate language string ui_forward
-03:40:33 - WARNING: Duplicate language string ui_display_on_map
-03:40:33 - WARNING: Duplicate language string ui_info_pages
-03:40:33 - WARNING: Duplicate language string ui_troops2
-03:40:33 - WARNING: Duplicate language string ui_locations
-03:40:33 - WARNING: Duplicate language string ui_click_button_to_view_note
-03:40:33 - WARNING: Duplicate language string ui_this_page_contains_no_information
-03:40:33 - WARNING: Duplicate language string ui_other_pages_that_link_here
-03:40:33 - WARNING: Duplicate language string ui_report_is_value_days_old
-03:40:33 - WARNING: Duplicate language string ui_report_is_current
-03:40:33 - WARNING: Duplicate language string ui_button_party_member_healthy_total
-03:40:33 - WARNING: Duplicate language string ui_button_party_member_total
-03:40:33 - WARNING: Duplicate language string ui_button_party_member_hero_percentage_wounded
-03:40:33 - WARNING: Duplicate language string ui_button_party_member_hero_percentage
-03:40:33 - WARNING: Duplicate language string ui_percentage_value
-03:40:33 - WARNING: Duplicate language string ui_full
-03:40:33 - WARNING: Duplicate language string ui_quick
-03:40:33 - WARNING: Duplicate language string ui_none
-03:40:33 - WARNING: Duplicate language string ui_change
-03:40:33 - WARNING: Duplicate language string ui_how_to_change
-03:40:33 - WARNING: Duplicate language string ui_change_directx_explanation
-03:40:33 - WARNING: Duplicate language string ui_dropping_picking_up
-03:40:33 - WARNING: Duplicate language string ui_dropping
-03:40:33 - WARNING: Duplicate language string ui_picking_up
-03:40:33 - WARNING: Duplicate language string ui_unable_to_take
-03:40:33 - WARNING: Duplicate language string ui_age
-03:40:33 - WARNING: Duplicate language string ui_cannot_be_used_on_horseback
-03:40:33 - WARNING: Duplicate language string ui_enable_vertex_shaders2
-03:40:33 - WARNING: Duplicate language string ui_screen_size2
-03:40:33 - WARNING: Duplicate language string ui_use_desktop_resolution2
-03:40:33 - WARNING: Duplicate language string ui_shadow_quality2
-03:40:33 - WARNING: Duplicate language string ui_m_low2
-03:40:33 - WARNING: Duplicate language string ui_m_high2
-03:40:33 - WARNING: Duplicate language string ui_m_ultra_high2
-03:40:33 - WARNING: Duplicate language string ui_off2
-03:40:33 - WARNING: Duplicate language string ui_group_header
-03:40:33 - WARNING: Duplicate language string ui_group_1
-03:40:33 - WARNING: Duplicate language string ui_group_2
-03:40:33 - WARNING: Duplicate language string ui_group_3
-03:40:33 - WARNING: Duplicate language string ui_group_4
-03:40:33 - WARNING: Duplicate language string ui_group_5
-03:40:33 - WARNING: Duplicate language string ui_group_6
-03:40:33 - WARNING: Duplicate language string ui_group_7
-03:40:33 - WARNING: Duplicate language string ui_group_8
-03:40:33 - WARNING: Duplicate language string ui_group_9
-03:40:33 - WARNING: Duplicate language string ui_group_close
-03:40:33 - WARNING: Duplicate language string ui_party_b_group_information
-03:40:33 - WARNING: Duplicate language string ui_thrown_or_s
-03:40:33 - WARNING: Duplicate language string ui_ranged_damage
-03:40:33 - WARNING: Duplicate language string ui_overall_quality
-03:40:33 - WARNING: Duplicate language string ui_shader_quality
-03:40:33 - WARNING: Duplicate language string ui_flora_lod_detail
-03:40:33 - WARNING: Duplicate language string ui_flora_degrade_distance
-03:40:33 - WARNING: Duplicate language string ui_antialiasing
-03:40:33 - WARNING: Duplicate language string ui_use_depth_effects
-03:40:33 - WARNING: Duplicate language string ui_hdr_mode
-03:40:33 - WARNING: Duplicate language string ui_autoexpore
-03:40:33 - WARNING: Duplicate language string ui_choose_profile
-03:40:33 - WARNING: Duplicate language string ui_create
-03:40:33 - WARNING: Duplicate language string ui_edit
-03:40:33 - WARNING: Duplicate language string ui_join_game
-03:40:33 - WARNING: Duplicate language string ui_host_game
-03:40:33 - WARNING: Duplicate language string ui_custom
-03:40:33 - WARNING: Duplicate language string ui_medium
-03:40:33 - WARNING: Duplicate language string ui_male
-03:40:33 - WARNING: Duplicate language string ui_female
-03:40:33 - WARNING: Duplicate language string ui_gender
-03:40:33 - WARNING: Duplicate language string ui_edit_profile
-03:40:33 - WARNING: Duplicate language string ui_new_profile
-03:40:33 - WARNING: Duplicate language string ui_enter_username
-03:40:33 - WARNING: Duplicate language string ui_invalid_username
-03:40:33 - WARNING: Duplicate language string ui_confirmation
-03:40:33 - WARNING: Duplicate language string ui_multiplayer
-03:40:33 - WARNING: Duplicate language string ui_server_name
-03:40:33 - WARNING: Duplicate language string ui_module_name
-03:40:33 - WARNING: Duplicate language string ui_game_type
-03:40:33 - WARNING: Duplicate language string ui_map_name
-03:40:33 - WARNING: Duplicate language string ui_ping
-03:40:33 - WARNING: Duplicate language string ui_dedicated
-03:40:33 - WARNING: Duplicate language string ui_number_of_players
-03:40:33 - WARNING: Duplicate language string ui_password_protected
-03:40:33 - WARNING: Duplicate language string ui_connect
-03:40:33 - WARNING: Duplicate language string ui_local_area_network
-03:40:33 - WARNING: Duplicate language string ui_internet
-03:40:33 - WARNING: Duplicate language string ui_favorites
-03:40:33 - WARNING: Duplicate language string ui_source
-03:40:33 - WARNING: Duplicate language string ui_server_password
-03:40:33 - WARNING: Duplicate language string ui_refresh
-03:40:33 - WARNING: Duplicate language string ui_start_search
-03:40:33 - WARNING: Duplicate language string ui_add_to_favorites
-03:40:33 - WARNING: Duplicate language string ui_remove_from_favorites
-03:40:33 - WARNING: Duplicate language string ui_use_speedtree
-03:40:33 - WARNING: Duplicate language string ui_use_instancing
-03:40:33 - WARNING: Duplicate language string ui_error
-03:40:33 - WARNING: Duplicate language string ui_error_server_full
-03:40:33 - WARNING: Duplicate language string ui_error_server_full_for_non_private
-03:40:33 - WARNING: Duplicate language string ui_error_server_password_incorrect
-03:40:33 - WARNING: Duplicate language string ui_error_incorrect_serial
-03:40:33 - WARNING: Duplicate language string ui_error_incorrect_authorization_key
-03:40:33 - WARNING: Duplicate language string ui_error_banned_from_server
-03:40:33 - WARNING: Duplicate language string ui_error_username_taken
-03:40:33 - WARNING: Duplicate language string ui_error_authentication_failed
-03:40:33 - WARNING: Duplicate language string ui_unable_to_connect_to_server
-03:40:33 - WARNING: Duplicate language string ui_connection_to_server_is_lost
-03:40:33 - WARNING: Duplicate language string ui_kicked_from_server
-03:40:33 - WARNING: Duplicate language string ui_switch_to_module_question
-03:40:33 - WARNING: Duplicate language string ui_download_module_question
-03:40:33 - WARNING: Duplicate language string ui_download_mb_new_version_question
-03:40:33 - WARNING: Duplicate language string ui_download_mb_old_version_question
-03:40:33 - WARNING: Duplicate language string ui_download_module_new_version_question
-03:40:33 - WARNING: Duplicate language string ui_download_module_old_version_question
-03:40:33 - WARNING: Duplicate language string ui_authenticating_with_steam
-03:40:33 - WARNING: Duplicate language string ui_validating_serial_number
-03:40:33 - WARNING: Duplicate language string ui_scanning_lan
-03:40:33 - WARNING: Duplicate language string ui_retrieving_servers
-03:40:33 - WARNING: Duplicate language string ui_shield_size2
-03:40:33 - WARNING: Duplicate language string ui_click_to_view_notes
-03:40:33 - WARNING: Duplicate language string ui_retrieving_server_infos
-03:40:33 - WARNING: Duplicate language string ui_connecting_to_server
-03:40:33 - WARNING: Duplicate language string ui_requesting_to_join_the_game
-03:40:33 - WARNING: Duplicate language string ui_loading
-03:40:33 - WARNING: Duplicate language string ui_group_value_control
-03:40:33 - WARNING: Duplicate language string ui_drop_weapon
-03:40:33 - WARNING: Duplicate language string ui_multiplayer_message_all
-03:40:33 - WARNING: Duplicate language string ui_multiplayer_message_team
-03:40:33 - WARNING: Duplicate language string ui_command_line
-03:40:33 - WARNING: Duplicate language string ui_use_ranged_weapon_as_melee
-03:40:33 - WARNING: Duplicate language string ui_send_message_all
-03:40:33 - WARNING: Duplicate language string ui_send_message_team
-03:40:33 - WARNING: Duplicate language string ui_select
-03:40:33 - WARNING: Duplicate language string ui_context_menu
-03:40:33 - WARNING: Duplicate language string ui_round_starts_in_value_seconds
-03:40:33 - WARNING: Duplicate language string ui_watching_value
-03:40:33 - WARNING: Duplicate language string ui_capital_spec
-03:40:33 - WARNING: Duplicate language string ui_capital_dead
-03:40:33 - WARNING: Duplicate language string ui_instancing_error1
-03:40:33 - WARNING: Duplicate language string ui_instancing_error2
-03:40:33 - WARNING: Duplicate language string ui_by_keyboard
-03:40:33 - WARNING: Duplicate language string ui_combat_speed_slowest
-03:40:33 - WARNING: Duplicate language string ui_combat_speed_slower
-03:40:33 - WARNING: Duplicate language string ui_combat_speed_normal
-03:40:33 - WARNING: Duplicate language string ui_combat_speed_faster
-03:40:33 - WARNING: Duplicate language string ui_combat_speed_fastest
-03:40:33 - WARNING: Duplicate language string ui_module_newer_than_application
-03:40:33 - WARNING: Duplicate language string ui_module_older_than_application
-03:40:33 - WARNING: Duplicate language string ui_unbalanced
-03:40:33 - WARNING: Duplicate language string ui_can_crush_through_blocks
-03:40:33 - WARNING: Duplicate language string ui_turn_camera_with_horse
-03:40:33 - WARNING: Duplicate language string ui_widescreen_mode_on
-03:40:33 - WARNING: Duplicate language string ui_widescreen_mode_off
-03:40:33 - WARNING: Duplicate language string ui_notification_cant_upgrade
-03:40:33 - WARNING: Duplicate language string ui_turn_never
-03:40:33 - WARNING: Duplicate language string ui_turn_ranged_only
-03:40:33 - WARNING: Duplicate language string ui_turn_melee_only
-03:40:33 - WARNING: Duplicate language string ui_turn_always
-03:40:33 - WARNING: Duplicate language string ui_general_options
-03:40:33 - WARNING: Duplicate language string ui_vac_enabled
-03:40:33 - WARNING: Duplicate language string ui_campaign_ai
-03:40:33 - WARNING: Duplicate language string ui_downloading_map
-03:40:33 - WARNING: Duplicate language string ui_download_completed
-03:40:33 - WARNING: Duplicate language string ui_server_filter
-03:40:33 - WARNING: Duplicate language string ui_has_players
-03:40:33 - WARNING: Duplicate language string ui_is_not_full
-03:40:33 - WARNING: Duplicate language string ui_is_password_free
-03:40:33 - WARNING: Duplicate language string ui_native_only
-03:40:33 - WARNING: Duplicate language string ui_ping_limit
-03:40:33 - WARNING: Duplicate language string ui_filter_info
-03:40:33 - WARNING: Duplicate language string ui_is_version_compatible
-03:40:33 - WARNING: Duplicate language string ui_ttnet_account
-03:40:33 - WARNING: Duplicate language string ui_username
-03:40:33 - WARNING: Duplicate language string ui_password
-03:40:33 - WARNING: Duplicate language string ui_error_incorrect_username_or_password
-03:40:33 - WARNING: Duplicate language string ui_validating_account
-03:40:33 - WARNING: Duplicate language string ui_plase_enter_your_serial_key
-03:40:33 - WARNING: Duplicate language string ui_texture_detail2
-03:40:33 - WARNING: Duplicate language string ui_antialiasing2
-03:40:33 - WARNING: Duplicate language string ui_texture_detail
-03:40:33 - WARNING: Duplicate language string ui_max_frame_rate
-03:40:33 - WARNING: Duplicate language string ui_enable_bumpmap
-03:40:33 - WARNING: Duplicate language string ui_disable_blood
-03:40:33 - WARNING: Duplicate language string ui_disable_music
-03:40:33 - WARNING: Duplicate language string ui_disable_sound
-03:40:33 - WARNING: Duplicate language string ui_enable_cheats
-03:40:33 - WARNING: Duplicate language string ui_enable_edit_mode
-03:40:33 - WARNING: Duplicate language string ui_enable_pixel_shaders
-03:40:33 - WARNING: Duplicate language string ui_enable_sound_variation
-03:40:33 - WARNING: Duplicate language string ui_enable_vertex_shaders
-03:40:33 - WARNING: Duplicate language string ui_shadow_quality
-03:40:33 - WARNING: Duplicate language string ui_directx_7
-03:40:33 - WARNING: Duplicate language string ui_directx_9
-03:40:33 - WARNING: Duplicate language string ui_start_windowed
-03:40:33 - WARNING: Duplicate language string ui_trialmode_caption
-03:40:33 - WARNING: Duplicate language string ui_trialmode
-03:40:33 - WARNING: Duplicate language string ui_launch_buy
-03:40:33 - WARNING: Duplicate language string ui_launch_faq
-03:40:33 - WARNING: Duplicate language string ui_trialmode2
-03:40:33 - WARNING: Duplicate language string ui_trialmode3
-03:40:33 - WARNING: Duplicate language string ui_trialmode4
-03:40:33 - WARNING: Duplicate language string ui_serial_key_caption
-03:40:33 - WARNING: Duplicate language string ui_notification_serial_input
-03:40:33 - WARNING: Duplicate language string ui_activate
-03:40:33 - WARNING: Duplicate language string ui_paste
-03:40:33 - WARNING: Duplicate language string ui_notification_serial_internet_connection
-03:40:33 - WARNING: Duplicate language string ui_notification_serial_offline
-03:40:33 - WARNING: Duplicate language string ui_manual_activation
-03:40:33 - WARNING: Duplicate language string ui_offline_activation
-03:40:33 - WARNING: Duplicate language string ui_manual_activation_caption
-03:40:33 - WARNING: Duplicate language string ui_offline_activation_caption
-03:40:33 - WARNING: Duplicate language string ui_cancel2
-03:40:33 - WARNING: Duplicate language string ui_close
-03:40:33 - WARNING: Duplicate language string ui_ok2
-03:40:33 - WARNING: Duplicate language string ui_activation_successful
-03:40:33 - WARNING: Duplicate language string ui_activation_successful2
-03:40:33 - WARNING: Duplicate language string ui_activation_denied
-03:40:33 - WARNING: Duplicate language string ui_notification_serial_already_used
-03:40:33 - WARNING: Duplicate language string ui_notification_unable_to_connect_to_activation_server
-03:40:33 - WARNING: Duplicate language string ui_notification_unable_to_connect_to_activation_server2
-03:40:33 - WARNING: Duplicate language string ui_incorrect_serial_number
-03:40:33 - WARNING: Duplicate language string ui_incorrect_hardware_hash
-03:40:33 - WARNING: Duplicate language string ui_incorrect_activation_code
-03:40:33 - WARNING: Duplicate language string ui_cant_write_to_registry
-03:40:33 - WARNING: Duplicate language string ui_video
-03:40:33 - WARNING: Duplicate language string ui_audio
-03:40:33 - WARNING: Duplicate language string ui_game
-03:40:33 - WARNING: Duplicate language string ui_advanced
-03:40:33 - WARNING: Duplicate language string ui_mount_and_blade_is_ready
-03:40:33 - WARNING: Duplicate language string ui_notification_trial_mode
-03:40:33 - WARNING: Duplicate language string ui_there_are_no_modules_installed
-03:40:33 - WARNING: Duplicate language string ui_notification_new_version
-03:40:33 - WARNING: Duplicate language string ui_new_version_found
-03:40:33 - WARNING: Duplicate language string ui_notification_unable_to_retreive_new_version
-03:40:33 - WARNING: Duplicate language string ui_new_version
-03:40:33 - WARNING: Duplicate language string ui_notification_latest_version
-03:40:33 - WARNING: Duplicate language string ui_mount_and_blade_is_up_to_date
-03:40:33 - WARNING: Duplicate language string ui_continue_playing_the_trial_mode
-03:40:33 - WARNING: Duplicate language string ui_faq_caption
-03:40:33 - WARNING: Duplicate language string ui_faq_text
-03:40:33 - WARNING: Duplicate language string ui_auto_adjust
-03:40:33 - WARNING: Duplicate language string ui_screen_size
-03:40:33 - WARNING: Duplicate language string ui_use_desktop_resolution
-03:40:33 - WARNING: Duplicate language string ui_play
-03:40:33 - WARNING: Duplicate language string ui_check_for_new_version
-03:40:33 - WARNING: Duplicate language string ui_configure
-03:40:33 - WARNING: Duplicate language string ui_configure_caption
-03:40:33 - WARNING: Duplicate language string ui_mountandblade_website
-03:40:33 - WARNING: Duplicate language string ui_current_setting
-03:40:33 - WARNING: Duplicate language string ui_manual_activation_text1
-03:40:33 - WARNING: Duplicate language string ui_manual_activation_text2
-03:40:33 - WARNING: Duplicate language string ui_manual_activation_text3
-03:40:33 - WARNING: Duplicate language string ui_manual_activation_text4
-03:40:33 - WARNING: Duplicate language string ui_activation_code
-03:40:33 - WARNING: Duplicate language string ui_force_vsync
-03:40:33 - WARNING: Duplicate language string ui_m_low
-03:40:33 - WARNING: Duplicate language string ui_m_high
-03:40:33 - WARNING: Duplicate language string ui_m_ultra_high
-03:40:33 - WARNING: Duplicate language string ui_force_single_threading
-03:40:33 - WARNING: Duplicate language string ui_not_enough_memory
-03:40:33 - WARNING: Duplicate language string ui_install
-03:40:33 - WARNING: Duplicate language string DirectXText
-03:40:33 - WARNING: Duplicate language string NoMountAndBladeText
-03:40:33 - WARNING: Duplicate language string ui_SavegamesText
-03:40:33 - WARNING: Duplicate language string ui_trialmode_online
-03:40:33 - WARNING: Duplicate language string ui_launch_activate
-03:40:33 - WARNING: Duplicate language string ui_trialmode2_online
-03:40:33 - WARNING: Duplicate language string ui_trialmode3_online
-03:40:33 - WARNING: Duplicate language string ui_trialmode4_online
-03:40:33 - WARNING: Duplicate language string ui_ondemand_textures
-03:40:33 - WARNING: Duplicate language string ui_language
-03:40:33 - WARNING: Duplicate language string ui_steam_not_running
-03:40:33 - WARNING: Duplicate language string ui_switch_to_turkish_explanation
-03:40:33 - WARNING: Duplicate language string ui_switch_to_turkish_yes
-03:40:33 - WARNING: Duplicate language string ui_switch_to_turkish_no
-03:40:33 - WARNING: Duplicate language string ui_new_version_message
-03:40:33 - WARNING: Duplicate language string ui_enable_version_check
-03:40:33 - WARNING: Duplicate language string ui_disable
-03:40:33 - WARNING: Duplicate language string ui_yes2
-03:40:33 - WARNING: Duplicate language string ui_no2
-03:40:33 - WARNING: Duplicate language string ui_new_version_message2
-03:40:33 - Loading language files...
-03:40:33 - Initializing resource manager...
-03:40:33 - Initializing network manager...
-03:40:33 - Initializing task pool...
-03:40:33 - Initializing sound...
-03:40:33 - Initializing physics...
-03:40:33 - Initializing mission...
-03:40:33 - Loading resource blacklist...
-03:40:33 - Loading core resources...
-03:40:33 - Loading resource test
-03:40:33 - Loading resource textures_face_gen
-03:40:33 - Loading resource shaders
-03:40:33 - Loading resource textures
-03:40:33 - Loading resource ccoop_extra_ui_textures
-03:40:33 - Loading resource materials
-03:40:33 - Loading resource materials_face_gen
-03:40:33 - Loading resource ccoop_extra_ui_materials
-03:40:33 - Loading resource uimeshes
-03:40:33 - Loading resource meshes_face_gen
-03:40:33 - Loading resource helpers
-03:40:33 - Loading resource map_tree_meshes
-03:40:33 - Loading resource map_icon_meshes
-03:40:33 - Loading resource particle_meshes
-03:40:33 - Loading resource skeletons
-03:40:33 - Loading resource tree_meshes
-03:40:33 - Loading resource xtree_meshes
-03:40:33 - Loading resource grass_meshes
-03:40:33 - Loading resource plant_meshes
-03:40:33 - Loading resource body_meshes
-03:40:33 - Loading resource object_meshes
-03:40:33 - Loading resource object_bodies
-03:40:33 - Loading resource goods_meshes
-03:40:33 - Loading resource item_meshes1
-03:40:33 - Loading resource horse_a
-03:40:33 - Loading resource arabian_horses
-03:40:33 - Loading resource arabian_castle
-03:40:33 - Loading resource food
-03:40:33 - Loading resource beards
-03:40:33 - Loading resource armors_b
-03:40:33 - Loading resource armors_c
-03:40:33 - Loading resource armors_d
-03:40:33 - Loading resource armors_e
-03:40:33 - Loading resource armors_f
-03:40:33 - Loading resource armors_g
-03:40:33 - Loading resource armors_h
-03:40:33 - Loading resource armors_i
-03:40:33 - Loading resource boots_b
-03:40:33 - Loading resource boots_c
-03:40:33 - Loading resource helmets
-03:40:33 - Loading resource helmets_b
-03:40:33 - Loading resource village_houses
-03:40:33 - Loading resource village_houses_a
-03:40:33 - Loading resource village_houses_b
-03:40:33 - Loading resource hair
-03:40:33 - Loading resource deneme
-03:40:33 - Loading resource interiors_a
-03:40:33 - Loading resource interiors_b
-03:40:33 - Loading resource interiors_c
-03:40:33 - Loading resource arena
-03:40:33 - Loading resource map_icons_b
-03:40:33 - Loading resource castle_a
-03:40:33 - Loading resource dungeon
-03:40:33 - Loading resource stone_houses
-03:40:33 - Loading resource snowy_houses
-03:40:33 - Loading resource snowy_castle
-03:40:33 - Loading resource helmets_d
-03:40:33 - Loading resource helmets_e
-03:40:33 - Loading resource helmets_f
-03:40:33 - Loading resource castle_b
-03:40:33 - Loading resource square_keep
-03:40:33 - Loading resource anim_b
-03:40:33 - Loading resource shields
-03:40:33 - Loading resource shields_b
-03:40:33 - Loading resource weapon_meshes_c
-03:40:33 - Loading resource xtree_meshes_b
-03:40:33 - Loading resource map_icons_c
-03:40:33 - Loading resource pictures
-03:40:33 - Loading resource user_interface_b
-03:40:33 - Loading resource user_interface_c
-03:40:33 - Loading resource scene_encounter_spot
-03:40:33 - Loading resource interior_thirsty_lion
-03:40:33 - Loading resource scene_small_tavern
-03:40:33 - Loading resource weapon_meshes1
-03:40:33 - Loading resource weapon_meshes_b
-03:40:33 - Loading resource houses1
-03:40:33 - Loading resource wall_meshes1
-03:40:33 - Loading resource town_houses
-03:40:33 - Loading resource doors
-03:40:33 - Loading resource churches
-03:40:33 - Loading resource town_houses_b
-03:40:33 - Loading resource castle_c
-03:40:33 - Loading resource castle_d
-03:40:33 - Loading resource castle_e
-03:40:33 - Loading resource castle_f
-03:40:33 - Loading resource castle_g
-03:40:33 - Loading resource castle_h
-03:40:33 - Loading resource castle_i
-03:40:33 - Loading resource gatehouse
-03:40:33 - Loading resource viking_houses
-03:40:33 - Loading resource fake_houses
-03:40:33 - Loading resource town_houses_c
-03:40:33 - Loading resource banners
-03:40:33 - Loading resource map_flags
-03:40:33 - Loading resource map_flags_b
-03:40:33 - Loading resource map_flags_c
-03:40:33 - Loading resource map_flags_d
-03:40:33 - Loading resource particles_2
-03:40:33 - Loading resource prisons
-03:40:33 - Loading resource prisons_b
-03:40:33 - Loading resource interiors_d
-03:40:33 - Loading resource costumes_b
-03:40:33 - Loading resource costumes_c
-03:40:33 - Loading resource arena_costumes
-03:40:33 - Loading resource boots_a
-03:40:33 - Loading resource terrain_borders
-03:40:33 - Loading resource terrain_borders_b
-03:40:33 - Loading resource terrain_borders_c
-03:40:33 - Loading resource skyboxes
-03:40:33 - Loading resource object_b
-03:40:33 - Loading resource tree_e_meshes
-03:40:33 - Loading resource destroy
-03:40:33 - Loading resource destroy_snowy
-03:40:33 - Loading resource xtree_meshes_c
-03:40:33 - Loading resource grass_meshes_b
-03:40:33 - Loading resource interiors_steppe
-03:40:33 - Loading resource grooming_horse
-03:40:33 - Loading resource town_houses_d
-03:40:33 - Loading resource horses_b
-03:40:33 - Loading resource ani_horse_mounted
-03:40:33 - Loading resource deneme2
-03:40:33 - Loading resource horse_skeleton
-03:40:33 - Loading resource steppe_fake_houses
-03:40:33 - Loading resource weapon_meshes_d
-03:40:33 - Loading resource tableau_shields
-03:40:33 - Loading resource heraldic_armors
-03:40:33 - Loading resource spear
-03:40:33 - Loading resource weapons_e
-03:40:33 - Loading resource weapons_f
-03:40:33 - Loading resource instruments
-03:40:33 - Loading resource sarranid_armors
-03:40:33 - Loading resource custom_banner
-03:40:33 - Loading resource simple_primitives
-03:40:33 - Loading resource ani_man_walk
-03:40:33 - Loading resource ani_twohanded
-03:40:33 - Loading resource ani_onehanded
-03:40:33 - Loading resource ani_death
-03:40:33 - Loading resource ani_stand_guardsman
-03:40:33 - Loading resource ani_human_mounted
-03:40:33 - Loading resource ani_lady_stand
-03:40:33 - Loading resource ani_poses
-03:40:33 - Loading resource ani_stand_shopkeeper
-03:40:33 - Loading resource ani_man_cheer
-03:40:33 - Loading resource ani_stand_onhorse
-03:40:33 - Loading resource ani_throw_stone
-03:40:33 - Loading resource ani_strikes
-03:40:33 - Loading resource ani_equip_arms
-03:40:33 - Loading resource ani_run_p
-03:40:33 - Loading resource ani_run_forward_left_right
-03:40:33 - Loading resource uni_strikes3
-03:40:33 - Loading resource ani_walk_sideways
-03:40:33 - Loading resource ani_run_sideways
-03:40:33 - Loading resource ani_stand
-03:40:33 - Loading resource ani_crouch_down
-03:40:33 - Loading resource ani_low_walk
-03:40:33 - Loading resource ani_turn_man
-03:40:33 - Loading resource ani_attacks_single
-03:40:33 - Loading resource ani_lancer
-03:40:33 - Loading resource ani_attacks
-03:40:33 - Loading resource ani_kicks
-03:40:33 - Loading resource ani_parry_attack
-03:40:34 - Loading resource ani_walk_backward
-03:40:34 - Loading resource ani_run_lookingsides
-03:40:34 - Loading resource ani_defends
-03:40:34 - Loading resource ani_walk_lookingsides
-03:40:34 - Loading resource ani_jump
-03:40:34 - Loading resource ani_wedding
-03:40:34 - Loading resource arabian_props
-03:40:34 - Loading resource uni_jump
-03:40:34 - Loading resource uni_stances
-03:40:34 - Loading resource uni_equip
-03:40:34 - Loading resource uni_strike
-03:40:34 - Loading resource uni_throws
-03:40:34 - Loading resource uni_fistswing
-03:40:34 - Loading resource uni_lord_stand
-03:40:34 - Loading resource uni_defence
-03:40:34 - Loading resource uni_sideways
-03:40:34 - Loading resource dart
-03:40:34 - Loading resource armors_new_a
-03:40:34 - Loading resource armors_new_b
-03:40:34 - Loading resource armors_new_heraldic
-03:40:34 - Loading resource armors_new_arena
-03:40:34 - Loading resource crossbows
-03:40:34 - Loading resource arabian_armors
-03:40:34 - Loading resource rock
-03:40:34 - Loading resource costumes_d
-03:40:34 - Loading resource nordic_helmets
-03:40:34 - Loading resource sarranid_helmets
-03:40:34 - Loading resource sarranid_armor
-03:40:34 - Loading resource raw_materials
-03:40:34 - Loading resource khergit_lady_dress
-03:40:34 - Loading resource vaegir_helmets
-03:40:34 - Loading resource gauntlets_new
-03:40:34 - Loading resource sarranid_lady_dress
-03:40:34 - Loading resource sarranid_boots
-03:40:34 - Loading resource bride_dress
-03:40:34 - Loading resource full_plate_armor
-03:40:34 - Loading resource weapon_meshes_e
-03:40:34 - Loading resource fur_armors_a
-03:40:34 - Loading resource ui_server_filter
-03:40:34 - Loading resource warhorse_new
-03:40:34 - Loading resource ship
-03:40:34 - Loading resource arabian_houses
-03:40:34 - Loading resource object_c
-03:40:34 - Loading resource tree_f
-03:40:34 - Loading resource interiors_arabian
-03:40:34 - Loading resource arabian_village
-03:40:34 - Loading resource valleyProps
-03:40:34 - Loading resource workshops
-03:40:34 - Loading resource barrier_primitives
-03:40:34 - Loading resource town_houses_e
-03:40:34 - Loading resource wb_mp_objects_a
-03:40:34 - Loading resource prisonCart
-03:40:34 - Loading resource ccoop_extra_ui_meshes
-03:40:34 - Loading item modifiers...
-03:40:34 - Loading flora kinds...
-03:40:34 - Loading ground specs...
-03:40:34 - Loading skyboxes...
-03:40:34 - Loading sounds...
-03:40:34 - Unable to map sound snd_release_crossbow_medium
-03:40:34 - Unable to map sound snd_release_crossbow_far
-03:40:34 - Unable to map sound snd_bullet_hit_body
-03:40:34 - Unable to map sound snd_player_hit_by_bullet
-03:40:34 - Loading particle systems...
-03:40:34 - Loading skins...
-03:40:34 - Loading scene props...
-03:40:34 - Loading menus...
-03:40:34 - Loading scripts...
-03:40:34 - Unable to map script game_check_party_sees_party
-03:40:34 - Unable to map script game_get_party_speed_multiplier
-03:40:34 - Unable to map script game_missile_launch
-03:40:34 - Unable to map script game_troop_upgrades_button_clicked
-03:40:34 - Unable to map script game_character_screen_requested
-03:40:34 - Loading map icons...
-03:40:34 - Loading strings...
-03:40:34 - Loading quick strings...
-03:40:34 - Loading item kinds...
-03:40:34 - Loading conversations...
-03:40:34 - Loading mission templates...
-03:40:34 - Loading party templates...
-03:40:34 - Loading actions...
-03:40:34 - WARNING: Failed to get skeleton animation equip_musket
-03:40:34 - WARNING: Failed to get skeleton animation crouch_stand_man
-03:40:34 - WARNING: Failed to get skeleton animation crouch_greatsword_cstance
-03:40:34 - WARNING: Failed to get skeleton animation crouch_staff_cstance
-03:40:34 - WARNING: Failed to get skeleton animation crouch_fire_pistol
-03:40:34 - WARNING: Failed to get skeleton animation man_reload
-03:40:34 - WARNING: Failed to get skeleton animation crouch_staff_cstance_attack
-03:40:34 - WARNING: Failed to get skeleton animation spear_thrust_overhead
-03:40:34 - WARNING: Failed to get skeleton animation reload_pistol_new
-03:40:34 - WARNING: Failed to get skeleton animation musket_upper_swing
-03:40:34 - WARNING: Failed to get skeleton animation musket_thrust_forward
-03:40:34 - WARNING: Failed to get skeleton animation musket_thrust_forward_parry
-03:40:34 - WARNING: Failed to get skeleton animation equip_pistol
-03:40:34 - Initializing lua...
-03:40:34 - Starting map multi_scene_1 in mode multiplayer_tdm
-03:40:48 - SUCCESS: received Uid: 1543821 Gold: 100000
-03:43:45 - SUCCESS: received Uid: 1543821 Gold: 100150
-03:43:50 - Exiting network manager...
-03:43:50 - Deleting game...
-03:43:50 - Deleting mission...
-03:43:50 - Deleting resources...
-03:43:50 - Exiting sound manager...
-03:43:50 - Exiting physics manager...
-03:43:50 - Closing log file...
+03:56:20 - Build: Release Dedicated
+03:56:20 - Mount&Blade Warband WSE2 version: 1.174 1139 Nov  3 2025 14:58:49
+03:56:20 - Havok version: 2013.1.0-r1
+03:56:20 - WSE netcode version: 10
+03:56:20 - Command line: -r GTD_server_settings.txt -m Native
+03:56:20 - Initializing timer...
+03:56:20 - Collecting system info...
+03:56:20 - Dumping system info...
+03:56:20 - -- OS: Windows 11
+03:56:20 -  - Version: 10.0.26100
+03:56:20 -  - Arch: x64
+03:56:20 - -- CPU: 12th Gen Intel(R) Core(TM) i7-1260P (GenuineIntel)
+03:56:20 -  - Count: 8 (HT)
+03:56:20 - -- Memory: 16093 MB
+03:56:20 -  - Available: 2391 MB
+03:56:20 - Initializing language...
+03:56:20 - WARNING: Duplicate language string ui_retreated_battle
+03:56:20 - WARNING: Duplicate language string ui_midnight
+03:56:20 - WARNING: Duplicate language string ui_chest
+03:56:20 - WARNING: Duplicate language string ui_group_rename
+03:56:20 - WARNING: Duplicate language string ui_music_volume
+03:56:20 - WARNING: Duplicate language string ui_sound_volume
+03:56:20 - WARNING: Duplicate language string ui_mouse_sensitivity
+03:56:20 - WARNING: Duplicate language string ui_invert_mouse_y_axis
+03:56:20 - WARNING: Duplicate language string ui_enabled
+03:56:20 - WARNING: Duplicate language string ui_disabled
+03:56:20 - WARNING: Duplicate language string ui_damage_to_player
+03:56:20 - WARNING: Duplicate language string ui_reduced_to_1_over_4_easiest
+03:56:20 - WARNING: Duplicate language string ui_reduced_to_1_over_2_easy
+03:56:20 - WARNING: Duplicate language string ui_damage_to_friends
+03:56:20 - WARNING: Duplicate language string ui_reduced_to_1_over_2_easiest
+03:56:20 - WARNING: Duplicate language string ui_reduced_to_3_over_4_easy
+03:56:20 - WARNING: Duplicate language string ui_normal
+03:56:20 - WARNING: Duplicate language string ui_combat_ai
+03:56:20 - WARNING: Duplicate language string ui_combat_speed
+03:56:20 - WARNING: Duplicate language string ui_good
+03:56:20 - WARNING: Duplicate language string ui_average_caps
+03:56:20 - WARNING: Duplicate language string ui_poor
+03:56:20 - WARNING: Duplicate language string ui_faster
+03:56:20 - WARNING: Duplicate language string ui_slower
+03:56:20 - WARNING: Duplicate language string ui_control_block_direction
+03:56:20 - WARNING: Duplicate language string ui_automatic_recommended
+03:56:20 - WARNING: Duplicate language string ui_manual_easy
+03:56:20 - WARNING: Duplicate language string ui_manual_hard
+03:56:20 - WARNING: Duplicate language string ui_by_mouse_movement
+03:56:20 - WARNING: Duplicate language string ui_control_attack_direction
+03:56:20 - WARNING: Duplicate language string ui_lance_control
+03:56:20 - WARNING: Duplicate language string ui_by_relative_enemy_position
+03:56:20 - WARNING: Duplicate language string ui_by_inverse_mouse_movement
+03:56:20 - WARNING: Duplicate language string ui_battle_size
+03:56:20 - WARNING: Duplicate language string ui_show_attack_direction
+03:56:20 - WARNING: Duplicate language string ui_show_targeting_reticule
+03:56:20 - WARNING: Duplicate language string ui_show_names_of_friendly_troops
+03:56:20 - WARNING: Duplicate language string ui_report_damage
+03:56:20 - WARNING: Duplicate language string ui_report_shot_difficulty
+03:56:20 - WARNING: Duplicate language string ui_difficulty_rating_percentage
+03:56:20 - WARNING: Duplicate language string ui_controls
+03:56:20 - WARNING: Duplicate language string ui_video_options
+03:56:20 - WARNING: Duplicate language string ui_done
+03:56:20 - WARNING: Duplicate language string ui_factions
+03:56:20 - WARNING: Duplicate language string ui_item_itemname
+03:56:20 - WARNING: Duplicate language string ui_prop_propname
+03:56:20 - WARNING: Duplicate language string ui_unknown_unknownname
+03:56:20 - WARNING: Duplicate language string ui_entry_point_entrypointname
+03:56:20 - WARNING: Duplicate language string ui_passage_menu_item_passagename
+03:56:20 - WARNING: Duplicate language string ui_plant_plantname
+03:56:20 - WARNING: Duplicate language string ui_export_file_for_character_playername_already_exists_overwrite_it
+03:56:20 - WARNING: Duplicate language string ui_yes
+03:56:20 - WARNING: Duplicate language string ui_no
+03:56:20 - WARNING: Duplicate language string ui_set_save_file_name
+03:56:20 - WARNING: Duplicate language string ui_enter_new_name
+03:56:20 - WARNING: Duplicate language string ui_export_character
+03:56:20 - WARNING: Duplicate language string ui_import_character
+03:56:20 - WARNING: Duplicate language string ui_character_playername_exported_successfully
+03:56:20 - WARNING: Duplicate language string ui_character_playername_imported_successfully
+03:56:20 - WARNING: Duplicate language string ui_unable_to_open_import_file
+03:56:20 - WARNING: Duplicate language string ui_are_you_sure_you_want_to_import_the_character
+03:56:20 - WARNING: Duplicate language string ui_unable_to_find_character_import_file
+03:56:20 - WARNING: Duplicate language string ui_mount_and_blade_is_running_in_trial_mode_please_buy_the_game_for_importing_a_character
+03:56:20 - WARNING: Duplicate language string ui_change_skin
+03:56:20 - WARNING: Duplicate language string ui_change_hair
+03:56:20 - WARNING: Duplicate language string ui_change_hair_color
+03:56:20 - WARNING: Duplicate language string ui_change_beard
+03:56:20 - WARNING: Duplicate language string ui_tutorial
+03:56:20 - WARNING: Duplicate language string ui_tutorial_face_generator
+03:56:20 - WARNING: Duplicate language string ui_restore
+03:56:20 - WARNING: Duplicate language string ui_cancel
+03:56:20 - WARNING: Duplicate language string ui_delete
+03:56:20 - WARNING: Duplicate language string ui_confirm_delete_game
+03:56:20 - WARNING: Duplicate language string ui_error_removing_file
+03:56:20 - WARNING: Duplicate language string ui_day_datedisplay
+03:56:20 - WARNING: Duplicate language string ui_reset_changes
+03:56:20 - WARNING: Duplicate language string ui_weapon_proficiencies
+03:56:20 - WARNING: Duplicate language string ui_skills
+03:56:20 - WARNING: Duplicate language string ui_attributes
+03:56:20 - WARNING: Duplicate language string ui_enter_name_here
+03:56:20 - WARNING: Duplicate language string ui_edit_face
+03:56:20 - WARNING: Duplicate language string ui_statistics
+03:56:20 - WARNING: Duplicate language string ui_next
+03:56:20 - WARNING: Duplicate language string ui_prev
+03:56:20 - WARNING: Duplicate language string ui_learn
+03:56:20 - WARNING: Duplicate language string ui_question_saving_policy
+03:56:20 - WARNING: Duplicate language string ui_saving_policy_realistic
+03:56:20 - WARNING: Duplicate language string ui_saving_policy_nonrealistic
+03:56:20 - WARNING: Duplicate language string ui_tutorial_character_generation
+03:56:20 - WARNING: Duplicate language string ui_str
+03:56:20 - WARNING: Duplicate language string ui_agi
+03:56:20 - WARNING: Duplicate language string ui_int
+03:56:20 - WARNING: Duplicate language string ui_cha
+03:56:20 - WARNING: Duplicate language string ui_at_learning_limit
+03:56:20 - WARNING: Duplicate language string ui_not_enough_skill_points_to_learn
+03:56:20 - WARNING: Duplicate language string ui_strength
+03:56:20 - WARNING: Duplicate language string ui_agility
+03:56:20 - WARNING: Duplicate language string ui_intelligence
+03:56:20 - WARNING: Duplicate language string ui_charisma
+03:56:20 - WARNING: Duplicate language string ui_not_enough_attributetype_to_learn_this_skill
+03:56:20 - WARNING: Duplicate language string ui_explanation_one_handed_weapon
+03:56:20 - WARNING: Duplicate language string ui_explanation_two_handed_weapon
+03:56:20 - WARNING: Duplicate language string ui_explanation_polearm
+03:56:20 - WARNING: Duplicate language string ui_explanation_archery
+03:56:20 - WARNING: Duplicate language string ui_explanation_crossbow
+03:56:20 - WARNING: Duplicate language string ui_explanation_throwing
+03:56:20 - WARNING: Duplicate language string ui_explanation_firearms
+03:56:20 - WARNING: Duplicate language string ui_explanation_strength
+03:56:20 - WARNING: Duplicate language string ui_explanation_agility
+03:56:20 - WARNING: Duplicate language string ui_explanation_intelligence
+03:56:20 - WARNING: Duplicate language string ui_explanation_charisma
+03:56:20 - WARNING: Duplicate language string ui_level
+03:56:20 - WARNING: Duplicate language string ui_xp
+03:56:20 - WARNING: Duplicate language string ui_next_level_at
+03:56:20 - WARNING: Duplicate language string ui_health_player
+03:56:20 - WARNING: Duplicate language string ui_health
+03:56:20 - WARNING: Duplicate language string ui_attribute_points
+03:56:20 - WARNING: Duplicate language string ui_skill_points
+03:56:20 - WARNING: Duplicate language string ui_weapon_points
+03:56:20 - WARNING: Duplicate language string ui_mission_losses_none
+03:56:20 - WARNING: Duplicate language string ui_mission_losses_wounded
+03:56:20 - WARNING: Duplicate language string ui_mission_losses_killed
+03:56:20 - WARNING: Duplicate language string ui_party_losses
+03:56:20 - WARNING: Duplicate language string ui_casualties_sustained
+03:56:20 - WARNING: Duplicate language string ui_advantage_change
+03:56:20 - WARNING: Duplicate language string ui_overall_battle_casualties
+03:56:20 - WARNING: Duplicate language string ui_advantage_outnumbered
+03:56:20 - WARNING: Duplicate language string ui_advantage_major_disadvantage
+03:56:20 - WARNING: Duplicate language string ui_advantage_slight_disadvantage
+03:56:20 - WARNING: Duplicate language string ui_advantage_balanced
+03:56:20 - WARNING: Duplicate language string ui_advantage_fair_advantage
+03:56:20 - WARNING: Duplicate language string ui_advantage_greatly_favored
+03:56:20 - WARNING: Duplicate language string ui_tactical_advantage
+03:56:20 - WARNING: Duplicate language string ui_order_group
+03:56:20 - WARNING: Duplicate language string ui_question_save_changes
+03:56:20 - WARNING: Duplicate language string ui_yes_save
+03:56:20 - WARNING: Duplicate language string ui_no_discard_changes
+03:56:20 - WARNING: Duplicate language string ui_everyone_control
+03:56:20 - WARNING: Duplicate language string ui_everyone_around_control
+03:56:20 - WARNING: Duplicate language string ui_others_control
+03:56:20 - WARNING: Duplicate language string ui_question_give_up_fight
+03:56:20 - WARNING: Duplicate language string ui_give_up
+03:56:20 - WARNING: Duplicate language string ui_keep_fighting
+03:56:20 - WARNING: Duplicate language string ui_question_leave_area
+03:56:20 - WARNING: Duplicate language string ui_cant_retreat_there_are_enemies_nearby
+03:56:20 - WARNING: Duplicate language string ui_question_retreat_battle
+03:56:20 - WARNING: Duplicate language string ui_retreat
+03:56:20 - WARNING: Duplicate language string ui_talk
+03:56:20 - WARNING: Duplicate language string ui_duel
+03:56:20 - WARNING: Duplicate language string ui_mount
+03:56:20 - WARNING: Duplicate language string ui_riding_skill_not_adequate_to_mount
+03:56:20 - WARNING: Duplicate language string ui_dismount
+03:56:20 - WARNING: Duplicate language string ui_exit
+03:56:20 - WARNING: Duplicate language string ui_door_to
+03:56:20 - WARNING: Duplicate language string ui_open
+03:56:20 - WARNING: Duplicate language string ui_equip
+03:56:20 - WARNING: Duplicate language string ui_baggage
+03:56:20 - WARNING: Duplicate language string ui_access_inventory
+03:56:20 - WARNING: Duplicate language string ui_passage
+03:56:20 - WARNING: Duplicate language string ui_go
+03:56:20 - WARNING: Duplicate language string ui_retreat_battle
+03:56:20 - WARNING: Duplicate language string ui_leave_area
+03:56:20 - WARNING: Duplicate language string ui_reports
+03:56:20 - WARNING: Duplicate language string ui_camp
+03:56:20 - WARNING: Duplicate language string ui_terrain
+03:56:20 - WARNING: Duplicate language string ui_quests
+03:56:20 - WARNING: Duplicate language string ui_inventory
+03:56:20 - WARNING: Duplicate language string ui_character
+03:56:20 - WARNING: Duplicate language string ui_party
+03:56:20 - WARNING: Duplicate language string ui_paused
+03:56:20 - WARNING: Duplicate language string ui_click_left_button_to_cancel_wait
+03:56:20 - WARNING: Duplicate language string ui_late_night
+03:56:20 - WARNING: Duplicate language string ui_dawn
+03:56:20 - WARNING: Duplicate language string ui_early_morning
+03:56:20 - WARNING: Duplicate language string ui_morning
+03:56:20 - WARNING: Duplicate language string ui_noon
+03:56:20 - WARNING: Duplicate language string ui_afternoon
+03:56:20 - WARNING: Duplicate language string ui_late_afternoon
+03:56:20 - WARNING: Duplicate language string ui_dusk
+03:56:20 - WARNING: Duplicate language string ui_evening
+03:56:20 - WARNING: Duplicate language string ui_level_limit_reached
+03:56:20 - WARNING: Duplicate language string ui_explanation_level_limit
+03:56:20 - WARNING: Duplicate language string ui_time_limit_reached
+03:56:20 - WARNING: Duplicate language string ui_explanation_time_limit
+03:56:20 - WARNING: Duplicate language string ui_target_lost
+03:56:20 - WARNING: Duplicate language string ui_waiting
+03:56:20 - WARNING: Duplicate language string ui_travelling_to
+03:56:20 - WARNING: Duplicate language string ui_following
+03:56:20 - WARNING: Duplicate language string ui_accompanying
+03:56:20 - WARNING: Duplicate language string ui_running_from
+03:56:20 - WARNING: Duplicate language string ui_patrolling
+03:56:20 - WARNING: Duplicate language string ui_patrolling_around
+03:56:20 - WARNING: Duplicate language string ui_holding
+03:56:20 - WARNING: Duplicate language string ui_travelling
+03:56:20 - WARNING: Duplicate language string ui_fighting_against
+03:56:20 - WARNING: Duplicate language string ui_speed_equals
+03:56:20 - WARNING: Duplicate language string ui_defenders
+03:56:20 - WARNING: Duplicate language string ui_prisoners
+03:56:20 - WARNING: Duplicate language string ui_1_hour
+03:56:20 - WARNING: Duplicate language string ui_n_hours
+03:56:20 - WARNING: Duplicate language string ui_between_hours
+03:56:20 - WARNING: Duplicate language string ui_combatants
+03:56:20 - WARNING: Duplicate language string ui_party_size
+03:56:20 - WARNING: Duplicate language string ui_party_size_between
+03:56:20 - WARNING: Duplicate language string ui_merchant
+03:56:20 - WARNING: Duplicate language string ui_return
+03:56:20 - WARNING: Duplicate language string ui_no_cost
+03:56:20 - WARNING: Duplicate language string ui_rename
+03:56:20 - WARNING: Duplicate language string ui_use
+03:56:20 - WARNING: Duplicate language string ui_destroy
+03:56:20 - WARNING: Duplicate language string ui_destructible_target
+03:56:20 - WARNING: Duplicate language string ui_tutorial_inventory
+03:56:20 - WARNING: Duplicate language string ui_head_armor
+03:56:20 - WARNING: Duplicate language string ui_body_armor
+03:56:20 - WARNING: Duplicate language string ui_leg_armor
+03:56:20 - WARNING: Duplicate language string ui_encumbrance
+03:56:20 - WARNING: Duplicate language string ui_you_dont_have_value
+03:56:20 - WARNING: Duplicate language string ui_merchant_cant_afford_value
+03:56:20 - WARNING: Duplicate language string ui_merchant_pay_whatever
+03:56:20 - WARNING: Duplicate language string ui_merchant_think_of_something_else
+03:56:20 - WARNING: Duplicate language string ui_dumping_value_items
+03:56:20 - WARNING: Duplicate language string ui_dumping_value_item
+03:56:20 - WARNING: Duplicate language string ui_question_slaughter_food_and_eat
+03:56:20 - WARNING: Duplicate language string ui_money_value
+03:56:20 - WARNING: Duplicate language string ui_dump
+03:56:20 - WARNING: Duplicate language string ui_outfit
+03:56:20 - WARNING: Duplicate language string ui_arms
+03:56:20 - WARNING: Duplicate language string ui_horse
+03:56:20 - WARNING: Duplicate language string ui_food
+03:56:20 - WARNING: Duplicate language string ui_reclaim_your_sold_goods
+03:56:20 - WARNING: Duplicate language string ui_return_your_bought_goods
+03:56:20 - WARNING: Duplicate language string ui_polearm_no_shield
+03:56:20 - WARNING: Duplicate language string ui_polearm
+03:56:20 - WARNING: Duplicate language string ui_two_handed
+03:56:20 - WARNING: Duplicate language string ui_two_handed_one_handed
+03:56:20 - WARNING: Duplicate language string ui_one_handed
+03:56:20 - WARNING: Duplicate language string ui_return_price
+03:56:20 - WARNING: Duplicate language string ui_sell_price
+03:56:20 - WARNING: Duplicate language string ui_reclaim_price
+03:56:20 - WARNING: Duplicate language string ui_buying_price
+03:56:20 - WARNING: Duplicate language string ui_default_item
+03:56:20 - WARNING: Duplicate language string ui_buying_price_free
+03:56:20 - WARNING: Duplicate language string ui_weight
+03:56:20 - WARNING: Duplicate language string ui_plus_value_to_head_armor
+03:56:20 - WARNING: Duplicate language string ui_plus_value_to_body_armor
+03:56:20 - WARNING: Duplicate language string ui_plus_value_to_leg_armor
+03:56:20 - WARNING: Duplicate language string ui_swing
+03:56:20 - WARNING: Duplicate language string ui_damage
+03:56:20 - WARNING: Duplicate language string ui_thrust
+03:56:20 - WARNING: Duplicate language string ui_accuracy
+03:56:20 - WARNING: Duplicate language string ui_speed_rating
+03:56:20 - WARNING: Duplicate language string ui_value_to_damage
+03:56:20 - WARNING: Duplicate language string ui_value_to_morale
+03:56:20 - WARNING: Duplicate language string ui_resistance
+03:56:20 - WARNING: Duplicate language string ui_size
+03:56:20 - WARNING: Duplicate language string ui_weapon_reach
+03:56:20 - WARNING: Duplicate language string ui_armor
+03:56:20 - WARNING: Duplicate language string ui_speed
+03:56:20 - WARNING: Duplicate language string ui_maneuver
+03:56:20 - WARNING: Duplicate language string ui_charge
+03:56:20 - WARNING: Duplicate language string ui_hit_points
+03:56:20 - WARNING: Duplicate language string ui_requires_value_difficulty
+03:56:20 - WARNING: Duplicate language string ui_bonus_against_shields
+03:56:20 - WARNING: Duplicate language string ui_cant_be_used_to_block
+03:56:20 - WARNING: Duplicate language string ui_troop_cant_use_item
+03:56:20 - WARNING: Duplicate language string ui_notification_riding_skill_not_enough
+03:56:20 - WARNING: Duplicate language string ui_notification_requirements_not_met
+03:56:20 - WARNING: Duplicate language string ui_notification_payment_value
+03:56:20 - WARNING: Duplicate language string ui_notification_payment_receive_value
+03:56:20 - WARNING: Duplicate language string ui_one_handed_weapons
+03:56:20 - WARNING: Duplicate language string ui_two_handed_weapons
+03:56:20 - WARNING: Duplicate language string ui_polearms
+03:56:20 - WARNING: Duplicate language string ui_archery
+03:56:20 - WARNING: Duplicate language string ui_crossbows
+03:56:20 - WARNING: Duplicate language string ui_throwing
+03:56:20 - WARNING: Duplicate language string ui_firearms
+03:56:20 - WARNING: Duplicate language string ui_reset
+03:56:20 - WARNING: Duplicate language string ui_release_one
+03:56:20 - WARNING: Duplicate language string ui_move_up
+03:56:20 - WARNING: Duplicate language string ui_move_down
+03:56:20 - WARNING: Duplicate language string ui_upgrade_one
+03:56:20 - WARNING: Duplicate language string ui_party_skills
+03:56:20 - WARNING: Duplicate language string ui_morale
+03:56:20 - WARNING: Duplicate language string ui_terrible
+03:56:20 - WARNING: Duplicate language string ui_very_low
+03:56:20 - WARNING: Duplicate language string ui_low
+03:56:20 - WARNING: Duplicate language string ui_below_average
+03:56:20 - WARNING: Duplicate language string ui_average
+03:56:20 - WARNING: Duplicate language string ui_above_average
+03:56:20 - WARNING: Duplicate language string ui_high
+03:56:20 - WARNING: Duplicate language string ui_very_high
+03:56:20 - WARNING: Duplicate language string ui_excellent
+03:56:20 - WARNING: Duplicate language string ui_starving
+03:56:20 - WARNING: Duplicate language string ui_weekly_cost_value
+03:56:20 - WARNING: Duplicate language string ui_company
+03:56:20 - WARNING: Duplicate language string ui_prisoners_equal_value
+03:56:20 - WARNING: Duplicate language string ui_choose_prisoners
+03:56:20 - WARNING: Duplicate language string ui_choose_companions
+03:56:20 - WARNING: Duplicate language string ui_rescued_prisoners
+03:56:20 - WARNING: Duplicate language string ui_captured_enemies
+03:56:20 - WARNING: Duplicate language string ui_disband
+03:56:20 - WARNING: Duplicate language string ui_take_prisoner
+03:56:20 - WARNING: Duplicate language string ui_take_back
+03:56:20 - WARNING: Duplicate language string ui_give
+03:56:20 - WARNING: Duplicate language string ui_take
+03:56:20 - WARNING: Duplicate language string ui_sell
+03:56:20 - WARNING: Duplicate language string ui_hire
+03:56:20 - WARNING: Duplicate language string ui_notification_cant_hire
+03:56:20 - WARNING: Duplicate language string ui_uncapture
+03:56:20 - WARNING: Duplicate language string ui_capture
+03:56:20 - WARNING: Duplicate language string ui_party_capcity_reached
+03:56:20 - WARNING: Duplicate language string ui_all
+03:56:20 - WARNING: Duplicate language string ui_joining_cost_weekly_wage
+03:56:20 - WARNING: Duplicate language string ui_weekly_wage
+03:56:20 - WARNING: Duplicate language string ui_price
+03:56:20 - WARNING: Duplicate language string ui_number_ready_to_upgrade
+03:56:20 - WARNING: Duplicate language string ui_upgrade_to_value
+03:56:20 - WARNING: Duplicate language string ui_notification_no_slot_for_upgrade
+03:56:20 - WARNING: Duplicate language string ui_shield_broken
+03:56:20 - WARNING: Duplicate language string ui_shield_cracked
+03:56:20 - WARNING: Duplicate language string ui_shield_deformed
+03:56:20 - WARNING: Duplicate language string ui_you_hit_a_friendly_troop
+03:56:20 - WARNING: Duplicate language string ui_hit_shield_on_back
+03:56:20 - WARNING: Duplicate language string ui_delivered_couched_lance_damage
+03:56:20 - WARNING: Duplicate language string ui_received_couched_lance_damage
+03:56:20 - WARNING: Duplicate language string ui_speed_bonus_plus
+03:56:20 - WARNING: Duplicate language string ui_speed_bonus
+03:56:20 - WARNING: Duplicate language string ui_cant_reload_this_weapon_on_horseback
+03:56:20 - WARNING: Duplicate language string ui_no_more_bolts
+03:56:20 - WARNING: Duplicate language string ui_you_are_not_carrying_any_bolts
+03:56:20 - WARNING: Duplicate language string ui_no_more_arrows
+03:56:20 - WARNING: Duplicate language string ui_you_are_not_carrying_any_arrows
+03:56:20 - WARNING: Duplicate language string ui_head_shot
+03:56:20 - WARNING: Duplicate language string ui_delivered_number_damage
+03:56:20 - WARNING: Duplicate language string ui_delivered_number_damage_to_horse
+03:56:20 - WARNING: Duplicate language string ui_horse_charged_for_number_damage
+03:56:20 - WARNING: Duplicate language string ui_received_number_damage
+03:56:20 - WARNING: Duplicate language string ui_horse_received_number_damage
+03:56:20 - WARNING: Duplicate language string ui_value_killed_teammate
+03:56:20 - WARNING: Duplicate language string ui_horse_fell_dead
+03:56:20 - WARNING: Duplicate language string ui_horse_crippled
+03:56:20 - WARNING: Duplicate language string ui_shot_difficulty
+03:56:20 - WARNING: Duplicate language string ui_you_have_improved_your_proficiency_in_value_to_number
+03:56:20 - WARNING: Duplicate language string ui_your_proficiency_in_value_has_improved_by_number_to_number
+03:56:20 - WARNING: Duplicate language string ui_value_killed_by_value
+03:56:20 - WARNING: Duplicate language string ui_value_fell_dead
+03:56:20 - WARNING: Duplicate language string ui_value_knocked_unconscious_by_value
+03:56:20 - WARNING: Duplicate language string ui_value_fell_unconscious
+03:56:20 - WARNING: Duplicate language string ui_troop_routed
+03:56:20 - WARNING: Duplicate language string ui_troop_panicked
+03:56:20 - WARNING: Duplicate language string ui_troop_fled
+03:56:20 - WARNING: Duplicate language string ui_you_got_number_experience
+03:56:20 - WARNING: Duplicate language string ui_you_have_advanced_to_level_number
+03:56:20 - WARNING: Duplicate language string ui_value_has_advanced_to_level_number
+03:56:20 - WARNING: Duplicate language string ui_you_got_value
+03:56:20 - WARNING: Duplicate language string ui_new_quest_taken
+03:56:20 - WARNING: Duplicate language string ui_quest_completed_value
+03:56:20 - WARNING: Duplicate language string ui_quest_succeeded_value
+03:56:20 - WARNING: Duplicate language string ui_quest_failed_value
+03:56:20 - WARNING: Duplicate language string ui_quest_concluded_value
+03:56:20 - WARNING: Duplicate language string ui_quest_cancelled_value
+03:56:20 - WARNING: Duplicate language string ui_lost_value
+03:56:20 - WARNING: Duplicate language string ui_items_lost
+03:56:20 - WARNING: Duplicate language string ui_party_has_nothing_to_eat
+03:56:20 - WARNING: Duplicate language string ui_days_training_is_complete
+03:56:20 - WARNING: Duplicate language string ui_total_experience_gained_through_training_number
+03:56:20 - WARNING: Duplicate language string ui_some_soldiers_are_ready_to_upgrade
+03:56:20 - WARNING: Duplicate language string ui_number_of_companions_exceeds_leadership_limit
+03:56:20 - WARNING: Duplicate language string ui_number_of_prisoners_exceeds_prisoner_management_limit
+03:56:20 - WARNING: Duplicate language string ui_party_morale_is_low
+03:56:20 - WARNING: Duplicate language string ui_and_one_space
+03:56:20 - WARNING: Duplicate language string ui_has_deserted_the_party
+03:56:20 - WARNING: Duplicate language string ui_have_deserted_the_party
+03:56:20 - WARNING: Duplicate language string ui_weekly_report
+03:56:20 - WARNING: Duplicate language string ui_shared_number_experience_within_party
+03:56:20 - WARNING: Duplicate language string ui_got_item_value
+03:56:20 - WARNING: Duplicate language string ui_game_saved_successfully
+03:56:20 - WARNING: Duplicate language string ui_autosaving
+03:56:20 - WARNING: Duplicate language string ui_quick_saving
+03:56:20 - WARNING: Duplicate language string ui_cant_quick_save
+03:56:20 - WARNING: Duplicate language string ui_screenshot_taken_to_value
+03:56:20 - WARNING: Duplicate language string ui_screenshot_failed
+03:56:20 - WARNING: Duplicate language string ui_value_joined_your_party
+03:56:20 - WARNING: Duplicate language string ui_value_joined_party_as_prisoner
+03:56:20 - WARNING: Duplicate language string ui_value_has_joined_party
+03:56:20 - WARNING: Duplicate language string ui_value_has_been_taken_prisoner
+03:56:20 - WARNING: Duplicate language string ui_value_left_the_party
+03:56:20 - WARNING: Duplicate language string ui_number_values_left_the_party
+03:56:20 - WARNING: Duplicate language string ui_number_value_left_the_party
+03:56:20 - WARNING: Duplicate language string ui_your_relations_with_value_has_improved_from_number_to_number
+03:56:20 - WARNING: Duplicate language string ui_your_relations_with_value_has_deteriorated_from_number_to_number
+03:56:20 - WARNING: Duplicate language string ui_you_lost_value
+03:56:20 - WARNING: Duplicate language string ui_lost_item_value
+03:56:20 - WARNING: Duplicate language string ui_got_number_value
+03:56:20 - WARNING: Duplicate language string ui_lost_number_value
+03:56:20 - WARNING: Duplicate language string ui_set_default_keys
+03:56:20 - WARNING: Duplicate language string ui_undo_changes
+03:56:20 - WARNING: Duplicate language string ui_press_a_key
+03:56:20 - WARNING: Duplicate language string ui_return_to_game
+03:56:20 - WARNING: Duplicate language string ui_options
+03:56:20 - WARNING: Duplicate language string ui_save_and_exit
+03:56:20 - WARNING: Duplicate language string ui_save
+03:56:20 - WARNING: Duplicate language string ui_save_as
+03:56:20 - WARNING: Duplicate language string ui_quit_without_saving
+03:56:20 - WARNING: Duplicate language string ui_empty_slot
+03:56:20 - WARNING: Duplicate language string ui_game_saved
+03:56:20 - WARNING: Duplicate language string ui_confirm_overwrite
+03:56:20 - WARNING: Duplicate language string ui_dynamic_lighting
+03:56:20 - WARNING: Duplicate language string ui_character_shadows
+03:56:20 - WARNING: Duplicate language string ui_grass_density
+03:56:20 - WARNING: Duplicate language string ui_environment_shadows
+03:56:20 - WARNING: Duplicate language string ui_realistic_shadows_on_plants
+03:56:20 - WARNING: Duplicate language string ui_particle_systems
+03:56:20 - WARNING: Duplicate language string ui_gamma
+03:56:20 - WARNING: Duplicate language string ui_character_detail
+03:56:20 - WARNING: Duplicate language string ui_character_shadow_detail
+03:56:20 - WARNING: Duplicate language string ui_blood_stains
+03:56:20 - WARNING: Duplicate language string ui_on
+03:56:20 - WARNING: Duplicate language string ui_off
+03:56:20 - WARNING: Duplicate language string ui_near_player_only
+03:56:20 - WARNING: Duplicate language string ui_default
+03:56:20 - WARNING: Duplicate language string ui_3d_grass
+03:56:20 - WARNING: Duplicate language string ui_number_of_ragdolls
+03:56:20 - WARNING: Duplicate language string ui_number_of_corpses
+03:56:20 - WARNING: Duplicate language string ui_unlimited
+03:56:20 - WARNING: Duplicate language string ui_anisotropic_filtering
+03:56:20 - WARNING: Duplicate language string ui_fast_water_reflection
+03:56:20 - WARNING: Duplicate language string ui_maximum_framerate
+03:56:20 - WARNING: Duplicate language string ui_show_framerate
+03:56:20 - WARNING: Duplicate language string ui_estimated_performance
+03:56:20 - WARNING: Duplicate language string ui_change_graphics_settings_explanation
+03:56:20 - WARNING: Duplicate language string ui_start_tutorial
+03:56:20 - WARNING: Duplicate language string ui_start_a_new_game
+03:56:20 - WARNING: Duplicate language string ui_restore_a_saved_game
+03:56:20 - WARNING: Duplicate language string ui_exit_to_windows
+03:56:20 - WARNING: Duplicate language string ui_credits
+03:56:20 - WARNING: Duplicate language string ui_version_value
+03:56:20 - WARNING: Duplicate language string ui_active_quests
+03:56:20 - WARNING: Duplicate language string ui_finished_quests
+03:56:20 - WARNING: Duplicate language string ui_given_on_date
+03:56:20 - WARNING: Duplicate language string ui_days_since_given
+03:56:20 - WARNING: Duplicate language string ui_quest_progression_number
+03:56:20 - WARNING: Duplicate language string ui_too_many_quests
+03:56:20 - WARNING: Duplicate language string ui_ok
+03:56:20 - WARNING: Duplicate language string ui_move_forward
+03:56:20 - WARNING: Duplicate language string ui_move_backward
+03:56:20 - WARNING: Duplicate language string ui_move_left
+03:56:20 - WARNING: Duplicate language string ui_move_right
+03:56:20 - WARNING: Duplicate language string ui_action
+03:56:20 - WARNING: Duplicate language string ui_jump
+03:56:20 - WARNING: Duplicate language string ui_attack
+03:56:20 - WARNING: Duplicate language string ui_parry_then_attack
+03:56:20 - WARNING: Duplicate language string ui_defend
+03:56:20 - WARNING: Duplicate language string ui_kick
+03:56:20 - WARNING: Duplicate language string ui_equip_weapon_1
+03:56:20 - WARNING: Duplicate language string ui_equip_weapon_2
+03:56:20 - WARNING: Duplicate language string ui_equip_weapon_3
+03:56:20 - WARNING: Duplicate language string ui_equip_weapon_4
+03:56:20 - WARNING: Duplicate language string ui_equip_next_weapon
+03:56:20 - WARNING: Duplicate language string ui_equip_next_shield
+03:56:20 - WARNING: Duplicate language string ui_sheath_weapon
+03:56:20 - WARNING: Duplicate language string ui_character_window
+03:56:20 - WARNING: Duplicate language string ui_inventory_window
+03:56:20 - WARNING: Duplicate language string ui_party_window
+03:56:20 - WARNING: Duplicate language string ui_quests_window
+03:56:20 - WARNING: Duplicate language string ui_game_log_window
+03:56:20 - WARNING: Duplicate language string ui_leave_location_retreat
+03:56:20 - WARNING: Duplicate language string ui_zoom
+03:56:20 - WARNING: Duplicate language string ui_view_outfit
+03:56:20 - WARNING: Duplicate language string ui_toggle_first_person_view
+03:56:20 - WARNING: Duplicate language string ui_view_orders
+03:56:20 - WARNING: Duplicate language string ui_quick_save
+03:56:20 - WARNING: Duplicate language string ui_no_key_assigned
+03:56:20 - WARNING: Duplicate language string ui_new_enemies_have_arrived
+03:56:20 - WARNING: Duplicate language string ui_reinforcements_have_arrived
+03:56:20 - WARNING: Duplicate language string ui_report_casualties
+03:56:20 - WARNING: Duplicate language string ui_report_experience
+03:56:20 - WARNING: Duplicate language string ui_current_level_value
+03:56:20 - WARNING: Duplicate language string ui_base_attribute_value
+03:56:20 - WARNING: Duplicate language string ui_battle_controls
+03:56:20 - WARNING: Duplicate language string ui_map_controls
+03:56:20 - WARNING: Duplicate language string ui_general_controls
+03:56:20 - WARNING: Duplicate language string ui_zoom_in
+03:56:20 - WARNING: Duplicate language string ui_zoom_out
+03:56:20 - WARNING: Duplicate language string ui_wait
+03:56:20 - WARNING: Duplicate language string ui_take_screenshot
+03:56:20 - WARNING: Duplicate language string ui_randomize
+03:56:20 - WARNING: Duplicate language string ui_hint
+03:56:20 - WARNING: Duplicate language string ui_press_left_mouse_button_to_continue
+03:56:20 - WARNING: Duplicate language string ui_loot
+03:56:20 - WARNING: Duplicate language string ui_cut_short
+03:56:20 - WARNING: Duplicate language string ui_pierce_short
+03:56:20 - WARNING: Duplicate language string ui_blunt_short
+03:56:20 - WARNING: Duplicate language string ui_battle
+03:56:20 - WARNING: Duplicate language string ui_siege
+03:56:20 - WARNING: Duplicate language string ui_troops
+03:56:20 - WARNING: Duplicate language string ui_loading_module_info_file
+03:56:20 - WARNING: Duplicate language string ui_processing_ini_file
+03:56:20 - WARNING: Duplicate language string ui_loading_music
+03:56:20 - WARNING: Duplicate language string ui_loading_data
+03:56:20 - WARNING: Duplicate language string ui_loading_setting_data
+03:56:20 - WARNING: Duplicate language string ui_loading_textures
+03:56:20 - WARNING: Duplicate language string ui_finished
+03:56:20 - WARNING: Duplicate language string ui_creating_game
+03:56:20 - WARNING: Duplicate language string ui_loading_savegame_file
+03:56:20 - WARNING: Duplicate language string ui_loading_map_file
+03:56:20 - WARNING: Duplicate language string ui_initializing_map
+03:56:20 - WARNING: Duplicate language string ui_launching_game
+03:56:20 - WARNING: Duplicate language string ui_capital_battle
+03:56:20 - WARNING: Duplicate language string ui_capital_versus
+03:56:20 - WARNING: Duplicate language string ui_tracks
+03:56:20 - WARNING: Duplicate language string ui_battleground
+03:56:20 - WARNING: Duplicate language string ui_order_1
+03:56:20 - WARNING: Duplicate language string ui_order_2
+03:56:20 - WARNING: Duplicate language string ui_order_3
+03:56:20 - WARNING: Duplicate language string ui_order_4
+03:56:20 - WARNING: Duplicate language string ui_order_5
+03:56:20 - WARNING: Duplicate language string ui_order_6
+03:56:20 - WARNING: Duplicate language string ui_order_button_hold_this_position
+03:56:20 - WARNING: Duplicate language string ui_order_button_follow_me
+03:56:20 - WARNING: Duplicate language string ui_order_button_charge
+03:56:20 - WARNING: Duplicate language string ui_order_button_stand_ground
+03:56:20 - WARNING: Duplicate language string ui_order_button_retreat
+03:56:20 - WARNING: Duplicate language string ui_order_button_advance
+03:56:20 - WARNING: Duplicate language string ui_order_button_fall_back
+03:56:20 - WARNING: Duplicate language string ui_order_button_spread_out
+03:56:20 - WARNING: Duplicate language string ui_order_button_stand_closer
+03:56:20 - WARNING: Duplicate language string ui_order_button_mount_horses
+03:56:20 - WARNING: Duplicate language string ui_order_button_dismount
+03:56:20 - WARNING: Duplicate language string ui_order_button_hold_fire
+03:56:20 - WARNING: Duplicate language string ui_order_button_fire_at_will
+03:56:20 - WARNING: Duplicate language string ui_order_button_use_blunt_weapons
+03:56:20 - WARNING: Duplicate language string ui_order_button_use_any_weapon
+03:56:20 - WARNING: Duplicate language string ui_order_button_movement_orders
+03:56:20 - WARNING: Duplicate language string ui_order_button_formation_orders
+03:56:20 - WARNING: Duplicate language string ui_order_button_fire_orders
+03:56:20 - WARNING: Duplicate language string ui_follow_me_e_
+03:56:20 - WARNING: Duplicate language string ui_charge_e_
+03:56:20 - WARNING: Duplicate language string ui_stand_ground_e_
+03:56:20 - WARNING: Duplicate language string ui_retreat_e_
+03:56:20 - WARNING: Duplicate language string ui_mount_horses_e_
+03:56:20 - WARNING: Duplicate language string ui_dismount_e_
+03:56:20 - WARNING: Duplicate language string ui_advance_e_
+03:56:20 - WARNING: Duplicate language string ui_fall_back_e_
+03:56:20 - WARNING: Duplicate language string ui_stand_closer_e_
+03:56:20 - WARNING: Duplicate language string ui_spread_out_e_
+03:56:20 - WARNING: Duplicate language string ui_use_blunt_weapons_e_
+03:56:20 - WARNING: Duplicate language string ui_use_any_weapon_e_
+03:56:20 - WARNING: Duplicate language string ui_hold_fire_e_
+03:56:20 - WARNING: Duplicate language string ui_fire_at_will_e_
+03:56:20 - WARNING: Duplicate language string ui_hold_this_position_e_
+03:56:20 - WARNING: Duplicate language string ui_infantry
+03:56:20 - WARNING: Duplicate language string ui_archers
+03:56:20 - WARNING: Duplicate language string ui_cavalry
+03:56:20 - WARNING: Duplicate language string ui_companions
+03:56:20 - WARNING: Duplicate language string ui_everyone_hear_me
+03:56:20 - WARNING: Duplicate language string ui_everyone
+03:56:20 - WARNING: Duplicate language string ui_everyone_around_me
+03:56:20 - WARNING: Duplicate language string ui_str_hear_me
+03:56:20 - WARNING: Duplicate language string ui_str_and_str
+03:56:20 - WARNING: Duplicate language string ui_str_comma_str
+03:56:20 - WARNING: Duplicate language string ui_need_to_learn_prisoner_management
+03:56:20 - WARNING: Duplicate language string ui_game_log
+03:56:20 - WARNING: Duplicate language string ui_recent_messages
+03:56:20 - WARNING: Duplicate language string ui_custom_battle
+03:56:20 - WARNING: Duplicate language string ui_player
+03:56:20 - WARNING: Duplicate language string ui_value_denars
+03:56:20 - WARNING: Duplicate language string ui_back
+03:56:20 - WARNING: Duplicate language string ui_forward
+03:56:20 - WARNING: Duplicate language string ui_display_on_map
+03:56:20 - WARNING: Duplicate language string ui_info_pages
+03:56:20 - WARNING: Duplicate language string ui_troops2
+03:56:20 - WARNING: Duplicate language string ui_locations
+03:56:20 - WARNING: Duplicate language string ui_click_button_to_view_note
+03:56:20 - WARNING: Duplicate language string ui_this_page_contains_no_information
+03:56:20 - WARNING: Duplicate language string ui_other_pages_that_link_here
+03:56:20 - WARNING: Duplicate language string ui_report_is_value_days_old
+03:56:20 - WARNING: Duplicate language string ui_report_is_current
+03:56:20 - WARNING: Duplicate language string ui_button_party_member_healthy_total
+03:56:20 - WARNING: Duplicate language string ui_button_party_member_total
+03:56:20 - WARNING: Duplicate language string ui_button_party_member_hero_percentage_wounded
+03:56:20 - WARNING: Duplicate language string ui_button_party_member_hero_percentage
+03:56:20 - WARNING: Duplicate language string ui_percentage_value
+03:56:20 - WARNING: Duplicate language string ui_full
+03:56:20 - WARNING: Duplicate language string ui_quick
+03:56:20 - WARNING: Duplicate language string ui_none
+03:56:20 - WARNING: Duplicate language string ui_change
+03:56:20 - WARNING: Duplicate language string ui_how_to_change
+03:56:20 - WARNING: Duplicate language string ui_change_directx_explanation
+03:56:20 - WARNING: Duplicate language string ui_dropping_picking_up
+03:56:20 - WARNING: Duplicate language string ui_dropping
+03:56:20 - WARNING: Duplicate language string ui_picking_up
+03:56:20 - WARNING: Duplicate language string ui_unable_to_take
+03:56:20 - WARNING: Duplicate language string ui_age
+03:56:20 - WARNING: Duplicate language string ui_cannot_be_used_on_horseback
+03:56:20 - WARNING: Duplicate language string ui_enable_vertex_shaders2
+03:56:20 - WARNING: Duplicate language string ui_screen_size2
+03:56:20 - WARNING: Duplicate language string ui_use_desktop_resolution2
+03:56:20 - WARNING: Duplicate language string ui_shadow_quality2
+03:56:20 - WARNING: Duplicate language string ui_m_low2
+03:56:20 - WARNING: Duplicate language string ui_m_high2
+03:56:20 - WARNING: Duplicate language string ui_m_ultra_high2
+03:56:20 - WARNING: Duplicate language string ui_off2
+03:56:20 - WARNING: Duplicate language string ui_group_header
+03:56:20 - WARNING: Duplicate language string ui_group_1
+03:56:20 - WARNING: Duplicate language string ui_group_2
+03:56:20 - WARNING: Duplicate language string ui_group_3
+03:56:20 - WARNING: Duplicate language string ui_group_4
+03:56:20 - WARNING: Duplicate language string ui_group_5
+03:56:20 - WARNING: Duplicate language string ui_group_6
+03:56:20 - WARNING: Duplicate language string ui_group_7
+03:56:20 - WARNING: Duplicate language string ui_group_8
+03:56:20 - WARNING: Duplicate language string ui_group_9
+03:56:20 - WARNING: Duplicate language string ui_group_close
+03:56:20 - WARNING: Duplicate language string ui_party_b_group_information
+03:56:20 - WARNING: Duplicate language string ui_thrown_or_s
+03:56:20 - WARNING: Duplicate language string ui_ranged_damage
+03:56:20 - WARNING: Duplicate language string ui_overall_quality
+03:56:20 - WARNING: Duplicate language string ui_shader_quality
+03:56:20 - WARNING: Duplicate language string ui_flora_lod_detail
+03:56:20 - WARNING: Duplicate language string ui_flora_degrade_distance
+03:56:20 - WARNING: Duplicate language string ui_antialiasing
+03:56:20 - WARNING: Duplicate language string ui_use_depth_effects
+03:56:20 - WARNING: Duplicate language string ui_hdr_mode
+03:56:20 - WARNING: Duplicate language string ui_autoexpore
+03:56:20 - WARNING: Duplicate language string ui_choose_profile
+03:56:20 - WARNING: Duplicate language string ui_create
+03:56:20 - WARNING: Duplicate language string ui_edit
+03:56:20 - WARNING: Duplicate language string ui_join_game
+03:56:20 - WARNING: Duplicate language string ui_host_game
+03:56:20 - WARNING: Duplicate language string ui_custom
+03:56:20 - WARNING: Duplicate language string ui_medium
+03:56:20 - WARNING: Duplicate language string ui_male
+03:56:20 - WARNING: Duplicate language string ui_female
+03:56:20 - WARNING: Duplicate language string ui_gender
+03:56:20 - WARNING: Duplicate language string ui_edit_profile
+03:56:20 - WARNING: Duplicate language string ui_new_profile
+03:56:20 - WARNING: Duplicate language string ui_enter_username
+03:56:20 - WARNING: Duplicate language string ui_invalid_username
+03:56:20 - WARNING: Duplicate language string ui_confirmation
+03:56:20 - WARNING: Duplicate language string ui_multiplayer
+03:56:20 - WARNING: Duplicate language string ui_server_name
+03:56:20 - WARNING: Duplicate language string ui_module_name
+03:56:20 - WARNING: Duplicate language string ui_game_type
+03:56:20 - WARNING: Duplicate language string ui_map_name
+03:56:20 - WARNING: Duplicate language string ui_ping
+03:56:20 - WARNING: Duplicate language string ui_dedicated
+03:56:20 - WARNING: Duplicate language string ui_number_of_players
+03:56:20 - WARNING: Duplicate language string ui_password_protected
+03:56:20 - WARNING: Duplicate language string ui_connect
+03:56:20 - WARNING: Duplicate language string ui_local_area_network
+03:56:20 - WARNING: Duplicate language string ui_internet
+03:56:20 - WARNING: Duplicate language string ui_favorites
+03:56:20 - WARNING: Duplicate language string ui_source
+03:56:20 - WARNING: Duplicate language string ui_server_password
+03:56:20 - WARNING: Duplicate language string ui_refresh
+03:56:20 - WARNING: Duplicate language string ui_start_search
+03:56:20 - WARNING: Duplicate language string ui_add_to_favorites
+03:56:20 - WARNING: Duplicate language string ui_remove_from_favorites
+03:56:20 - WARNING: Duplicate language string ui_use_speedtree
+03:56:20 - WARNING: Duplicate language string ui_use_instancing
+03:56:20 - WARNING: Duplicate language string ui_error
+03:56:20 - WARNING: Duplicate language string ui_error_server_full
+03:56:20 - WARNING: Duplicate language string ui_error_server_full_for_non_private
+03:56:20 - WARNING: Duplicate language string ui_error_server_password_incorrect
+03:56:20 - WARNING: Duplicate language string ui_error_incorrect_serial
+03:56:20 - WARNING: Duplicate language string ui_error_incorrect_authorization_key
+03:56:20 - WARNING: Duplicate language string ui_error_banned_from_server
+03:56:20 - WARNING: Duplicate language string ui_error_username_taken
+03:56:20 - WARNING: Duplicate language string ui_error_authentication_failed
+03:56:20 - WARNING: Duplicate language string ui_unable_to_connect_to_server
+03:56:20 - WARNING: Duplicate language string ui_connection_to_server_is_lost
+03:56:20 - WARNING: Duplicate language string ui_kicked_from_server
+03:56:20 - WARNING: Duplicate language string ui_switch_to_module_question
+03:56:20 - WARNING: Duplicate language string ui_download_module_question
+03:56:20 - WARNING: Duplicate language string ui_download_mb_new_version_question
+03:56:20 - WARNING: Duplicate language string ui_download_mb_old_version_question
+03:56:20 - WARNING: Duplicate language string ui_download_module_new_version_question
+03:56:20 - WARNING: Duplicate language string ui_download_module_old_version_question
+03:56:20 - WARNING: Duplicate language string ui_authenticating_with_steam
+03:56:20 - WARNING: Duplicate language string ui_validating_serial_number
+03:56:20 - WARNING: Duplicate language string ui_scanning_lan
+03:56:20 - WARNING: Duplicate language string ui_retrieving_servers
+03:56:20 - WARNING: Duplicate language string ui_shield_size2
+03:56:20 - WARNING: Duplicate language string ui_click_to_view_notes
+03:56:20 - WARNING: Duplicate language string ui_retrieving_server_infos
+03:56:20 - WARNING: Duplicate language string ui_connecting_to_server
+03:56:20 - WARNING: Duplicate language string ui_requesting_to_join_the_game
+03:56:20 - WARNING: Duplicate language string ui_loading
+03:56:20 - WARNING: Duplicate language string ui_group_value_control
+03:56:20 - WARNING: Duplicate language string ui_drop_weapon
+03:56:20 - WARNING: Duplicate language string ui_multiplayer_message_all
+03:56:20 - WARNING: Duplicate language string ui_multiplayer_message_team
+03:56:20 - WARNING: Duplicate language string ui_command_line
+03:56:20 - WARNING: Duplicate language string ui_use_ranged_weapon_as_melee
+03:56:20 - WARNING: Duplicate language string ui_send_message_all
+03:56:20 - WARNING: Duplicate language string ui_send_message_team
+03:56:20 - WARNING: Duplicate language string ui_select
+03:56:20 - WARNING: Duplicate language string ui_context_menu
+03:56:20 - WARNING: Duplicate language string ui_round_starts_in_value_seconds
+03:56:20 - WARNING: Duplicate language string ui_watching_value
+03:56:20 - WARNING: Duplicate language string ui_capital_spec
+03:56:20 - WARNING: Duplicate language string ui_capital_dead
+03:56:20 - WARNING: Duplicate language string ui_instancing_error1
+03:56:20 - WARNING: Duplicate language string ui_instancing_error2
+03:56:20 - WARNING: Duplicate language string ui_by_keyboard
+03:56:20 - WARNING: Duplicate language string ui_combat_speed_slowest
+03:56:20 - WARNING: Duplicate language string ui_combat_speed_slower
+03:56:20 - WARNING: Duplicate language string ui_combat_speed_normal
+03:56:20 - WARNING: Duplicate language string ui_combat_speed_faster
+03:56:20 - WARNING: Duplicate language string ui_combat_speed_fastest
+03:56:20 - WARNING: Duplicate language string ui_module_newer_than_application
+03:56:20 - WARNING: Duplicate language string ui_module_older_than_application
+03:56:20 - WARNING: Duplicate language string ui_unbalanced
+03:56:20 - WARNING: Duplicate language string ui_can_crush_through_blocks
+03:56:20 - WARNING: Duplicate language string ui_turn_camera_with_horse
+03:56:20 - WARNING: Duplicate language string ui_widescreen_mode_on
+03:56:20 - WARNING: Duplicate language string ui_widescreen_mode_off
+03:56:20 - WARNING: Duplicate language string ui_notification_cant_upgrade
+03:56:20 - WARNING: Duplicate language string ui_turn_never
+03:56:20 - WARNING: Duplicate language string ui_turn_ranged_only
+03:56:20 - WARNING: Duplicate language string ui_turn_melee_only
+03:56:20 - WARNING: Duplicate language string ui_turn_always
+03:56:20 - WARNING: Duplicate language string ui_general_options
+03:56:20 - WARNING: Duplicate language string ui_vac_enabled
+03:56:20 - WARNING: Duplicate language string ui_campaign_ai
+03:56:20 - WARNING: Duplicate language string ui_downloading_map
+03:56:20 - WARNING: Duplicate language string ui_download_completed
+03:56:20 - WARNING: Duplicate language string ui_server_filter
+03:56:20 - WARNING: Duplicate language string ui_has_players
+03:56:20 - WARNING: Duplicate language string ui_is_not_full
+03:56:20 - WARNING: Duplicate language string ui_is_password_free
+03:56:20 - WARNING: Duplicate language string ui_native_only
+03:56:20 - WARNING: Duplicate language string ui_ping_limit
+03:56:20 - WARNING: Duplicate language string ui_filter_info
+03:56:20 - WARNING: Duplicate language string ui_is_version_compatible
+03:56:20 - WARNING: Duplicate language string ui_ttnet_account
+03:56:20 - WARNING: Duplicate language string ui_username
+03:56:20 - WARNING: Duplicate language string ui_password
+03:56:20 - WARNING: Duplicate language string ui_error_incorrect_username_or_password
+03:56:20 - WARNING: Duplicate language string ui_validating_account
+03:56:20 - WARNING: Duplicate language string ui_plase_enter_your_serial_key
+03:56:20 - WARNING: Duplicate language string ui_texture_detail2
+03:56:20 - WARNING: Duplicate language string ui_antialiasing2
+03:56:20 - WARNING: Duplicate language string ui_texture_detail
+03:56:20 - WARNING: Duplicate language string ui_max_frame_rate
+03:56:20 - WARNING: Duplicate language string ui_enable_bumpmap
+03:56:20 - WARNING: Duplicate language string ui_disable_blood
+03:56:20 - WARNING: Duplicate language string ui_disable_music
+03:56:20 - WARNING: Duplicate language string ui_disable_sound
+03:56:20 - WARNING: Duplicate language string ui_enable_cheats
+03:56:20 - WARNING: Duplicate language string ui_enable_edit_mode
+03:56:20 - WARNING: Duplicate language string ui_enable_pixel_shaders
+03:56:20 - WARNING: Duplicate language string ui_enable_sound_variation
+03:56:20 - WARNING: Duplicate language string ui_enable_vertex_shaders
+03:56:20 - WARNING: Duplicate language string ui_shadow_quality
+03:56:20 - WARNING: Duplicate language string ui_directx_7
+03:56:20 - WARNING: Duplicate language string ui_directx_9
+03:56:20 - WARNING: Duplicate language string ui_start_windowed
+03:56:20 - WARNING: Duplicate language string ui_trialmode_caption
+03:56:20 - WARNING: Duplicate language string ui_trialmode
+03:56:20 - WARNING: Duplicate language string ui_launch_buy
+03:56:20 - WARNING: Duplicate language string ui_launch_faq
+03:56:20 - WARNING: Duplicate language string ui_trialmode2
+03:56:20 - WARNING: Duplicate language string ui_trialmode3
+03:56:20 - WARNING: Duplicate language string ui_trialmode4
+03:56:20 - WARNING: Duplicate language string ui_serial_key_caption
+03:56:20 - WARNING: Duplicate language string ui_notification_serial_input
+03:56:20 - WARNING: Duplicate language string ui_activate
+03:56:20 - WARNING: Duplicate language string ui_paste
+03:56:20 - WARNING: Duplicate language string ui_notification_serial_internet_connection
+03:56:20 - WARNING: Duplicate language string ui_notification_serial_offline
+03:56:20 - WARNING: Duplicate language string ui_manual_activation
+03:56:20 - WARNING: Duplicate language string ui_offline_activation
+03:56:20 - WARNING: Duplicate language string ui_manual_activation_caption
+03:56:20 - WARNING: Duplicate language string ui_offline_activation_caption
+03:56:20 - WARNING: Duplicate language string ui_cancel2
+03:56:20 - WARNING: Duplicate language string ui_close
+03:56:20 - WARNING: Duplicate language string ui_ok2
+03:56:20 - WARNING: Duplicate language string ui_activation_successful
+03:56:20 - WARNING: Duplicate language string ui_activation_successful2
+03:56:20 - WARNING: Duplicate language string ui_activation_denied
+03:56:20 - WARNING: Duplicate language string ui_notification_serial_already_used
+03:56:20 - WARNING: Duplicate language string ui_notification_unable_to_connect_to_activation_server
+03:56:20 - WARNING: Duplicate language string ui_notification_unable_to_connect_to_activation_server2
+03:56:20 - WARNING: Duplicate language string ui_incorrect_serial_number
+03:56:20 - WARNING: Duplicate language string ui_incorrect_hardware_hash
+03:56:20 - WARNING: Duplicate language string ui_incorrect_activation_code
+03:56:20 - WARNING: Duplicate language string ui_cant_write_to_registry
+03:56:20 - WARNING: Duplicate language string ui_video
+03:56:20 - WARNING: Duplicate language string ui_audio
+03:56:20 - WARNING: Duplicate language string ui_game
+03:56:20 - WARNING: Duplicate language string ui_advanced
+03:56:20 - WARNING: Duplicate language string ui_mount_and_blade_is_ready
+03:56:20 - WARNING: Duplicate language string ui_notification_trial_mode
+03:56:20 - WARNING: Duplicate language string ui_there_are_no_modules_installed
+03:56:20 - WARNING: Duplicate language string ui_notification_new_version
+03:56:20 - WARNING: Duplicate language string ui_new_version_found
+03:56:20 - WARNING: Duplicate language string ui_notification_unable_to_retreive_new_version
+03:56:20 - WARNING: Duplicate language string ui_new_version
+03:56:20 - WARNING: Duplicate language string ui_notification_latest_version
+03:56:20 - WARNING: Duplicate language string ui_mount_and_blade_is_up_to_date
+03:56:20 - WARNING: Duplicate language string ui_continue_playing_the_trial_mode
+03:56:20 - WARNING: Duplicate language string ui_faq_caption
+03:56:20 - WARNING: Duplicate language string ui_faq_text
+03:56:20 - WARNING: Duplicate language string ui_auto_adjust
+03:56:20 - WARNING: Duplicate language string ui_screen_size
+03:56:20 - WARNING: Duplicate language string ui_use_desktop_resolution
+03:56:20 - WARNING: Duplicate language string ui_play
+03:56:20 - WARNING: Duplicate language string ui_check_for_new_version
+03:56:20 - WARNING: Duplicate language string ui_configure
+03:56:20 - WARNING: Duplicate language string ui_configure_caption
+03:56:20 - WARNING: Duplicate language string ui_mountandblade_website
+03:56:20 - WARNING: Duplicate language string ui_current_setting
+03:56:20 - WARNING: Duplicate language string ui_manual_activation_text1
+03:56:20 - WARNING: Duplicate language string ui_manual_activation_text2
+03:56:20 - WARNING: Duplicate language string ui_manual_activation_text3
+03:56:20 - WARNING: Duplicate language string ui_manual_activation_text4
+03:56:20 - WARNING: Duplicate language string ui_activation_code
+03:56:20 - WARNING: Duplicate language string ui_force_vsync
+03:56:20 - WARNING: Duplicate language string ui_m_low
+03:56:20 - WARNING: Duplicate language string ui_m_high
+03:56:20 - WARNING: Duplicate language string ui_m_ultra_high
+03:56:20 - WARNING: Duplicate language string ui_force_single_threading
+03:56:20 - WARNING: Duplicate language string ui_not_enough_memory
+03:56:20 - WARNING: Duplicate language string ui_install
+03:56:20 - WARNING: Duplicate language string DirectXText
+03:56:20 - WARNING: Duplicate language string NoMountAndBladeText
+03:56:20 - WARNING: Duplicate language string ui_SavegamesText
+03:56:20 - WARNING: Duplicate language string ui_trialmode_online
+03:56:20 - WARNING: Duplicate language string ui_launch_activate
+03:56:20 - WARNING: Duplicate language string ui_trialmode2_online
+03:56:20 - WARNING: Duplicate language string ui_trialmode3_online
+03:56:20 - WARNING: Duplicate language string ui_trialmode4_online
+03:56:20 - WARNING: Duplicate language string ui_ondemand_textures
+03:56:20 - WARNING: Duplicate language string ui_language
+03:56:20 - WARNING: Duplicate language string ui_steam_not_running
+03:56:20 - WARNING: Duplicate language string ui_switch_to_turkish_explanation
+03:56:20 - WARNING: Duplicate language string ui_switch_to_turkish_yes
+03:56:20 - WARNING: Duplicate language string ui_switch_to_turkish_no
+03:56:20 - WARNING: Duplicate language string ui_new_version_message
+03:56:20 - WARNING: Duplicate language string ui_enable_version_check
+03:56:20 - WARNING: Duplicate language string ui_disable
+03:56:20 - WARNING: Duplicate language string ui_yes2
+03:56:20 - WARNING: Duplicate language string ui_no2
+03:56:20 - WARNING: Duplicate language string ui_new_version_message2
+03:56:20 - Loading language files...
+03:56:20 - Initializing resource manager...
+03:56:20 - Initializing network manager...
+03:56:20 - Initializing task pool...
+03:56:20 - Initializing sound...
+03:56:20 - Initializing physics...
+03:56:20 - Initializing mission...
+03:56:20 - Loading resource blacklist...
+03:56:20 - Loading core resources...
+03:56:20 - Loading resource test
+03:56:20 - Loading resource textures_face_gen
+03:56:20 - Loading resource shaders
+03:56:20 - Loading resource textures
+03:56:20 - Loading resource ccoop_extra_ui_textures
+03:56:20 - Loading resource materials
+03:56:20 - Loading resource materials_face_gen
+03:56:20 - Loading resource ccoop_extra_ui_materials
+03:56:20 - Loading resource uimeshes
+03:56:20 - Loading resource meshes_face_gen
+03:56:20 - Loading resource helpers
+03:56:20 - Loading resource map_tree_meshes
+03:56:20 - Loading resource map_icon_meshes
+03:56:20 - Loading resource particle_meshes
+03:56:20 - Loading resource skeletons
+03:56:20 - Loading resource tree_meshes
+03:56:20 - Loading resource xtree_meshes
+03:56:20 - Loading resource grass_meshes
+03:56:20 - Loading resource plant_meshes
+03:56:20 - Loading resource body_meshes
+03:56:20 - Loading resource object_meshes
+03:56:20 - Loading resource object_bodies
+03:56:20 - Loading resource goods_meshes
+03:56:20 - Loading resource item_meshes1
+03:56:20 - Loading resource horse_a
+03:56:20 - Loading resource arabian_horses
+03:56:20 - Loading resource arabian_castle
+03:56:20 - Loading resource food
+03:56:20 - Loading resource beards
+03:56:20 - Loading resource armors_b
+03:56:20 - Loading resource armors_c
+03:56:20 - Loading resource armors_d
+03:56:20 - Loading resource armors_e
+03:56:20 - Loading resource armors_f
+03:56:20 - Loading resource armors_g
+03:56:20 - Loading resource armors_h
+03:56:20 - Loading resource armors_i
+03:56:20 - Loading resource boots_b
+03:56:20 - Loading resource boots_c
+03:56:20 - Loading resource helmets
+03:56:20 - Loading resource helmets_b
+03:56:20 - Loading resource village_houses
+03:56:20 - Loading resource village_houses_a
+03:56:20 - Loading resource village_houses_b
+03:56:20 - Loading resource hair
+03:56:20 - Loading resource deneme
+03:56:20 - Loading resource interiors_a
+03:56:20 - Loading resource interiors_b
+03:56:20 - Loading resource interiors_c
+03:56:20 - Loading resource arena
+03:56:20 - Loading resource map_icons_b
+03:56:20 - Loading resource castle_a
+03:56:20 - Loading resource dungeon
+03:56:20 - Loading resource stone_houses
+03:56:20 - Loading resource snowy_houses
+03:56:20 - Loading resource snowy_castle
+03:56:20 - Loading resource helmets_d
+03:56:20 - Loading resource helmets_e
+03:56:20 - Loading resource helmets_f
+03:56:20 - Loading resource castle_b
+03:56:20 - Loading resource square_keep
+03:56:20 - Loading resource anim_b
+03:56:20 - Loading resource shields
+03:56:20 - Loading resource shields_b
+03:56:20 - Loading resource weapon_meshes_c
+03:56:20 - Loading resource xtree_meshes_b
+03:56:20 - Loading resource map_icons_c
+03:56:20 - Loading resource pictures
+03:56:20 - Loading resource user_interface_b
+03:56:20 - Loading resource user_interface_c
+03:56:20 - Loading resource scene_encounter_spot
+03:56:20 - Loading resource interior_thirsty_lion
+03:56:20 - Loading resource scene_small_tavern
+03:56:20 - Loading resource weapon_meshes1
+03:56:20 - Loading resource weapon_meshes_b
+03:56:20 - Loading resource houses1
+03:56:20 - Loading resource wall_meshes1
+03:56:20 - Loading resource town_houses
+03:56:20 - Loading resource doors
+03:56:20 - Loading resource churches
+03:56:20 - Loading resource town_houses_b
+03:56:20 - Loading resource castle_c
+03:56:20 - Loading resource castle_d
+03:56:20 - Loading resource castle_e
+03:56:20 - Loading resource castle_f
+03:56:20 - Loading resource castle_g
+03:56:20 - Loading resource castle_h
+03:56:20 - Loading resource castle_i
+03:56:20 - Loading resource gatehouse
+03:56:20 - Loading resource viking_houses
+03:56:20 - Loading resource fake_houses
+03:56:20 - Loading resource town_houses_c
+03:56:20 - Loading resource banners
+03:56:20 - Loading resource map_flags
+03:56:20 - Loading resource map_flags_b
+03:56:20 - Loading resource map_flags_c
+03:56:20 - Loading resource map_flags_d
+03:56:20 - Loading resource particles_2
+03:56:20 - Loading resource prisons
+03:56:20 - Loading resource prisons_b
+03:56:20 - Loading resource interiors_d
+03:56:20 - Loading resource costumes_b
+03:56:20 - Loading resource costumes_c
+03:56:20 - Loading resource arena_costumes
+03:56:20 - Loading resource boots_a
+03:56:20 - Loading resource terrain_borders
+03:56:20 - Loading resource terrain_borders_b
+03:56:20 - Loading resource terrain_borders_c
+03:56:20 - Loading resource skyboxes
+03:56:20 - Loading resource object_b
+03:56:20 - Loading resource tree_e_meshes
+03:56:20 - Loading resource destroy
+03:56:20 - Loading resource destroy_snowy
+03:56:20 - Loading resource xtree_meshes_c
+03:56:20 - Loading resource grass_meshes_b
+03:56:20 - Loading resource interiors_steppe
+03:56:20 - Loading resource grooming_horse
+03:56:20 - Loading resource town_houses_d
+03:56:20 - Loading resource horses_b
+03:56:20 - Loading resource ani_horse_mounted
+03:56:20 - Loading resource deneme2
+03:56:20 - Loading resource horse_skeleton
+03:56:20 - Loading resource steppe_fake_houses
+03:56:20 - Loading resource weapon_meshes_d
+03:56:20 - Loading resource tableau_shields
+03:56:20 - Loading resource heraldic_armors
+03:56:20 - Loading resource spear
+03:56:20 - Loading resource weapons_e
+03:56:20 - Loading resource weapons_f
+03:56:20 - Loading resource instruments
+03:56:20 - Loading resource sarranid_armors
+03:56:20 - Loading resource custom_banner
+03:56:20 - Loading resource simple_primitives
+03:56:20 - Loading resource ani_man_walk
+03:56:20 - Loading resource ani_twohanded
+03:56:20 - Loading resource ani_onehanded
+03:56:20 - Loading resource ani_death
+03:56:20 - Loading resource ani_stand_guardsman
+03:56:20 - Loading resource ani_human_mounted
+03:56:20 - Loading resource ani_lady_stand
+03:56:20 - Loading resource ani_poses
+03:56:20 - Loading resource ani_stand_shopkeeper
+03:56:20 - Loading resource ani_man_cheer
+03:56:20 - Loading resource ani_stand_onhorse
+03:56:20 - Loading resource ani_throw_stone
+03:56:20 - Loading resource ani_strikes
+03:56:20 - Loading resource ani_equip_arms
+03:56:20 - Loading resource ani_run_p
+03:56:20 - Loading resource ani_run_forward_left_right
+03:56:20 - Loading resource uni_strikes3
+03:56:20 - Loading resource ani_walk_sideways
+03:56:20 - Loading resource ani_run_sideways
+03:56:20 - Loading resource ani_stand
+03:56:20 - Loading resource ani_crouch_down
+03:56:20 - Loading resource ani_low_walk
+03:56:20 - Loading resource ani_turn_man
+03:56:20 - Loading resource ani_attacks_single
+03:56:20 - Loading resource ani_lancer
+03:56:20 - Loading resource ani_attacks
+03:56:20 - Loading resource ani_kicks
+03:56:20 - Loading resource ani_parry_attack
+03:56:20 - Loading resource ani_walk_backward
+03:56:20 - Loading resource ani_run_lookingsides
+03:56:20 - Loading resource ani_defends
+03:56:20 - Loading resource ani_walk_lookingsides
+03:56:20 - Loading resource ani_jump
+03:56:20 - Loading resource ani_wedding
+03:56:20 - Loading resource arabian_props
+03:56:20 - Loading resource uni_jump
+03:56:20 - Loading resource uni_stances
+03:56:20 - Loading resource uni_equip
+03:56:20 - Loading resource uni_strike
+03:56:20 - Loading resource uni_throws
+03:56:20 - Loading resource uni_fistswing
+03:56:20 - Loading resource uni_lord_stand
+03:56:20 - Loading resource uni_defence
+03:56:20 - Loading resource uni_sideways
+03:56:20 - Loading resource dart
+03:56:20 - Loading resource armors_new_a
+03:56:20 - Loading resource armors_new_b
+03:56:20 - Loading resource armors_new_heraldic
+03:56:20 - Loading resource armors_new_arena
+03:56:20 - Loading resource crossbows
+03:56:20 - Loading resource arabian_armors
+03:56:20 - Loading resource rock
+03:56:20 - Loading resource costumes_d
+03:56:20 - Loading resource nordic_helmets
+03:56:20 - Loading resource sarranid_helmets
+03:56:20 - Loading resource sarranid_armor
+03:56:20 - Loading resource raw_materials
+03:56:20 - Loading resource khergit_lady_dress
+03:56:20 - Loading resource vaegir_helmets
+03:56:20 - Loading resource gauntlets_new
+03:56:20 - Loading resource sarranid_lady_dress
+03:56:20 - Loading resource sarranid_boots
+03:56:20 - Loading resource bride_dress
+03:56:20 - Loading resource full_plate_armor
+03:56:20 - Loading resource weapon_meshes_e
+03:56:20 - Loading resource fur_armors_a
+03:56:20 - Loading resource ui_server_filter
+03:56:20 - Loading resource warhorse_new
+03:56:20 - Loading resource ship
+03:56:20 - Loading resource arabian_houses
+03:56:20 - Loading resource object_c
+03:56:20 - Loading resource tree_f
+03:56:20 - Loading resource interiors_arabian
+03:56:20 - Loading resource arabian_village
+03:56:20 - Loading resource valleyProps
+03:56:20 - Loading resource workshops
+03:56:20 - Loading resource barrier_primitives
+03:56:20 - Loading resource town_houses_e
+03:56:20 - Loading resource wb_mp_objects_a
+03:56:20 - Loading resource prisonCart
+03:56:20 - Loading resource ccoop_extra_ui_meshes
+03:56:20 - Loading item modifiers...
+03:56:20 - Loading flora kinds...
+03:56:20 - Loading ground specs...
+03:56:20 - Loading skyboxes...
+03:56:20 - Loading sounds...
+03:56:20 - Unable to map sound snd_release_crossbow_medium
+03:56:20 - Unable to map sound snd_release_crossbow_far
+03:56:20 - Unable to map sound snd_bullet_hit_body
+03:56:20 - Unable to map sound snd_player_hit_by_bullet
+03:56:20 - Loading particle systems...
+03:56:20 - Loading skins...
+03:56:20 - Loading scene props...
+03:56:20 - Loading menus...
+03:56:20 - Loading scripts...
+03:56:20 - Unable to map script game_check_party_sees_party
+03:56:20 - Unable to map script game_get_party_speed_multiplier
+03:56:20 - Unable to map script game_missile_launch
+03:56:20 - Unable to map script game_troop_upgrades_button_clicked
+03:56:20 - Unable to map script game_character_screen_requested
+03:56:20 - Loading map icons...
+03:56:20 - Loading strings...
+03:56:20 - Loading quick strings...
+03:56:20 - Loading item kinds...
+03:56:20 - Loading conversations...
+03:56:20 - Loading mission templates...
+03:56:20 - Loading party templates...
+03:56:20 - Loading actions...
+03:56:20 - WARNING: Failed to get skeleton animation equip_musket
+03:56:20 - WARNING: Failed to get skeleton animation crouch_stand_man
+03:56:20 - WARNING: Failed to get skeleton animation crouch_greatsword_cstance
+03:56:20 - WARNING: Failed to get skeleton animation crouch_staff_cstance
+03:56:20 - WARNING: Failed to get skeleton animation crouch_fire_pistol
+03:56:20 - WARNING: Failed to get skeleton animation man_reload
+03:56:20 - WARNING: Failed to get skeleton animation crouch_staff_cstance_attack
+03:56:20 - WARNING: Failed to get skeleton animation spear_thrust_overhead
+03:56:20 - WARNING: Failed to get skeleton animation reload_pistol_new
+03:56:20 - WARNING: Failed to get skeleton animation musket_upper_swing
+03:56:20 - WARNING: Failed to get skeleton animation musket_thrust_forward
+03:56:20 - WARNING: Failed to get skeleton animation musket_thrust_forward_parry
+03:56:20 - WARNING: Failed to get skeleton animation equip_pistol
+03:56:20 - Initializing lua...
+03:56:21 - Starting map multi_scene_1 in mode multiplayer_tdm
+03:56:29 - SUCCESS: received Uid: 1543821 Gold: 100150
+03:56:41 - SUCCESS: received Uid: 1543821 Gold: 100150
+03:57:08 - SUCCESS: received Uid: 1543821 Gold: 3000
+03:57:23 - SUCCESS: received Uid: 1543821 Gold: 3000
+03:57:36 - SUCCESS: received Uid: 1543821 Gold: 600
+03:59:23 - SUCCESS: received Uid: 1543821 Gold: 605
+03:59:45 - Exiting network manager...
+03:59:45 - Deleting game...
+03:59:45 - Deleting mission...
+03:59:45 - Deleting resources...
+03:59:45 - Exiting sound manager...
+03:59:45 - Exiting physics manager...
+03:59:45 - Closing log file...
