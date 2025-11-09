@@ -279,7 +279,7 @@ See [Database Setup](#database-setup-optional) section for full details.
 
 ## 📜 License
 
-This project NOT including external Software is licensed under the **Apache License 2.0** - see the [LICENSE](LICENSE) file for details.
+This project !NOT including external Software! is licensed under the **Apache License 2.0** - see the [LICENSE](LICENSE) file for details.
 
 ### Warband Dedicated Server License
 
