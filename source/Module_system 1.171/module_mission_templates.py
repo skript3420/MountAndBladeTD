@@ -8554,14 +8554,11 @@ mission_templates = [
 
           (try_begin),
             (eq, ":agent_team", 0), #if enemy spawned
-            #if not special unit
-            (neq, ":agent_trp_id", "trp_hired_assassin"),
-            (neq, ":agent_trp_id", "trp_arena_training_fighter_10"),
             (val_add, "$g_num_enemies_alive", 1), #track enemy count
             (agent_set_speed_limit, ":agent_no", gtd_max_enemy_speed_kph),
           (try_end),
 
-          (try_begin), #set harlaus hp to 1000 on spawn
+          (try_begin), #set harlaus hp on spawn
             (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
             (agent_set_max_hit_points, ":agent_no", gtd_harlaus_max_hp,1),
             (agent_set_hit_points, ":agent_no", gtd_harlaus_max_hp,1),
