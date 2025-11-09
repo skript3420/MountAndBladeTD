@@ -8311,7 +8311,7 @@ mission_templates = [
                 (agent_force_rethink, ":agent_no"), #force rethink to attack harlaus
               (try_end),
 
-              (try_begin), #handle horses near harlaus
+              (try_begin), #handle agents near harlaus
                 (neg|agent_is_human, ":agent_no"),
                 #process hired assassin rider
                 (try_begin),
@@ -8322,19 +8322,13 @@ mission_templates = [
                   (val_add, "$g_special_dmg_harlaus", gtd_special_dmg_assassin), #increase special dmg amount
                   (remove_agent, ":rider_agent"), #remove assassin
                 (try_end),
-                #remove horse
+                #remove horses near harlaus
                 (remove_agent, ":agent_no"),
               (try_end),
             #for agent not near harlaus, reset focus
             (else_try),
                 (eq, ":agent_team", 0), #enemy team
-                (agent_get_attack_action, ":action", ":agent_no"),
-                (try_begin),
-                  (gt, ":action", 1), #agent is attacking
-                  (agent_set_scripted_destination_no_attack, ":agent_no", pos10, 1),
-                (else_try),
-                  (agent_set_scripted_destination, ":agent_no", pos10,1,1),
-                (try_end),
+                (agent_set_scripted_destination, ":agent_no", pos10,1,0),
             (try_end),
           (try_end),
         (try_end),
@@ -8472,7 +8466,7 @@ mission_templates = [
       #between rounds:
       #set new bot amount for next wave based on players in player team and wave
       #proceed with gamestate after delay, if min. 1 player in player team
-      (1,5,0, [(eq, "$g_is_wave_active", gtd_round_prepare)],[
+      (1,10,0, [(eq, "$g_is_wave_active", gtd_round_prepare)],[
         (assign, "$g_num_enemies_spawned", 0), #reset spawned enemy count for new wave
         (gt, "$g_num_players_t2", 0), #at least one player in team 2
         (team_get_score, ":team_2_score" ,1), #get wave number (player team score)
@@ -8504,6 +8498,7 @@ mission_templates = [
       (1, 0, 0, [(eq, "$g_is_wave_active", gtd_round_active)], 
       [
         (eq, "$g_num_enemies_alive", 0), #all bots dead
+        (neq, "$g_num_enemies_spawned", 0), #some bots spawned (prevent spawned == bots == 0)
         (ge, "$g_num_enemies_spawned", "$g_multiplayer_num_bots_team_1"), #all bots spawned
 
         #announce current round over
