@@ -100,7 +100,23 @@ Choose this if you need to:
    cd MountAndBladeTD
    ```
 
-2. **Configure Database Integration** (Optional but Recommended)
+2. **(Optional) Modify Game Mechanics**
+
+   If you want to customize gameplay before building:
+
+   a. **Basic Modifications** - Edit these files in `source/Module_system 1.171/`:
+      - `module_constants.py` - Game constants, values, and settings
+      - `module_troops.py` - Troop definitions, equipment, and stats
+
+   b. **Advanced Modifications** - For deeper changes, also edit:
+      - `module_mission_templates.py` - Mission logic, triggers, and events
+      - `module_scripts.py` - Custom scripts and game logic functions
+
+   c. **Learning Resources**
+      - New to modding? Read [The Ultimate Introduction to Modding](https://forums.taleworlds.com/index.php?threads/the-ultimate-introduction-to-modding-starting-out-read-this.240255/)
+      - TaleWorlds [Module System Documentation](https://forums.taleworlds.com/index.php?board=165.0)
+
+3. **Configure Database Integration** (Optional but Recommended)
 
    a. **Set Up Your Database**
       ```sql
@@ -149,7 +165,7 @@ Choose this if you need to:
       - Generate a customized `webpage.php` file in `build/`
 
    d. **Deploy PHP Script**
-      - Copy generated `build/webpage.php` to your web server
+      - Copy generated `build/webpage.php` to your web servers serving directory
       - Ensure it's accessible at the URL specified in `DB_URL_ADDRESS`
       - Test by visiting the URL (should show error without parameters)
 
