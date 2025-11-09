@@ -12,7 +12,7 @@ Originally online under the name GothicTD Server, this is an INDEPENDET recreati
 
 ## 🎮 Overview
 
-**Gothic Tower Defense** is a multiplayer modification that converts Mount & Blade: Warband into a Invasiion like cooperative PvE tower defense game. Players spawn as Ranged Troops and must work together to eliminate 20 waves of AI-controlled bots while defending King Harlaus.
+**Gothic Tower Defense** is a multiplayer modification that converts Mount & Blade: Warband into a Invasion like cooperative PvE tower defense game. Players spawn as ranged troops and must work together to eliminate 20 waves of AI-controlled bots while defending King Harlaus.
 
 The mod features:
 - **Progressive difficulty** through 20 bot waves
