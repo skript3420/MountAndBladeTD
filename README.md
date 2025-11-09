@@ -179,20 +179,11 @@ Choose this if you need to:
    This compiles all Python module files and exports to:
    `build/Mount&Blade Warband Dedicated/Modules/Native/`
 
-4. **Build Flora/Terrain Data** (Only if Modified)
-   ```bash
-   cd source/Module_data 1.171
-   python Flora_kinds.py
-   python Ground_specs.py
-   python Skyboxes.py
-   ```
-   Copy generated `.txt` files to `build/Mount&Blade Warband Dedicated/Data/`
-
-5. **Deploy to Warband**
+4. **Deploy to Warband**
    - **Option 1**: Copy entire `build/Mount&Blade Warband Dedicated/` to your Warband installation
    - **Option 2**: Set `export_dir` in `source/Module_system 1.171/module_info.py` to point directly to your Warband directory, then rebuild
 
-6. **Start the Server**
+5. **Start the Server**
    - Navigate to your Warband dedicated server directory
    - Run `GTD_start_server.bat` (or use the command line)
 
