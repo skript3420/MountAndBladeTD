@@ -90,7 +90,7 @@ Choose this if you need to:
 - Modify game mechanics or scripts
 - Use custom database settings (non-localhost, different field names, etc.)
 - Change the database URL endpoint
-- Customize terrain, flora, or other module data
+- Customize troops, difficulty, or other module data
 
 **Build Steps:**
 
