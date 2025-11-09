@@ -1228,6 +1228,8 @@ g_special_dmg_harlaus
 g_counted_near_harlaus
 g_num_players_t2
 g_has_harlaus_spawned
+g_clones_needed
+g_assassins_needed
 g_num_enemies_spawned
 g_wave_spawn_timestamp
 g_num_enemies_alive

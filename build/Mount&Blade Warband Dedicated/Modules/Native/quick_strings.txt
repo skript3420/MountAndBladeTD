@@ -1,4 +1,4 @@
-694
+693
 qstr_Next_Page Next_Page
 qstr_Game_Rules:^ Game_Rules:^
 qstr_0 0
@@ -349,7 +349,6 @@ qstr_{!}prison_cart_spawn {!}prison_cart_spawn_at_point_{reg0}
 qstr_{!}multiplayer_upgra {!}multiplayer_upgrade_player_equipment:_{reg0}
 qstr_http://localhost/web http://localhost/webpage.php?unique_id={reg1}&event=1
 qstr_http://localhost/webp http://localhost/webpage.php?unique_id={reg1}&gold={reg2}&event=2
-qstr_Error_in_get_special Error_in_get_special_troop_script.
 qstr_You_got_keys_of_dung You_got_keys_of_dungeon.
 qstr_You_must_stay_behind You_must_stay_behind_the_line_on_the_ground!_Point_is_not_counted.
 qstr_Tutorial Tutorial

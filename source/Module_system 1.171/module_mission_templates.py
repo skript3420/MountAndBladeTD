@@ -355,8 +355,8 @@ multiplayer_server_spawn_bots = (
     (gt, ":total_req", 0), #only if required go on
     #decide which team to add bot to
 
-	  #tell if its king harlaus or enemy bot
 	  (try_begin),
+        #tell if its king harlaus to determine team
         (gt, "$g_multiplayer_num_bots_required_team_2", 0),
         #add to team 2
         (assign, ":selected_team", 1),
@@ -365,13 +365,27 @@ multiplayer_server_spawn_bots = (
         #add to team 1
         (assign, ":selected_team", 0),
       (try_end),
-    
+
       #call modded script to find bot troop from troop/wave settings
       (call_script, "script_multiplayer_find_bot_troop_and_group_for_spawn", ":selected_team"),
       #store script results
       (assign, ":selected_troop", reg0), #troop
-      (assign, ":selected_group", -1), #no player leader (like in singleplayer)
-      
+      (assign, ":selected_group", -1), #no player leader (player commanding bots like in singleplayer)
+
+      #override troop, if special troops still in need
+      (try_begin),
+        (eq, ":selected_team", 0,),
+        (try_begin),
+          (gt, "$g_clones_needed", 0),
+          (assign, ":selected_troop", "trp_arena_training_fighter_10"), 
+          (val_sub, "$g_clones_needed", 1), #update num needed
+        (else_try),
+          (gt, "$g_assassins_needed", 0),
+          (assign, ":selected_troop", "trp_hired_assassin"), 
+          (val_sub, "$g_assassins_needed", 1), #update num needed
+        (try_end),
+      (try_end),
+        
 
       #check if selected troop is horseman (for spawn point selection)
       (troop_get_inventory_slot, ":has_item", ":selected_troop", ek_horse),
@@ -384,35 +398,26 @@ multiplayer_server_spawn_bots = (
 
       #find spawn point
       (try_begin),
-        (this_or_next|eq, "$g_multiplayer_game_type", multiplayer_game_type_battle),
-        (eq, "$g_multiplayer_game_type", multiplayer_game_type_destroy),
-        (try_begin),
-          (eq, ":selected_team", 0),
-          (assign, reg0, gtd_map_spawn_enemy), # enemy bots should spawn from spawnpoint 0
-        (else_try),
-          (assign, reg0, gtd_map_spawn_harlaus), # harlaus spawn point
-        (try_end),
+        (eq, ":selected_team", 0),
+        #parameters:  team, group 0 (no player leader), is horseman
+        (call_script, "script_multiplayer_find_spawn_point", ":selected_team", 0, ":is_horseman"),
       (else_try),
-        (call_script, "script_multiplayer_find_spawn_point", ":selected_team", 0, ":is_horseman"), 
+        (assign, reg0, gtd_map_spawn_harlaus), # harlaus spawn point
       (try_end),
+
 
       #spawn the bot with determined settings from above
       (store_current_scene, ":cur_scene"),
       (modify_visitors_at_site, ":cur_scene"),
       (add_visitors_to_current_scene, reg0, ":selected_troop", 1, ":selected_team", ":selected_group"),
       (assign, "$g_multiplayer_ready_for_spawning_agent", 0),
-      
-      #increase spawned enemies count by 1
-      (try_begin),
-        (eq, ":selected_team", 0),
-        (val_add, "$g_num_enemies_spawned", 1),
-      (try_end),
 
 
-      #decrease required bot count by 1
       (try_begin),
         (eq, ":selected_team", 0),
+        # keep track of bots spawned
         (val_sub, "$g_multiplayer_num_bots_required_team_1", 1),
+        (val_add, "$g_num_enemies_spawned", 1),
       (else_try),
         (eq, ":selected_team", 1),
         (val_sub, "$g_multiplayer_num_bots_required_team_2", 1),
@@ -8195,13 +8200,6 @@ mission_templates = [
         (store_trigger_param_1, ":player_no"),
         (call_script, "script_load_player_gold", ":player_no"),
       ]),
-      (ti_on_multiplayer_mission_end, 0, 0, [], #save player gold when mission ends
-      [
-        (try_for_players, ":player_no"),
-          (player_is_active, ":player_no"),
-          (call_script, "script_save_player_gold", ":player_no"),
-        (try_end),
-      ]),
       (ti_on_player_exit, 0, 0, [], #load player gold when player leaves
       [
           (store_trigger_param_1, ":player_no"),
@@ -8297,7 +8295,7 @@ mission_templates = [
           (try_end),
 
           (try_begin), #handle units near harlaus
-            (eq, "$g_is_wave_active", 1), #only during active waves
+            (eq, "$g_is_wave_active", gtd_round_active), #only during active waves
             (agent_is_non_player, ":agent_no"),
             (agent_get_position, pos2, ":agent_no"),
             (try_begin),
@@ -8330,12 +8328,12 @@ mission_templates = [
             #for agent not near harlaus, reset focus
             (else_try),
                 (eq, ":agent_team", 0), #enemy team
-                (agent_get_class, ":is_ranged", ":agent_no"),
+                (agent_get_attack_action, ":action", ":agent_no"),
                 (try_begin),
-                  (eq, ":is_ranged", 1), #target in sight
+                  (gt, ":action", 1), #agent is attacking
                   (agent_set_scripted_destination_no_attack, ":agent_no", pos10, 1),
                 (else_try),
-                  (agent_set_scripted_destination, ":agent_no", pos10,1,0),
+                  (agent_set_scripted_destination, ":agent_no", pos10,1,1),
                 (try_end),
             (try_end),
           (try_end),
@@ -8371,13 +8369,13 @@ mission_templates = [
                   (prop_instance_get_position, pos2, ":cur_prop"),
                   (get_distance_between_positions, ":dist", pos1, pos2),
                   (lt, ":dist", gtd_map_ammo_chest_radius),
-                  (agent_refill_ammo, ":agent_no"),
+                  (call_script, "script_refill_items", ":player_no", ":agent_no"),
               (try_end),
           (try_end),
 
           (try_begin), #handle player respawn
             #if wave is over, do not respawn
-            (neq, "$g_is_wave_active", 2),
+            (neq, "$g_is_wave_active", gtd_round_over),
             (neg|player_is_busy_with_menus, ":player_no"), #not in menu
             (player_get_team_no, ":player_team", ":player_no"), 
             (lt, ":player_team", multi_team_spectator), #not spectator
@@ -8456,7 +8454,7 @@ mission_templates = [
       #server initial settings   
       (ti_before_mission_start ,0,0,[],[ #set bot count at beginning 
         (call_script, "script_set_num_bots", 1, 1),
-        (assign, "$g_is_wave_active", 0), #and set wave as inactive
+        (assign, "$g_is_wave_active", gtd_round_prepare), #and set wave as inactive
               (assign, "$g_wave_spawn_timestamp", 0),
               (assign, "$g_game_end_timestamp", 0),
               (assign, "$g_has_harlaus_spawned", 0),
@@ -8474,8 +8472,7 @@ mission_templates = [
       #between rounds:
       #set new bot amount for next wave based on players in player team and wave
       #proceed with gamestate after delay, if min. 1 player in player team
-      (1,5,0, [(eq, "$g_is_wave_active",0)],[
-          
+      (1,5,0, [(eq, "$g_is_wave_active", gtd_round_prepare)],[
         (assign, "$g_num_enemies_spawned", 0), #reset spawned enemy count for new wave
         (gt, "$g_num_players_t2", 0), #at least one player in team 2
         (team_get_score, ":team_2_score" ,1), #get wave number (player team score)
@@ -8483,6 +8480,10 @@ mission_templates = [
             (eq, ":team_2_score", 0), #after server startup
             (call_script, "script_set_team_score", 1, 1),
           (try_end),
+        #get number of special troops
+        (call_script, "script_get_wave_clone_assassin_count", ":team_2_score"),
+        (assign, "$g_clones_needed", reg0),
+        (assign, "$g_assassins_needed", reg1),
         #calculate bot-amount based on wave no and players active 
         (call_script, "script_calculate_wave_bot_num", ":team_2_score", "$g_num_players_t2"),
         #script result is stored in reg0
@@ -8493,14 +8494,14 @@ mission_templates = [
         (call_script, "script_send_server_message_to_players", "str_next_wave_incoming"),
         #start next wave, inform player
         (call_script, "script_send_kills_until_upgrade_to_players"),
-        (assign, "$g_is_wave_active", 1),
+        (assign, "$g_is_wave_active", gtd_round_active),
       ]),
 
       #wave end(1/2):
       #server catch game ending, if all bots dead
       #multiplayer_server_check_end_map function (modded) handles end map, 
       #when player team score > max score 
-      (1, 0, 0, [(eq, "$g_is_wave_active", 1)], 
+      (1, 0, 0, [(eq, "$g_is_wave_active", gtd_round_active)], 
       [
         (eq, "$g_num_enemies_alive", 0), #all bots dead
         (ge, "$g_num_enemies_spawned", "$g_multiplayer_num_bots_team_1"), #all bots spawned
@@ -8517,12 +8518,12 @@ mission_templates = [
         (try_begin),
           #if game is over
           (ge, ":team_2_score", "$g_multiplayer_game_max_points"),
-          (assign, "$g_is_wave_active", 2), #end wave
+          (assign, "$g_is_wave_active", gtd_round_over), #end wave
         (else_try),
           #if game goes on
           (lt, ":team_2_score", "$g_multiplayer_game_max_points"),
           #reset wave to inactive (=0)
-          (assign, "$g_is_wave_active", 0),
+          (assign, "$g_is_wave_active", gtd_round_prepare),
         (try_end),
       ]),
 
@@ -8530,7 +8531,7 @@ mission_templates = [
       #server catch game ending, if harlaus died
       #multiplayer_server_check_end_map function (modded) handles end map, 
       #when bot team score >0 
-      (ti_on_agent_killed_or_wounded, 0, 0, [(eq, "$g_is_wave_active", 1)], 
+      (ti_on_agent_killed_or_wounded, 0, 0, [(eq, "$g_is_wave_active", gtd_round_active)], 
         [
         (store_trigger_param_1, ":dead_agent_no"), 
         #check if harlaus died
@@ -8538,7 +8539,7 @@ mission_templates = [
           (agent_get_troop_id, ":agent_trp_id", ":dead_agent_no"),
           (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
           #end round, bot team has score of 1 to trigger end map
-          (assign, "$g_is_wave_active", 2),
+          (assign, "$g_is_wave_active", gtd_round_over),
           (call_script, "script_set_team_score", 0, 1),
         (try_end),
         #keep track of enemies alive
@@ -8558,15 +8559,17 @@ mission_templates = [
 
           (try_begin),
             (eq, ":agent_team", 0), #if enemy spawned
+            #if not special unit
             (neq, ":agent_trp_id", "trp_hired_assassin"),
+            (neq, ":agent_trp_id", "trp_arena_training_fighter_10"),
             (val_add, "$g_num_enemies_alive", 1), #track enemy count
             (agent_set_speed_limit, ":agent_no", gtd_max_enemy_speed_kph),
           (try_end),
 
           (try_begin), #set harlaus hp to 1000 on spawn
             (eq, ":agent_trp_id", "trp_kingdom_1_lord"),
-            (agent_set_max_hit_points, ":agent_no", 1000,1),
-            (agent_set_hit_points, ":agent_no", 1000,1),
+            (agent_set_max_hit_points, ":agent_no", gtd_harlaus_max_hp,1),
+            (agent_set_hit_points, ":agent_no", gtd_harlaus_max_hp,1),
           (try_end),
       ]),
 
@@ -8577,7 +8580,7 @@ mission_templates = [
         (assign, "$g_multiplayer_num_bots_required_team_2", 0),
         #Enemy bots
         (try_begin),
-          (eq, "$g_is_wave_active", 1),
+          (eq, "$g_is_wave_active", gtd_round_active),
           (le, "$g_num_enemies_alive", gtd_allow_new_wave),
           (store_sub, ":bots_remaining", "$g_multiplayer_num_bots_team_1", "$g_num_enemies_spawned"),
           (val_max, ":bots_remaining", 0), #safeguard
@@ -8602,7 +8605,7 @@ mission_templates = [
         #King Harlaus bot
         (try_begin),
           (eq, "$g_has_harlaus_spawned", 0),
-          (eq, "$g_is_wave_active", 0),
+          (eq, "$g_is_wave_active", gtd_round_prepare),
           (assign, "$g_multiplayer_num_bots_required_team_2", 1),
         (try_end),
         
@@ -8624,6 +8627,31 @@ mission_templates = [
       #GTD Other Trigger Events
       ######################################
 
+      #delete picked up items from inventory
+      (ti_on_item_picked_up, 0, 0, [],[
+        (store_trigger_param_1, ":agent_id"),
+        (store_trigger_param_2, ":item_id"),
+        (agent_get_item_slot, ":slot_one_itm", ":agent_id", 0),
+        (agent_get_item_slot, ":slot_two_itm", ":agent_id", 1),
+        (agent_get_item_slot, ":slot_three_itm", ":agent_id", 2),
+        (agent_get_item_slot, ":slot_four_itm", ":agent_id", 3),
+        (assign, ":slot_to_clear"),
+        (try_begin),
+          (eq, ":item_id", ":slot_one_itm"),
+          (assign, ":slot_to_clear", 0),
+        (else_try),
+          (eq, ":item_id", ":slot_two_itm"),
+          (assign, ":slot_to_clear", 1),
+        (else_try),
+          (eq, ":item_id", ":slot_three_itm"),
+          (assign, ":slot_to_clear", 2),
+          (else_try),
+          (eq, ":item_id", ":slot_four_itm"),
+          (assign, ":slot_to_clear", 3),
+        (try_end),
+        (agent_unequip_item, ":agent_id", ":item_id", ":slot_to_clear"),
+      ]),
+      
       #announce harlaus %hp if hes hit
       (ti_on_agent_hit, 0,1, [],[ 
         (store_trigger_param_1, ":agent_id"),
@@ -8635,7 +8663,7 @@ mission_templates = [
       ]),
 
       #handle cloner bots death
-      (ti_on_agent_killed_or_wounded, 0, 0, [(eq, "$g_is_wave_active", 1)], [
+      (ti_on_agent_killed_or_wounded, 0, 0, [(eq, "$g_is_wave_active", gtd_round_active)], [
         (store_trigger_param_1, ":agent_id"),
         (agent_get_troop_id, ":agent_trp_id", ":agent_id"),
         #for parent clones
@@ -8658,7 +8686,7 @@ mission_templates = [
       ]),
 
       #tp cloned children to parent death position on spawn
-      (ti_on_agent_spawn, 0, 0, [(eq, "$g_is_wave_active", 1)],
+      (ti_on_agent_spawn, 0, 0, [(eq, "$g_is_wave_active", gtd_round_active)],
       [
         (store_trigger_param_1, ":agent_no"),
         (agent_get_troop_id, ":agent_trp_id", ":agent_no"),

@@ -5,7 +5,7 @@
 #uncomment the line below when you set a valid private password
 #set_pass_private PRIVATEPASS
 #uncomment the line below when you set a valid server name
-set_server_name DebugServer
+set_server_name TowerDefense
 set_add_to_game_servers_list 1
 #uncomment the line below when you set a valid welcome message
 set_welcome_message Still in Test-Phase: Spawn as some Vaegir troop and kill the 20 bot waves to level up and gain stronger Weapons. Refill ammo near chests. Protect King Harlaus!
@@ -23,8 +23,7 @@ set_friendly_fire_damage_self_ratio 0
 set_melee_friendly_fire 1
 
 
-set_auto_team_balance_limit 7
-set_max_players 250 250
+set_max_players 20 20
 set_bot_count 1 0
 set_bot_count 2 0
 set_team_point_limit 21
