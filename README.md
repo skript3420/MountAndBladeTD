@@ -1,4 +1,4 @@
-# Gothic Tower Defense (GTD) - Mount & Blade: Warband
+# Garrison Tower Defense (GTD) - Mount & Blade: Warband
 
 [![Mount & Blade](https://img.shields.io/badge/Mount%20%26%20Blade-Warband-orange.svg)](https://www.taleworlds.com/)
 [![Module System](https://img.shields.io/badge/Module%20System-1.171-green.svg)](https://forums.taleworlds.com/index.php?topic=118039.0)
