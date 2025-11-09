@@ -5503,7 +5503,7 @@ scripts = [
       (try_end),
       ]),
   #---------------GTD-START---------------
-  #money_management_after_agent_death modded 
+  #script_money_management_after_agent_death modded
   ("money_management_after_agent_death",
    [
      (store_script_param, ":killer_agent_no", 1),
@@ -5520,7 +5520,7 @@ scripts = [
        (player_is_active, ":player_no"),
        (player_get_gold, ":player_gold", ":player_no"),
        (val_add, ":player_gold", 1),
-       (player_set_gold, ":player_no", ":player_gold", multi_max_gold_that_can_be_stored),
+       (player_set_gold, ":player_no", ":player_gold", 0), #last param, no gold store limit
        (try_end),
    ]),
 
@@ -13886,17 +13886,18 @@ scripts = [
 	(store_script_param, ":player_no", 1),
   (store_script_param, ":player_agent", 2),
 	
-	# Clear weapon slots only (0-3)
+	# Check, if ammo refill, or full equipment reset
+  (assign, ":should_reset", 0),
 	(try_begin),
 		(ge, ":player_agent", 0),
 		(agent_is_alive, ":player_agent"),
-		(try_for_range, ":cur_slot", 0, 4),
-			(agent_get_item_slot, ":item_id", ":player_agent", ":cur_slot"),
-			(ge, ":item_id", 0),
-			(agent_unequip_item, ":player_agent", ":item_id", ":cur_slot"),
-		(try_end),
+		(agent_get_item_slot, ":item_id", ":player_agent", 0), #weapon slot
+		(lt, ":item_id", 0),
+    (assign, ":should_reset", 1),
 	(try_end),
-	
+  (agent_refill_ammo, ":player_agent"),
+  # If agent lost a weapon slot
+  (eq, ":should_reset", 1),
 	# Get player gold and equip weapons based on level
 	(player_get_gold, ":player_gold", ":player_no"),
 	(try_begin),
