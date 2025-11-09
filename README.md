@@ -50,7 +50,7 @@ Choose this if you want to run the server immediately without modifying the modu
 
 2. **Enable Database Persistence**
    
-   If you want persistent player progression, for Security Reasons a non-public [AMP stack](https://docs.oracle.com/cd/E19253-01/817-6295/ggdfc/index.html) running on one machine is highly recommended!
+   If you want persistent player progression, for Security Reasons a non-public DB setup, e.g. [AMP stack](https://docs.oracle.com/cd/E19253-01/817-6295/ggdfc/index.html), running on the same machine as the warband server is strongly recommended!
 
    a. **Set Up MySQL/MariaDB Database**
       ```sql
