@@ -51401,6 +51401,8 @@ scripts = [
 
 #---------------GTD-START---------------
 
+# script_send_server_message_to_players
+# Sends a server message to all active players and logs it
 ("send_server_message_to_players",
   [
 	(store_script_param_1, ":string"),
@@ -51413,6 +51415,8 @@ scripts = [
     (server_add_message_to_log, ":string"),
   ]),
 
+# script_send_server_message_to_player
+# Sends a server message to a specific player and logs it
 ("send_server_message_to_player",
   [
 	 (store_script_param_1, ":player_no"),
@@ -51445,6 +51449,8 @@ scripts = [
     
 #<DATABASE_FUNCTIONS_START>
 
+# script_load_player_gold
+# Loads a player's gold amount from the database using their unique Steam ID
   ("load_player_gold",[
     (store_script_param_1, reg0),#reg0 = player_id
     (try_begin),
@@ -51458,6 +51464,8 @@ scripts = [
     (try_end),
   ]),
 
+# script_save_player_gold
+# Saves a player's current gold amount to the database using their unique Steam ID
   ("save_player_gold",[
     (store_script_param_1, reg0),#reg0 = player_id, integer
     (try_begin),
@@ -51474,6 +51482,8 @@ scripts = [
   ]),
 
 # load player's gold from database
+# script_game_receive_url_response
+# Processes URL responses from the database and assigns gold to players based on their unique ID
   # message template:
   # event | unique_id | gold
   # reg0  | reg1      | reg2
@@ -51517,7 +51527,8 @@ scripts = [
 # don't change the following <MARKERS>
 #<DATABASE_FUNCTIONS_END>  
 	
-	
+	# script_set_num_bots
+	# Sets the number of bots for a specific team and announces the change to all players
 	("set_num_bots",[
 		(store_script_param_1, ":team_no"),
 		(store_script_param_2, ":bots_no"),
@@ -51537,6 +51548,8 @@ scripts = [
 		(try_end),
 	]),
 	
+	# script_set_team_score
+	# Sets a team's score and broadcasts the update to all active players
 	("set_team_score",[
 		(store_script_param_1, ":team_no"),
 		(store_script_param_2, ":score"),
@@ -51549,12 +51562,16 @@ scripts = [
 		(try_end),
 	]),
 	
+	# script_send_bot_info_to_player
+	# Sends the number of bots in each team to a specific player
 	("send_bot_info_to_player",[
 		(store_script_param_1, ":player_no"),
 		(multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 1, "$g_multiplayer_num_bots_team_1"),
         (multiplayer_send_2_int_to_player, ":player_no", multiplayer_event_return_num_bots_in_team, 2, "$g_multiplayer_num_bots_team_2"),
 	]),
 	
+	# script_send_score_info_to_players
+	# Sends the current team scores to all active players
 	("send_score_info_to_players",[
 		(try_for_players, ":player_no",1),
 			(team_get_score, ":team1_score" ,0),
@@ -51564,6 +51581,8 @@ scripts = [
 		(try_end),
 	]),
     
+# script_calculate_wave_bot_num
+# Calculates the total number of bots to spawn for a wave based on wave number and player count
 ("calculate_wave_bot_num", [
     (store_script_param_1, ":current_wave"),  # :x is the current wave number (1 to 20)
     (store_script_param_2, ":player_count"),  # :c is the number of active players
@@ -51650,6 +51669,8 @@ scripts = [
     (assign, reg0, ":final_bot_count"),
   ]),
 
+# script_get_wave_clone_assassin_count
+# Returns the number of clone and assassin troops for a specific wave number
   ("get_wave_clone_assassin_count", [
     (store_script_param_1, ":wave_number"),  # Wave number (1 to 20)
 
@@ -51745,6 +51766,8 @@ scripts = [
     (assign, reg1, ":assassin_count"),
   ]),
 
+# script_announce_harlaus_hp
+# Announces King Harlaus's current HP to all players via server message
   ("announce_harlaus_hp",[
       (store_script_param_1, ":harlaus_hp"),
       (assign, reg0, ":harlaus_hp"),
@@ -51971,6 +51994,8 @@ scripts = [
   # --- End of Tier Scripts ---
 
 
+# script_get_available_troops_for_round
+# Selects a random troop for the current wave based on tier distribution percentages
 #script_get_available_troops_for_round
 ("get_available_troops_for_round", [
     (store_script_param_1, ":curr_wave"),
@@ -52321,6 +52346,8 @@ scripts = [
     (assign, reg0, ":troop"),
   ]),
 
+# script_gtd_choose_player_troop
+# Assigns a player's troop type based on their current gold level
   ("gtd_choose_player_troop", [
       (store_script_param_1, ":player_no"),
       (player_get_gold, ":player_gold", ":player_no"),
@@ -52400,6 +52427,8 @@ scripts = [
 
 
 
+# script_get_next_lvl_remaining
+# Calculates how much gold is needed for a player to reach the next level upgrade
     ("get_next_lvl_remaining",[
       (store_script_param_1, ":player_gold"),
          (try_begin),
@@ -52496,6 +52525,8 @@ scripts = [
     ]),
 
     
+# script_send_kills_until_upgrade_to_players
+# Notifies each player about their progress towards the next upgrade level
     ("send_kills_until_upgrade_to_players", [
       (try_for_players, ":player_no", 1),
         (player_is_active, ":player_no"),
