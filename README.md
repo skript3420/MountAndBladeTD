@@ -5,7 +5,7 @@
 
 > **A Native-compatible cooperative tower defense server modification for Mount & Blade: Warband**
 
-Originally online under the name GothicTD Server, this is an INDEPENDET recreation of their multiplayer server.
+Originally listed online under the name GTD Server, this is an open-source recreation of their native-compatible multiplayer server mod.
 
 ---
 
